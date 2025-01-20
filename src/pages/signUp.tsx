@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import image from '../assets/image.png'
 import { Link } from 'react-router-dom'
+import { VisibilityOutlined, VisibilityOffOutlined } from '@mui/icons-material'
 
 const signUp = () => {
+  const [showPassword, setShowPassword] = useState(false)
+
+  const togglePassword = () => {
+    setShowPassword(!showPassword)
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
       {/* Left Section */}
@@ -55,25 +62,27 @@ const signUp = () => {
             <div className="mb-4">
               <div className="relative">
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
-                  className="w-full p-3 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-50"
+                  className="w-full p-3 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
                 <button
                   type="button"
                   className="absolute inset-y-0 right-3 flex items-center"
+                  onClick={togglePassword}
                 >
-                  <span className="material-icons">visibility</span>
+                  {showPassword ? <VisibilityOffOutlined className='text-gray-400'/> : <VisibilityOutlined className='text-gray-400'/>}
                 </button>
               </div>
             </div>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-4 p-3">
+              <p className='text-gray-500'><input type='checkbox'/> I agree with <span className='font-bold text-black hover:underline'>Privacy Policy</span> and <span className='font-bold text-black hover:underline'>Terms of Use</span></p>
             </div>
             <button
               type="submit"
               className="w-full py-3 bg-black text-white font-bold rounded hover:bg-gray-800 transition"
             >
-              Sign In
+              Sign Up
             </button>
           </form>
         </div>
