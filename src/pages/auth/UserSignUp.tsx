@@ -40,7 +40,7 @@ const SignUp = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
       {/* Left Section */}
-      <div className="bg-gray-100 flex items-center justify-center h-full">
+      <div className="bg-gray-100 hidden md:flex items-center justify-center h-full  ">
         <img
           src={image}
           alt="Decorative chair"
@@ -67,6 +67,7 @@ const SignUp = () => {
                 placeholder="Your Name"
                 value={formData.name}
                 onChange={handleChange}
+                required
                 className="w-full p-3 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
@@ -78,6 +79,7 @@ const SignUp = () => {
                 placeholder="Username"
                 value={formData.username}
                 onChange={handleChange}
+                required
                 className="w-full p-3 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
@@ -89,6 +91,7 @@ const SignUp = () => {
                 placeholder="Email address"
                 value={formData.email}
                 onChange={handleChange}
+                required
                 className="w-full p-3 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
@@ -101,6 +104,7 @@ const SignUp = () => {
                   placeholder="Enter your password"
                   value={formData.password}
                   onChange={handleChange}
+                  required
                   className="w-full p-3 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
                 <button
