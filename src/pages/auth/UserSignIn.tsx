@@ -1,7 +1,7 @@
-import React from "react";
-import image from "./assets/image.png";
+import image from "../../assets/image.png";
+import { Link } from "react-router-dom";
 
-const signIn = () => {
+const SignIn = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
       {/* Left Section */}
@@ -19,9 +19,9 @@ const signIn = () => {
           <h1 className="text-3xl font-bold mb-4">Sign In</h1>
           <p className="mb-6">
             Don’t have an account yet?{" "}
-            <a href="#" className="text-green-500">
+            <Link to="/signup" className="text-green-500 hover:underline">
               Sign Up
-            </a>
+            </Link>
           </p>
           <form>
             <div className="mb-4">
@@ -72,4 +72,4 @@ const signIn = () => {
   );
 };
 
-export default signIn;
+export default SignIn;
