@@ -1,17 +1,13 @@
 import { useState } from "react";
 import image from "../../assets/image.png";
 import { Link } from "react-router-dom";
-import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material";
 import { useSignupMutation } from "../../features/auth/authApi";
+import InputField from "../../components/./InputField";
+import PasswordField from "../../components/PasswordField";
+import Button from "../../components/Button";
 
 const SignUp = () => {
   const [signup, { isLoading }] = useSignupMutation();
-  const [showPassword, setShowPassword] = useState(false);
-
-  const togglePassword = () => {
-    setShowPassword(!showPassword);
-  };
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -60,62 +56,33 @@ const SignUp = () => {
           </p>
 
           <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <input
-                type="text"
-                name="name"
-                placeholder="Your Name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full p-3 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-            </div>
-
-            <div className="mb-4">
-              <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                value={formData.username}
-                onChange={handleChange}
-                className="w-full p-3 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-            </div>
-
-            <div className="mb-4">
-              <input
-                type="email"
-                name="email"
-                placeholder="Email address"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full p-3 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-            </div>
-
-            <div className="mb-4">
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  placeholder="Enter your password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="w-full p-3 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
-                />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-3 flex items-center"
-                  onClick={togglePassword}
-                >
-                  {showPassword ? (
-                    <VisibilityOffOutlined className="text-gray-400" />
-                  ) : (
-                    <VisibilityOutlined className="text-gray-400" />
-                  )}
-                </button>
-              </div>
-            </div>
+            <InputField
+              type="text"
+              name="name"
+              value={formData.name}
+              placeholder="Your Name"
+              onChange={handleChange}
+            />
+            <InputField
+              type="text"
+              name="username"
+              value={formData.username}
+              placeholder="Username"
+              onChange={handleChange}
+            />
+            <InputField
+              type="email"
+              name="email"
+              value={formData.email}
+              placeholder="Email address"
+              onChange={handleChange}
+            />
+            <PasswordField
+              name="password"
+              value={formData.password}
+              placeholder="Enter your password"
+              onChange={handleChange}
+            />
             <div className="flex items-center justify-between mb-4 p-3">
               <p className="text-gray-500">
                 <input type="checkbox" /> I agree with{" "}
@@ -128,13 +95,12 @@ const SignUp = () => {
                 </span>
               </p>
             </div>
-            <button
+            <Button
               type="submit"
-              className="w-full py-3 bg-black text-white font-bold rounded hover:bg-gray-800 transition"
+              label="Sign Up"
+              isLoading={isLoading}
               disabled={isLoading}
-            >
-              {isLoading ? "Signing Up..." : "Sign Up"}
-            </button>
+            />
           </form>
         </div>
       </div>
