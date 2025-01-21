@@ -1,7 +1,37 @@
+import { useState } from "react";
 import image from "../../assets/image.png";
 import { Link } from "react-router-dom";
+import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material";
+import { useLoginMutation } from "../../features/auth/authApi";
 
 const SignIn = () => {
+  const [signin, { isLoading }] = useLoginMutation();
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(""); // Clear previous errors
+    try {
+      const result = await signin(formData).unwrap();
+      console.log("User signed in:", result);
+    } catch (err) {
+      setError("Invalid email or password. Please try again.");
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
       {/* Left Section */}
@@ -23,34 +53,43 @@ const SignIn = () => {
               Sign Up
             </Link>
           </p>
-          <form>
+
+          <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2">
-                Your username or email address
-              </label>
               <input
-                type="text"
+                type="email"
+                name="email"
                 placeholder="Enter your email"
-                className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full p-3 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500  pb-5"
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Password</label>
               <div className="relative">
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
+                  name="password"
                   placeholder="Enter your password"
-                  className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full p-3 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 pb-5"
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-3 flex items-center"
+                  className="absolute inset-y-0 right-3 flex items-center "
+                  onClick={togglePassword}
                 >
-                  <span className="material-icons">👁️</span>
+                  {showPassword ? (
+                    <VisibilityOffOutlined className="text-gray-400" />
+                  ) : (
+                    <VisibilityOutlined className="text-gray-400" />
+                  )}
                 </button>
               </div>
             </div>
-            <div className="flex items-center justify-between mb-4">
+            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+            <div className="flex items-center justify-between mb-4  pb-2  pt-2">
               <label className="flex items-center">
                 <input type="checkbox" className="mr-2" />
                 Remember me
@@ -62,8 +101,9 @@ const SignIn = () => {
             <button
               type="submit"
               className="w-full py-3 bg-black text-white font-bold rounded hover:bg-gray-800 transition"
+              disabled={isLoading}
             >
-              Sign In
+              {isLoading ? "Signing In..." : "Sign In"}
             </button>
           </form>
         </div>
