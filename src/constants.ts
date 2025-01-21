@@ -1,0 +1,1 @@
+export const TP_BASE = "http://localhost:3000/"

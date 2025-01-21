@@ -2,12 +2,39 @@ import { useState } from "react";
 import image from "../../assets/image.png";
 import { Link } from "react-router-dom";
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material";
+import { useSignupMutation } from "../../features/auth/authApi";
 
 const SignUp = () => {
+  const [signup, { isLoading }] = useSignupMutation();
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    username: "",
+    usertype: "user",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const result = await signup(formData).unwrap();
+      console.log("User registered:", result);
+    } catch (err) {
+      console.error("Registration failed:", err);
+    }
   };
 
   return (
@@ -31,11 +58,15 @@ const SignUp = () => {
               Sign In
             </Link>
           </p>
-          <form>
+
+          <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <input
                 type="text"
+                name="name"
                 placeholder="Your Name"
+                value={formData.name}
+                onChange={handleChange}
                 className="w-full p-3 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
@@ -43,15 +74,21 @@ const SignUp = () => {
             <div className="mb-4">
               <input
                 type="text"
+                name="username"
                 placeholder="Username"
+                value={formData.username}
+                onChange={handleChange}
                 className="w-full p-3 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
 
             <div className="mb-4">
               <input
-                type="text"
+                type="email"
+                name="email"
                 placeholder="Email address"
+                value={formData.email}
+                onChange={handleChange}
                 className="w-full p-3 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
@@ -60,7 +97,10 @@ const SignUp = () => {
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
+                  name="password"
                   placeholder="Enter your password"
+                  value={formData.password}
+                  onChange={handleChange}
                   className="w-full p-3 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
                 <button
@@ -91,8 +131,9 @@ const SignUp = () => {
             <button
               type="submit"
               className="w-full py-3 bg-black text-white font-bold rounded hover:bg-gray-800 transition"
+              disabled={isLoading}
             >
-              Sign Up
+              {isLoading ? "Signing Up..." : "Sign Up"}
             </button>
           </form>
         </div>
