@@ -7,6 +7,7 @@ interface PasswordFieldProps {
   placeholder: string;
   required: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
 }
 
 const PasswordField: React.FC<PasswordFieldProps> = ({
@@ -15,6 +16,7 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
   placeholder,
   required,
   onChange,
+  error, // Add this
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -32,7 +34,9 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
           placeholder={placeholder}
           required={required}
           onChange={onChange}
-          className="w-full p-3 border-b border-gray-300 focus:border-green-500 focus:outline-none transition-colors duration-300"
+          className={`w-full p-3 border-b ${
+            error ? "border-red-500" : "border-gray-300"
+          } focus:outline-none transition-colors duration-300`}
         />
         <button
           type="button"
@@ -46,6 +50,7 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
           )}
         </button>
       </div>
+      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
     </div>
   );
 };
