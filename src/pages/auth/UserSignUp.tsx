@@ -36,7 +36,7 @@ const SignUp = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
       {/* Left Section */}
-      <div className="bg-gray-100 flex items-center justify-center h-full">
+      <div className="bg-gray-100 hidden md:flex items-center justify-center h-full  ">
         <img
           src={image}
           alt="Decorative chair"
