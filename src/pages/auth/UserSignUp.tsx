@@ -6,6 +6,7 @@ import InputField from "../../components/./InputField";
 import PasswordField from "../../components/PasswordField";
 import Button from "../../components/Button";
 import { errorView, successMessage } from "../../helpers/ToastHelper";
+import Loader from '../../components/Loader';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -35,6 +36,8 @@ const SignUp = () => {
       errorView("Registration failed, please try again");
     }
   };
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
