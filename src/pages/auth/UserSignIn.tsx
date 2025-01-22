@@ -5,14 +5,15 @@ import { useLoginMutation } from "../../features/auth/authApi";
 import InputField from "../../components/InputField";
 import PasswordField from "../../components/PasswordField";
 import Button from "../../components/Button";
-import { errorView } from "../../helpers/ToastHelper";
 
 const SignIn = () => {
   const navigate = useNavigate();
   const [signin, { isLoading }] = useLoginMutation();
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError("")
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -24,10 +25,10 @@ const SignIn = () => {
     try {
       const data = await signin(formData).unwrap();
       if (data.token) {
-        navigate('home');
+        navigate("home");
       }
     } catch (err) {
-      errorView("Invalid email or password. Please try again.")
+      setError("Invalid email or password. Please try again.")
     }
   };
 
@@ -43,13 +44,16 @@ const SignIn = () => {
       <div className="flex items-center justify-center h-full bg-white">
         <div className="w-full max-w-md p-8 shadow-lg rounded">
           <h1 className="text-3xl font-bold mb-4">Sign In</h1>
-          <p className="mb-6">
+          <p className="mb-1">
             Don’t have an account yet?{" "}
             <Link to="/signup" className="text-grn hover:underline">
               Sign Up
             </Link>
           </p>
-          <form onSubmit={handleSubmit}>
+          { error ? (<div className="flex items-center justify-center p-3 rounded-md">
+            <p className="text-sm text-[#990000]">{error}</p>
+          </div>) : null}
+          <form onSubmit={handleSubmit} className="mt-1">
             <InputField
               type="email"
               name="email"

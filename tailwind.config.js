@@ -17,7 +17,7 @@ export default {
         grn: "#38CB89",
         blu: "#377DFF",
         org: "#FFAB00",
-        red: "#FF5630",
+        light_red: "#FF5630",
         btn: "#141718",
       },
     },
