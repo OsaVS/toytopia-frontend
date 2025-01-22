@@ -1,10 +1,36 @@
+import { useState } from "react";
 import image from "../../assets/image.png";
 import { Link } from "react-router-dom";
+import { useLoginMutation } from "../../features/auth/authApi";
+import InputField from "../../components/InputField";
+import PasswordField from "../../components/PasswordField";
+import Button from "../../components/Button";
 
 const SignIn = () => {
+  const [signin, { isLoading }] = useLoginMutation();
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(""); // Clear previous errors
+    try {
+      const result = await signin(formData).unwrap();
+      console.log("User signed in:", result);
+    } catch (err) {
+      setError("Invalid email or password. Please try again.");
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
-      {/* Left Section */}
       <div className="bg-gray-100 flex items-center justify-center h-full">
         <img
           src={image}
@@ -12,8 +38,6 @@ const SignIn = () => {
           className="object-contain w-full h-full max-h-screen max-w-full"
         />
       </div>
-
-      {/* Right Section */}
       <div className="flex items-center justify-center h-full bg-white">
         <div className="w-full max-w-md p-8 shadow-lg rounded">
           <h1 className="text-3xl font-bold mb-4">Sign In</h1>
@@ -23,34 +47,22 @@ const SignIn = () => {
               Sign Up
             </Link>
           </p>
-          <form>
-            <div className="mb-4">
-              <label className="block text-gray-700 mb-2">
-                Your username or email address
-              </label>
-              <input
-                type="text"
-                placeholder="Enter your email"
-                className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Password</label>
-              <div className="relative">
-                <input
-                  type="password"
-                  placeholder="Enter your password"
-                  className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-green-500"
-                />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-3 flex items-center"
-                >
-                  <span className="material-icons">👁️</span>
-                </button>
-              </div>
-            </div>
-            <div className="flex items-center justify-between mb-4">
+          <form onSubmit={handleSubmit}>
+            <InputField
+              type="email"
+              name="email"
+              value={formData.email}
+              placeholder="Enter your email"
+              onChange={handleChange}
+            />
+            <PasswordField
+              name="password"
+              value={formData.password}
+              placeholder="Enter your password"
+              onChange={handleChange}
+            />
+            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+            <div className="flex items-center justify-between mb-4 pb-2 pt-2">
               <label className="flex items-center">
                 <input type="checkbox" className="mr-2" />
                 Remember me
@@ -59,12 +71,12 @@ const SignIn = () => {
                 Forgot password?
               </a>
             </div>
-            <button
+            <Button
               type="submit"
-              className="w-full py-3 bg-black text-white font-bold rounded hover:bg-gray-800 transition"
-            >
-              Sign In
-            </button>
+              label="Sign In"
+              isLoading={isLoading}
+              disabled={isLoading}
+            />
           </form>
         </div>
       </div>
