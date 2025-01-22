@@ -1,12 +1,14 @@
 import { useState } from "react";
 import image from "../../assets/image.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSignupMutation } from "../../features/auth/authApi";
 import InputField from "../../components/./InputField";
 import PasswordField from "../../components/PasswordField";
 import Button from "../../components/Button";
+import { errorView, successMessage } from "../../helpers/ToastHelper";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [signup, { isLoading }] = useSignupMutation();
   const [formData, setFormData] = useState({
     name: "",
@@ -26,10 +28,11 @@ const SignUp = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const result = await signup(formData).unwrap();
-      console.log("User registered:", result);
+      await signup(formData).unwrap();
+      successMessage("Account created successfully");
+      navigate('/');
     } catch (err) {
-      console.error("Registration failed:", err);
+      errorView("Registration failed, please try again");
     }
   };
 
@@ -50,7 +53,7 @@ const SignUp = () => {
           <h1 className="text-3xl font-bold mb-4">Sign Up</h1>
           <p className="mb-6">
             Already have an account yet?{" "}
-            <Link to="/" className="text-green-500 hover:underline">
+            <Link to="/" className="text-grn hover:underline">
               Sign In
             </Link>
           </p>
@@ -61,6 +64,7 @@ const SignUp = () => {
               name="name"
               value={formData.name}
               placeholder="Your Name"
+              required={true}
               onChange={handleChange}
             />
             <InputField
@@ -68,6 +72,7 @@ const SignUp = () => {
               name="username"
               value={formData.username}
               placeholder="Username"
+              required={true}
               onChange={handleChange}
             />
             <InputField
@@ -75,17 +80,19 @@ const SignUp = () => {
               name="email"
               value={formData.email}
               placeholder="Email address"
+              required={true}
               onChange={handleChange}
             />
             <PasswordField
               name="password"
               value={formData.password}
               placeholder="Enter your password"
+              required={true}
               onChange={handleChange}
             />
             <div className="flex items-center justify-between mb-4 p-3">
               <p className="text-gray-500">
-                <input type="checkbox" /> I agree with{" "}
+                <input type="checkbox" required /> I agree with{" "}
                 <span className="font-bold text-black hover:underline">
                   Privacy Policy
                 </span>{" "}

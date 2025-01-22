@@ -1,15 +1,16 @@
 import { useState } from "react";
 import image from "../../assets/image.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../features/auth/authApi";
 import InputField from "../../components/InputField";
 import PasswordField from "../../components/PasswordField";
 import Button from "../../components/Button";
+import { errorView } from "../../helpers/ToastHelper";
 
 const SignIn = () => {
+  const navigate = useNavigate();
   const [signin, { isLoading }] = useLoginMutation();
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -20,12 +21,13 @@ const SignIn = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(""); // Clear previous errors
     try {
-      const result = await signin(formData).unwrap();
-      console.log("User signed in:", result);
+      const data = await signin(formData).unwrap();
+      if (data.token) {
+        navigate('home');
+      }
     } catch (err) {
-      setError("Invalid email or password. Please try again.");
+      errorView("Invalid email or password. Please try again.")
     }
   };
 
@@ -43,7 +45,7 @@ const SignIn = () => {
           <h1 className="text-3xl font-bold mb-4">Sign In</h1>
           <p className="mb-6">
             Don’t have an account yet?{" "}
-            <Link to="/signup" className="text-green-500 hover:underline">
+            <Link to="/signup" className="text-grn hover:underline">
               Sign Up
             </Link>
           </p>
@@ -53,15 +55,16 @@ const SignIn = () => {
               name="email"
               value={formData.email}
               placeholder="Enter your email"
+              required={true}
               onChange={handleChange}
             />
             <PasswordField
               name="password"
               value={formData.password}
               placeholder="Enter your password"
+              required={true}
               onChange={handleChange}
             />
-            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
             <div className="flex items-center justify-between mb-4 pb-2 pt-2">
               <label className="flex items-center">
                 <input type="checkbox" className="mr-2" />

@@ -19,10 +19,10 @@ const Button: React.FC<ButtonProps> = ({
     <button
       type={type}
       onClick={onClick}
-      className={`w-full py-3 font-bold rounded transition ${
+      className={`w-full py-3 font-bold rounded-lg transition ${
         disabled
           ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-          : "bg-black text-white hover:bg-gray-800"
+          : "bg-btn text-white hover:bg-gray-800"
       }`}
       disabled={disabled}
     >
