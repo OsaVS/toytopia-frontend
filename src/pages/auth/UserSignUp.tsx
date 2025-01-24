@@ -6,6 +6,7 @@ import InputField from "../../components/./InputField";
 import PasswordField from "../../components/PasswordField";
 import Button from "../../components/Button";
 import { errorView, successMessage } from "../../helpers/ToastHelper";
+import { UserType } from "../../types/user";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const SignUp = () => {
     email: "",
     password: "",
     username: "",
-    usertype: "user",
+    usertype: UserType.USER,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

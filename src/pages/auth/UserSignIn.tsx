@@ -5,9 +5,12 @@ import { useLoginMutation } from "../../features/auth/authApi";
 import InputField from "../../components/InputField";
 import PasswordField from "../../components/PasswordField";
 import Button from "../../components/Button";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../../features/auth/authSlice";
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [signin, { isLoading }] = useLoginMutation();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
@@ -24,7 +27,8 @@ const SignIn = () => {
     e.preventDefault();
     try {
       const data = await signin(formData).unwrap();
-      if (data.token) {
+      if (data.token && data.user) {
+        dispatch(setCredentials(data));
         navigate("home");
       }
     } catch (err) {
