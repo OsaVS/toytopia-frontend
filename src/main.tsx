@@ -5,15 +5,12 @@ import App from "./App.tsx";
 import { Provider } from "react-redux";
 import store from "./app/store";
 import { ToastContainer } from "react-toastify";
-import { AuthProvider } from "./context/AuthContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
-      <AuthProvider>
-        <ToastContainer />
-        <App />
-      </AuthProvider>
+      <ToastContainer />
+      <App />
     </Provider>
   </StrictMode>
 );

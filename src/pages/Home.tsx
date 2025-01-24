@@ -1,18 +1,18 @@
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { logOut } from "../features/auth/authSlice";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
-    logout();
+    dispatch(logOut());
     navigate("/");
   };
 
   return (
     <div>
-      <h1>Welcome, {user?.name}!</h1>
       <button onClick={handleLogout}>Logout</button>
     </div>
   );
