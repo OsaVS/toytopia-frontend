@@ -1,6 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { User } from "../../types/user";
 
-const initialState = {
+interface AuthState {
+  user: User | null;
+  token: string | null;
+  isAuthenticated: boolean;
+}
+
+const initialState: AuthState = {
   user: null,
   token: null,
   isAuthenticated: false,
@@ -15,11 +22,13 @@ const authSlice = createSlice({
       state.user = user;
       state.token = token;
       state.isAuthenticated = true;
+      localStorage.setItem("token", token);
     },
     logOut: (state) => {
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
+      localStorage.removeItem("token");
     },
   },
 });

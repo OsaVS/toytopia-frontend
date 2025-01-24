@@ -6,6 +6,7 @@ import InputField from "../../components/InputField";
 import PasswordField from "../../components/PasswordField";
 import Button from "../../components/Button";
 import { errorView, successMessage } from "../../helpers/ToastHelper";
+import { UserType } from "../../types/user";
 import Loader from '../../components/Loader';
 
 const SignUp = () => {
@@ -32,7 +33,7 @@ const SignUp = () => {
     email: "",
     password: "",
     username: "",
-    usertype: "user",
+    usertype: UserType.USER,
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
