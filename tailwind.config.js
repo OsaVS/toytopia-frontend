@@ -19,6 +19,7 @@ export default {
         org: "#FFAB00",
         light_red: "#FF5630",
         btn: "#141718",
+        rating: "#343839",
       },
     },
   },
