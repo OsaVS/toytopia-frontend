@@ -48,32 +48,23 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
-        {/* <div className="flex flex-col items-center justify-center p-4 m-4 bg-white rounded-lg shadow-lg">
-            <div className='flex justify-center'>
-                <img src={images[0]} alt={name} className="w-48 h-48 object-cover rounded-lg" />
-            </div>
-            <div className='flex gap-2'>
-                <img src={imageAlt} alt={name} className="w-48 h-48 object-cover rounded-lg" />
-                <img src={imageAlt} alt={name} className="w-48 h-48 object-cover rounded-lg" />
-                <img src={imageAlt} alt={name} className="w-48 h-48 object-cover rounded-lg" />
-            </div>
-        </div> */}
-        <div className="flex flex-col items-center justify-center ml-20 pr-6 bg-white">
+        {/* Left Section */}
+        <div className="flex flex-col h-full ml-20 pr-6 bg-white">
             {/* Enlarged Image */}
-            <div className="w-full h-68 mb-4 flex items-center justify-center">
+            <div className="h-[70vh] min-h-[400px] max-h-[600px] flex items-center justify-center mb-4">
                 <img
-                className="w-full h-full object-cover rounded-lg"
+                className="w-full h-full object-contain rounded-lg"
                 src={selectedImage}
                 />
             </div>
 
             {/* Thumbnails */}
-            <div className="flex space-x-2 mb-6">
+            <div className="grid grid-cols-3 gap-2 h-[30vh] overflow-y-auto">
                 {imagesGeneral.map((image, index) => (
                 <button
                     key={index}
                     onClick={() => setSelectedImage(image)}
-                    className={`w-16 h-16 rounded-lg overflow-hidden border-2 ${
+                    className={`rounded-lg overflow-hidden border-2 ${
                     selectedImage === image ? 'border-blue-500' : 'border-gray-200'
                     }`}
                 >
@@ -87,6 +78,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </div>
         </div>
 
+        {/* Right Section */}
 
         <div className=" pl-6 mr-20 bg-white ">
             <p className="text-gray-600"> 
@@ -105,12 +97,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 <div className='w-full h-[50px] bg-gray-200'>20 25 10</div>
             </div>
 
+            {/* Color */}
             <div className="mb-4 mt-4">
                 <p className='text-gray-500 text-sm mb-4'>Choose Color</p>
                 <p className='text-gray-900 text-lg mb-4'>{color}</p>
                 <div className="flex space-x-2">
                     {imagesColor.map((image, index) => (
-                        <button key={index} className="w-11 h-11 overflow-hidden border-2 border-gray-200" onClick={() => productColor(image.color)}>   
+                        <button key={index} className="w-11 h-11 overflow-hidden border-2 border-gray-200 focus:border-black" onClick={() => productColor(image.color)}>   
                             <img
                                 className="w-full h-full object-cover"
                                 src={image.url}
@@ -121,18 +114,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 </div>
             </div>
 
-            <div className="grid grid-cols-[auto_1fr] items-center gap-4 mt-4">
+            <div className="grid grid-cols-[1fr_3fr] items-center gap-4 mt-4">
+                {/* Quantity */}
                 <div className="flex items-center justify-between bg-gray-100 rounded-lg p-2">
                     <button className='text-gray-500 px-2' onClick={decrementQuantity}>-</button>
                     <span className='px-4 text-black'>{quantity}</span>
                     <button className='text-gray-500 px-2' onClick={incrementQuantity}>+</button>
                 </div>
 
+                {/* Wishlist */}
                     <button
                         onClick={onAddToWishlist}
                         className='flex-grow border border-black bg-white text-black text-sm text-center p-2 rounded-lg hover:bg-black hover:text-white transition-colors duration-300 flex items-center justify-center'><FavoriteBorderIcon sx={{color: 'inherit'}} />  Wishlist</button>
             </div>
 
+            {/* Add to Cart */}
             <button
                 onClick={onAddToCart}
                 className="w-full mt-4 px-4 py-2 text-black bg-black-500 border border-black rounded-lg hover:bg-black hover:text-white transition-colors duration-300"

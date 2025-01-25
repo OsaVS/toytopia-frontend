@@ -1,21 +1,25 @@
 import React from "react";
 import ProductCard from "../components/ProductCard";
-import TrayT1 from "../assets/trayT1.png";
+import TrayT1 from "../assets/thumbnail1.png";
+import TrayT2 from "../assets/thumbnail2.png";
+import TrayT3 from "../assets/thumbnail3.png";
 import TrayG from "../assets/TrayG.png";
+import image2 from "../assets/image2.png";
+import image3 from "../assets/image3.png";
+import image4 from "../assets/image4.png";
 
 const ProductPage = () => {
   const images = [
     TrayG, // Enlarged image
-    'https://via.placeholder.com/100x100', // Thumbnail 1
-    'https://via.placeholder.com/100x100', // Thumbnail 2
-    'https://via.placeholder.com/100x100', // Thumbnail 3
+    image2, // Thumbnail 1
+    image3, // Thumbnail 2
+    image4, // Thumbnail 3
   ];
 
   const imagesColor = [
     {color: 'Black', url: TrayT1}, // Enlarged image
-    {color: 'Brown', url: TrayT1},
-    {color: 'Red', url:TrayT1}, // Thumbnail 2
-    {color: 'Yellow', url:TrayT1}, // Thumbnail 3
+    {color: 'Brown', url: TrayT2},
+    {color: 'White', url:TrayT3}, // Thumbnail 2
   ];
 
   return (
