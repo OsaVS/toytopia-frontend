@@ -14,11 +14,15 @@ export default {
     },
     extend: {
       colors: {
+        discount: "#FF4242",
+        new: "#4CAF50",
         grn: "#38CB89",
         blu: "#377DFF",
         org: "#FFAB00",
         light_red: "#FF5630",
         btn: "#141718",
+        rating: "#343839",
+        gray500: "#6C7275"
       },
     },
   },
