@@ -36,6 +36,8 @@ const ProductPage = () => {
         productCode="FUR001"
         rating={4.5}
         noOfReviews={12}
+        isNew={true}
+        discount={50}
       />
     </div>
   );

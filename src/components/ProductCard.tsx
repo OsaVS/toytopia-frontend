@@ -6,7 +6,7 @@ interface ProductCardProps {
   title: string;
   description: string;
   originalPrice: string;
-  discountedPrice: string;
+  discountedPrice?: string;
   imagesGeneral: string[];
   imagesColor: {
     color: string;
@@ -16,6 +16,8 @@ interface ProductCardProps {
   productCode: string;
   rating: number;
   noOfReviews: number;
+  isNew?: boolean;
+  discount?: number;
   onAddToCart?: () => void;
   onAddToWishlist?: () => void;
 }
@@ -31,6 +33,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
     productCode,
     rating,
     noOfReviews,
+    isNew,
+    discount,
     onAddToCart,
     onAddToWishlist,
      }) => {
@@ -52,6 +56,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <div className="flex flex-col h-full ml-20 pr-6 bg-white">
             {/* Enlarged Image */}
             <div className="h-[70vh] min-h-[400px] max-h-[600px] flex items-center justify-center mb-4">
+                {/* NEW and 50% off tags */}
+                <div className="absolute top-20 left-20 flex flex-col space-y-2">
+                    {isNew && (<span className="bg-white text-black text-sm sm:text-base md:text-lg px-2 py-1 rounded shadow">
+                    NEW
+                    </span>)}
+                    {discount && (<span className="bg-green-500 text-white text-sm sm:text-base md:text-lg px-2 py-1 rounded shadow"> -{discount}% </span>)}
+
+                </div>
+
                 <img
                 className="w-full h-full object-contain rounded-lg"
                 src={selectedImage}
@@ -89,8 +102,18 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <h2 className="mt-4 text-4xl text-left mb-4">{title}</h2>
             <p className="mt-2 text-gray-600 text-left">{description}</p>
             <div className="flex items-center mt-4 mb-4 pb-4 border-b">
-                <span className="text-xl font-semibold text-gray-900">{discountedPrice}</span>
-                <span className="text-base text-gray-500 line-through ml-2">{originalPrice}</span>
+                {discountedPrice ? (
+                    <div>
+                        <span className="text-xl font-semibold text-gray-900">{discountedPrice}</span>
+                        <span className="text-base text-gray-500 line-through ml-2">{originalPrice}</span>
+                    </div>
+                ) : (
+                    <div>
+                        <span className="text-xl font-semibold text-gray-900">{originalPrice}</span> 
+                    </div>
+                )}
+                {/* <span className="text-xl font-semibold text-gray-900">{discountedPrice}</span>
+                <span className="text-base text-gray-500 line-through ml-2">{originalPrice}</span> */}
             </div>
 
             <div className='pb-4 border-b'>Offer
@@ -98,7 +121,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </div>
 
             {/* Color */}
-            <div className="mb-4 mt-4">
+            <div className="mb-6 mt-4">
                 <p className='text-gray-500 text-sm mb-4'>Choose Color</p>
                 <p className='text-gray-900 text-lg mb-4'>{color}</p>
                 <div className="flex space-x-2">
@@ -114,7 +137,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 </div>
             </div>
 
-            <div className="grid grid-cols-[1fr_3fr] items-center gap-4 mt-4">
+            <div className="grid grid-cols-[1fr_3fr] items-center gap-4 mt-6">
                 {/* Quantity */}
                 <div className="flex items-center justify-between bg-gray-100 rounded-lg p-2">
                     <button className='text-gray-500 px-2' onClick={decrementQuantity}>-</button>
