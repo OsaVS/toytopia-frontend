@@ -1,6 +1,8 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logOut } from "../features/auth/authSlice";
+import Navbar from "../components/NavBar";
+import DiscountBar from "../components/DiscountBar";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -13,6 +15,8 @@ const Home = () => {
 
   return (
     <div>
+      <DiscountBar />
+      <Navbar />
       <button onClick={handleLogout}>Logout</button>
     </div>
   );
