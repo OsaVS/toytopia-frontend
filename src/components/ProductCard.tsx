@@ -171,10 +171,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
         {/* Content Section */}
         <div className="col-span-2 mt-10 ">
             <Accordion sx={{
-          border: '1px solid #e5e7eb', // Light gray border
-          borderRadius: '0.5rem', // Rounded corners
-          boxShadow: 'none', // Explicitly remove shadow
-        }}>
+                borderTop: 'none', // No top border
+                borderLeft: 'none', // No left border
+                borderRight: 'none', // No right border
+                borderBottom: '1px solid black', // Light gray border
+                borderRadius: '0rem', // Rounded corners
+                boxShadow: 'none', // Explicitly remove shadow
+                }}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -188,7 +191,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     </Typography>
                 </AccordionDetails>
             </Accordion>
-            <Accordion className="w-full">
+
+            <Accordion  sx={{
+                borderTop: 'none', // No top border
+                borderLeft: 'none', // No left border
+                borderRight: 'none', // No right border
+                borderBottom: '1px solid black', // Light gray border
+                borderRadius: '0rem', // Rounded corners
+                boxShadow: 'none', // Explicitly remove shadow
+                }}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel2a-content"
@@ -198,14 +209,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography  sx={{ fontWeight: 'normal' }}>
-                        {productReviews && productReviews.map((review, index) => (
-                            <div key={index} className="mb-4 border-b border-black pb-4 text-sm">
-                                <p className="text-gray-900 mt-2 text-semibold">{review.name}</p>
-                                <Rating name="read-only" sx={{'& .MuiRating-iconFilled': {color: "#343839"}}} size='small' value={review.rating} readOnly />
-                                <p className="text-gray-600 mt-2 text-light text-xs">{review.review}</p>
-                                
-                            </div>
-                        ))}
+                        <div>
+                            <Rating name="your-rating" sx={{'& .MuiRating-iconFilled': {color: "#343839"}}} size='small' value={rating} />
+                        </div>
+                        <div>
+                            {productReviews && productReviews.map((review, index) => (
+                                <div key={index} className="mb-4 border-b border-black pb-4 text-sm">
+                                    <p className="text-gray-900 mt-2 text-semibold">{review.name}</p>
+                                    <Rating name="read-only" sx={{'& .MuiRating-iconFilled': {color: "#343839"}}} size='small' value={review.rating} readOnly />
+                                    <p className="text-gray-600 mt-2 text-light text-xs">{review.review}</p>
+                                    
+                                </div>
+                            ))}
+                        </div>
                     </Typography>
                 </AccordionDetails>
             </Accordion>
