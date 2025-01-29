@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Rating from '@mui/material/Rating';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails, Typography, TextField, InputAdornment } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface ProductCardProps {
@@ -120,8 +120,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         <span className="text-xl font-semibold text-gray-900">{originalPrice}</span> 
                     </div>
                 )}
-                {/* <span className="text-xl font-semibold text-gray-900">{discountedPrice}</span>
-                <span className="text-base text-gray-500 line-through ml-2">{originalPrice}</span> */}
             </div>
 
             <div className='pb-4 border-b'>Offer
@@ -209,8 +207,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography  sx={{ fontWeight: 'normal' }}>
-                        <div>
+                        <div className='mb-6'>
                             <Rating name="your-rating" sx={{'& .MuiRating-iconFilled': {color: "#343839"}}} size='small' value={rating} />
+                            <div className='mt-6'>
+                                <TextField fullWidth variant='outlined' multiline InputProps={{
+                                    endAdornment: <InputAdornment position="end">
+                                        <button className='text-white bg-black px-4 py-2 rounded-lg'>Write Review</button>  
+                                    </InputAdornment>
+                                }}/>
+                            </div>
                         </div>
                         <div>
                             {productReviews && productReviews.map((review, index) => (
