@@ -34,10 +34,15 @@ const ProductPage = () => {
         imagesColor={imagesColor}
         category="Living Room"
         productCode="FUR001"
-        rating={4.5}
+        rating={1}
         noOfReviews={12}
         isNew={true}
         discount={50}
+        productDetails="Details about the product"
+        productReviews={[
+          { name: "John Doe", review: "Great product!", rating: 5 },
+          { name: "Jane Smith", review: "Good value for money.", rating: 4 },
+        ]}
       />
     </div>
   );

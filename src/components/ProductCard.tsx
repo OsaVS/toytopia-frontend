@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import Rating from '@mui/material/Rating';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface ProductCardProps {
   title: string;
@@ -18,6 +20,9 @@ interface ProductCardProps {
   noOfReviews: number;
   isNew?: boolean;
   discount?: number;
+  productDetails?: string;
+  productReviews?: { name: string; review: string; rating: number }[];
+  productQuestions?: string;
   onAddToCart?: () => void;
   onAddToWishlist?: () => void;
 }
@@ -37,6 +42,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
     discount,
     onAddToCart,
     onAddToWishlist,
+    productDetails,
+    productReviews,
+    productQuestions,
      }) => {
 
     const [selectedImage, setSelectedImage] = React.useState(imagesGeneral[0]);
@@ -159,6 +167,51 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 Add to Cart
             </button>
         </div>
+
+        {/* Content Section */}
+        <div className="col-span-2 mt-10 ">
+            <Accordion sx={{
+          border: '1px solid #e5e7eb', // Light gray border
+          borderRadius: '0.5rem', // Rounded corners
+          boxShadow: 'none', // Explicitly remove shadow
+        }}>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    <Typography sx={{ fontWeight: 'bold' }}>Product Details</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Typography sx={{ fontWeight: 'normal' }}>
+                        {productDetails}
+                    </Typography>
+                </AccordionDetails>
+            </Accordion>
+            <Accordion className="w-full">
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel2a-content"
+                    id="panel2a-header"
+                >
+                    <Typography  sx={{ fontWeight: 'bold' }}>Reviews ({noOfReviews})</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Typography  sx={{ fontWeight: 'normal' }}>
+                        {productReviews && productReviews.map((review, index) => (
+                            <div key={index} className="mb-4 border-b border-black pb-4 text-sm">
+                                <p className="text-gray-900 mt-2 text-semibold">{review.name}</p>
+                                <Rating name="read-only" sx={{'& .MuiRating-iconFilled': {color: "#343839"}}} size='small' value={review.rating} readOnly />
+                                <p className="text-gray-600 mt-2 text-light text-xs">{review.review}</p>
+                                
+                            </div>
+                        ))}
+                    </Typography>
+                </AccordionDetails>
+            </Accordion>
+        </div>
+                        
+
     </div>
   );
 }
