@@ -6,6 +6,8 @@ interface ButtonProps {
   isLoading?: boolean;
   disabled?: boolean;
   onClick?: () => void;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -14,12 +16,15 @@ const Button: React.FC<ButtonProps> = ({
   isLoading = false,
   disabled = false,
   onClick,
+  className,
 }) => {
   return (
     <button
       type={type}
       onClick={onClick}
       className={`w-full py-3 font-bold rounded-lg transition ${
+        className || ""
+      } ${
         disabled
           ? "bg-gray-300 text-gray-500 cursor-not-allowed"
           : "bg-btn text-white hover:bg-gray-800"
