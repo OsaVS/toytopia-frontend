@@ -17,7 +17,7 @@ const Home = () => {
     <div>
       <DiscountBar />
       <Navbar />
-      <button onClick={handleLogout}>Logout</button>
+      <button className="xs:hidden md:block" onClick={handleLogout}>Logout</button>
     </div>
   );
 };
