@@ -1,0 +1,90 @@
+// Variables for colors
+$primary-black: #141718;
+$primary-white: #ffffff;
+$primary-gray: #f3f4f6; // bg-gray-100
+$gray-500: #6b7280; // text-gray-500
+$green-discount: #38cb89; // discount color
+$new-badge-bg: #ffffff; // background for "NEW" badge
+$new-badge-text: #121212; // text for "NEW" badge
+$rating-color: #ffc107; // example rating color
+$discounted-price: #000000; // Assuming black for discounted price
+$original-price: #6b7280; // Assuming gray for original price
+
+// Styles for ProductCard
+.card {
+  width: 262px;
+  border-radius: 0.5rem; // rounded-lg
+  position: relative;
+
+  .box {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: $primary-gray;
+    font-size: 0.875rem;
+    color: $gray-500;
+    position: relative;
+  }
+
+  .chip-discount {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    background-color: $green-discount;
+    font-weight: bold;
+    color: $primary-white;
+    border-radius: 4px;
+  }
+
+  .chip-new {
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    background-color: $new-badge-bg;
+    font-weight: bold;
+    color: $new-badge-text;
+    border-radius: 4px;
+  }
+
+  .card-media {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .add-to-cart-button {
+    background-color: $primary-black;
+    color: $primary-white;
+    white-space: nowrap;
+    margin: 0;
+    line-height: 1.2;
+    font-size: 0.875rem;
+  }
+
+  .text-rating {
+    .MuiRating-icon {
+      color: #343839;
+    }
+  }
+
+  .text-btn {
+    color: $primary-black;
+  }
+
+  .text-gray500 {
+    color: $gray-500;
+  }
+  .text-discounted-price {
+    color: $discounted-price;
+  }
+
+  .text-original-price {
+    color: $original-price;
+  }
+
+  .line-through {
+    text-decoration: line-through;
+  }
+}
