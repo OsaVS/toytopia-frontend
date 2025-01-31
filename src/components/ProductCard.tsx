@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import Rating from '@mui/material/Rating';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { Accordion, AccordionSummary, AccordionDetails, Typography, TextField, InputAdornment } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails, Typography, TextField, InputAdornment, IconButton } from '@mui/material';
+import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface ProductCardProps {
@@ -48,6 +49,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
      }) => {
 
     const [selectedImage, setSelectedImage] = React.useState(imagesGeneral[0]);
+    const [selectedImageIndex, setSelectedImageIndex] = React.useState(0);
     const [quantity, setQuantity] = React.useState(1);
     const [color, setColor ]= React.useState(imagesColor[0].color);
 
@@ -58,9 +60,31 @@ const ProductCard: React.FC<ProductCardProps> = ({
         setColor(color);
     }
 
+    const prevImage = () => {
+        setSelectedImageIndex(prevIndex => {
+            const newIndex = prevIndex === 0 ? prevIndex : prevIndex - 1;
+            setSelectedImage(imagesGeneral[newIndex]); // Update selected image
+            return newIndex;
+        });
+    };
+    const nextImage = () => {
+        setSelectedImageIndex(prevIndex => {
+            const newIndex = prevIndex === imagesGeneral.length - 1 ? prevIndex : prevIndex + 1;
+            setSelectedImage(imagesGeneral[newIndex]); // Update selected image
+            return newIndex;
+        });
+    };
+
+    const changeImage = ( index : number , image : string) => {
+        console.log(index);
+        setSelectedImage(image);
+        setSelectedImageIndex(index);
+    }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
         {/* Left Section */}
+        
         <div className="flex flex-col h-full ml-20 pr-6 bg-white">
             {/* Enlarged Image */}
             <div className="h-[70vh] min-h-[400px] max-h-[600px] flex items-center justify-center mb-4">
@@ -77,6 +101,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 className="w-full h-full object-contain rounded-lg"
                 src={selectedImage}
                 />
+
+                <IconButton onClick={nextImage}>
+                    <ArrowForward />
+                </IconButton>
+                <IconButton 
+                    onClick={prevImage}>
+                    <ArrowBack />
+                </IconButton>
             </div>
 
             {/* Thumbnails */}
@@ -84,7 +116,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 {imagesGeneral.map((image, index) => (
                 <button
                     key={index}
-                    onClick={() => setSelectedImage(image)}
+                    // onClick={() => setSelectedImage(image)}
+                    onClick={() => changeImage(index, image)}
                     className={`rounded-lg overflow-hidden border-2 ${
                     selectedImage === image ? 'border-blue-500' : 'border-gray-200'
                     }`}
