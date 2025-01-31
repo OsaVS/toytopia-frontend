@@ -16,7 +16,7 @@ const SignIn = () => {
   const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setError("")
+    setError("");
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -32,7 +32,7 @@ const SignIn = () => {
         navigate("home");
       }
     } catch (err) {
-      setError("Invalid email or password. Please try again.")
+      setError("Invalid email or password. Please try again.");
     }
   };
 
@@ -54,9 +54,11 @@ const SignIn = () => {
               Sign Up
             </Link>
           </p>
-          { error ? (<div className="flex items-center justify-center p-3 rounded-md">
-            <p className="text-sm text-[#990000]">{error}</p>
-          </div>) : null}
+          {error ? (
+            <div className="flex items-center justify-center p-3 rounded-md">
+              <p className="text-sm text-[#990000]">{error}</p>
+            </div>
+          ) : null}
           <form onSubmit={handleSubmit} className="mt-1">
             <InputField
               type="email"

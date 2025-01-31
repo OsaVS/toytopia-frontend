@@ -20,7 +20,7 @@ const InputField: React.FC<InputFieldProps> = ({
   error,
 }) => {
   return (
-    <div className="mb-4">
+    <div className="mb-4" style={{ flex: 1 }}>
       {error && <p className="text-red-500 text-sm mb-1">{error}</p>}{" "}
       {/* Error displayed here */}
       <input
@@ -32,7 +32,13 @@ const InputField: React.FC<InputFieldProps> = ({
         onChange={onChange}
         className={`w-full p-3 border-b ${
           error ? "border-red-500" : "border-gray-300"
-        } focus:outline-none transition-colors duration-300`}
+        } focus:outline-none transition-colors duration-300 bg-transparent`}
+        style={{
+          borderBottom: "1px solid #aaaa", // Thinner black bottom border
+          borderRadius: "0", // No border radius
+          fontSize: "1rem", // Consistent font size
+          color: "#000", // Black text
+        }}
       />
     </div>
   );
