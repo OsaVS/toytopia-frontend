@@ -85,11 +85,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
     <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
         {/* Left Section */}
         
-        <div className="flex flex-col h-full ml-20 pr-6 bg-white">
+        <div className=" flex flex-col h-full ml-20 pr-6 bg-white">
             {/* Enlarged Image */}
-            <div className="h-[70vh] min-h-[400px] max-h-[600px] flex items-center justify-center mb-4">
+            <div className="relative h-[70vh] min-h-[400px] max-h-[600px] flex items-center justify-center mb-4">
                 {/* NEW and 50% off tags */}
-                <div className="absolute top-20 left-20 flex flex-col space-y-2">
+                <div className="absolute top-4 left-4 flex flex-col space-y-2">
                     {isNew && (<span className="bg-white text-black text-sm sm:text-base md:text-lg px-2 py-1 rounded shadow">
                     NEW
                     </span>)}
@@ -97,17 +97,33 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
                 </div>
 
+                <IconButton 
+                    onClick={prevImage}
+                    sx = {{
+                        position: 'absolute',
+                        left: 32,
+                        backgroundColor: 'rgba(255, 255, 255, 0.3)',
+
+                        '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.9)'},
+                    }}>
+                    <ArrowBack />
+                </IconButton>
+
                 <img
                 className="w-full h-full object-contain rounded-lg"
                 src={selectedImage}
                 />
 
-                <IconButton onClick={nextImage}>
-                    <ArrowForward />
-                </IconButton>
                 <IconButton 
-                    onClick={prevImage}>
-                    <ArrowBack />
+                    onClick={nextImage}
+                    sx = {{
+                        position: 'absolute',
+                        right: 32,
+                        backgroundColor: 'rgba(255, 255, 255, 0.3)',
+
+                        '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.9)'},
+                    }}>
+                    <ArrowForward />
                 </IconButton>
             </div>
 
