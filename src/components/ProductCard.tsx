@@ -4,6 +4,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Accordion, AccordionSummary, AccordionDetails, Typography, TextField, InputAdornment, IconButton } from '@mui/material';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MoreProductsCard from './MoreProductsCard';
 
 interface ProductCardProps {
   title: string;
@@ -52,6 +53,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const [selectedImageIndex, setSelectedImageIndex] = React.useState(0);
     const [quantity, setQuantity] = React.useState(1);
     const [color, setColor ]= React.useState(imagesColor[0].color);
+    const [ratingValue, setRatingValue] = React.useState<number | null>(2);
 
     const incrementQuantity = () => setQuantity(prev => prev + 1);
     const decrementQuantity = () => setQuantity(prev => (prev === 1 ? prev : prev - 1)); 
@@ -79,7 +81,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
         console.log(index);
         setSelectedImage(image);
         setSelectedImageIndex(index);
-    }
+    };
+
+    const handleRatingChange = (event: React.ChangeEvent<{}>, newValue: number | null) => {
+        setRatingValue(newValue);
+    };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
@@ -216,7 +222,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </div>
 
         {/* Content Section */}
-        <div className="col-span-2 mt-10 ">
+        <div className="col-span-2 mt-10 h-full">
             <Accordion sx={{
                 borderTop: 'none', // No top border
                 borderLeft: 'none', // No left border
@@ -257,7 +263,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 <AccordionDetails>
                     <Typography  sx={{ fontWeight: 'normal' }}>
                         <div className='mb-6'>
-                            <Rating name="your-rating" sx={{'& .MuiRating-iconFilled': {color: "#343839"}}} size='small' value={rating} />
+                            <Rating name="your-rating" sx={{'& .MuiRating-iconFilled': {color: "#343839"}}} size='small' value={ratingValue} onChange={handleRatingChange}/>
                             <div className='mt-6'>
                                 <TextField fullWidth variant='outlined' multiline InputProps={{
                                     endAdornment: <InputAdornment position="end">
@@ -280,7 +286,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 </AccordionDetails>
             </Accordion>
         </div>
-                        
+
+        <div className="w-full mt-10 px-20"> 
+            <MoreProductsCard />
+        </div>                
 
     </div>
   );
