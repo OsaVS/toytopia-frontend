@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Button, Typography, Box } from "@mui/material";
-import InputField from "./InputField";
+import { Button, Typography, Box, TextField } from "@mui/material";
+import EmailIcon from "@mui/icons-material/Email";
 import newsletter from "../assets/shopItems/images/newsletter.png";
 
 const Newsletter: React.FC = () => {
@@ -9,7 +9,7 @@ const Newsletter: React.FC = () => {
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    if (error) setError(""); // Clear error when user starts typing
+    if (error) setError("");
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -18,8 +18,7 @@ const Newsletter: React.FC = () => {
       setError("Email is required");
       return;
     }
-    console.log("Email submitted:", email);
-    setEmail(""); // Reset form
+    setEmail("");
   };
 
   return (
@@ -63,41 +62,54 @@ const Newsletter: React.FC = () => {
       </Typography>
       <Box
         sx={{
-          width: { xs: "90%", sm: "60%", md: "40%" },
           display: "flex",
-          gap: 2,
           alignItems: "center",
+          width: { xs: "90%", sm: "60%", md: "40%" },
+          borderBottom: "1px solid #6C7275",
+          paddingBottom: "8px",
         }}
       >
-        <InputField
+        <EmailIcon sx={{ color: "#6C7275", mr: 1 }} />
+        <TextField
           type="email"
           name="email"
           value={email}
           placeholder="Email address"
-          required={true}
+          required
           onChange={handleEmailChange}
-          error={error}
+          variant="standard"
+          InputProps={{
+            disableUnderline: true,
+            sx: {
+              fontSize: "1rem",
+            },
+          }}
+          fullWidth
+          sx={{
+            "& input": {
+              padding: "6px 0",
+            },
+          }}
         />
         <Button
           type="submit"
-          variant="contained"
+          variant="text"
           sx={{
-            backgroundColor: "#000", // Black background
-            color: "#fff", // White text
-            height: "56px", // Match the height of the input field
-            padding: "0 30px", // Horizontal padding
             fontSize: "1rem",
-            fontWeight: "bold",
-            textTransform: "none", // Prevent uppercase transformation
-            borderRadius: "20px", // Sharp edges (no border radius)
-            "&:hover": {
-              backgroundColor: "#333", // Darker black on hover
-            },
+            textTransform: "none",
+            color: "#6C7275",
+            fontWeight: "semibold",
+            ml: 2,
           }}
         >
           Signup
         </Button>
       </Box>
+      {error && (
+        <Typography color="error" sx={{ mt: 1 }}>
+          {error}
+        </Typography>
+      )}
     </Box>
   );
 };

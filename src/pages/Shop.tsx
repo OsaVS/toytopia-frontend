@@ -9,15 +9,9 @@ const Shop = () => {
   const [category, setCategory] = useState<string>("All Rooms"); // State to track selected category
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-      }}
-    >
+    <div className="flex flex-col min-h-screen">
       {/* Main Content Section with padding */}
-      <div style={{ flex: 1, paddingLeft: "16px" }}>
+      <div className="flex-1 pl-4">
         <Grid container spacing={2} sx={{ padding: 2 }}>
           {/* Left Side - Filter Component */}
           <Grid item xs={12} md={3}>
@@ -27,7 +21,7 @@ const Shop = () => {
           {/* Right Side - Product Cards */}
           <Grid item xs={12} md={9}>
             {/* Dynamic Title for the page */}
-            <Typography variant="h5" sx={{ mb: 3 }}>
+            <Typography variant="h4" sx={{ mb: 3 }}>
               {category}
             </Typography>
 
