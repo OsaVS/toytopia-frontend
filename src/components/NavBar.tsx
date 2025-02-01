@@ -6,6 +6,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logOut } from "../features/auth/authSlice";
+import { navItems } from "../constants";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,13 +14,6 @@ const NavBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-
-  const navItems = [
-    { name: "Home", path: "/home" },
-    { name: "Shop", path: "/shop" },
-    { name: "Product", path: "/product" },
-    { name: "Contact Us", path: "/contact" },
-  ];
 
   const handleLogout = () => {
     dispatch(logOut());
