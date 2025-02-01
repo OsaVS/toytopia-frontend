@@ -46,7 +46,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
     onAddToWishlist,
     productDetails,
     productReviews,
-    productQuestions,
      }) => {
 
     const [selectedImage, setSelectedImage] = React.useState(imagesGeneral[0]);
