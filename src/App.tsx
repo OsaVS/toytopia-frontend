@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import PrivateRoute from "./helpers/PrivateRoute";
 import Shop from "./pages/Shop";
 import ProductPage from "./pages/ProductPage";
+import Layout from "./components/Layout";
 
 function App() {
   return (
@@ -15,9 +16,11 @@ function App() {
           <Route path="/" element={<SignIn />} />
           <Route path="signup" element={<SignUp />} />
           <Route element={<PrivateRoute />}>
-            <Route path="home" element={<Home />} />
-            <Route path="shop" element={<Shop />} />
-            <Route path="product" element={<ProductPage />} />
+            <Route element={<Layout />}>
+              <Route path="home" element={<Home />} />
+              <Route path="shop" element={<Shop />} />
+              <Route path="product" element={<ProductPage />} />
+            </Route>
           </Route>
         </Routes>
       </Router>

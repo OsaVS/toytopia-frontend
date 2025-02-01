@@ -13,7 +13,7 @@ const DiscountBar = () => {
   return (
     <>
       {showBar ? (
-        <div className="h-10 w-full bg-grn relative flex items-center justify-center">
+        <div className="h-10 w-full bg-grn relative xs:hidden md:flex items-center justify-center">
           <div className="flex items-center justify-center">
             <DiscountOutlinedIcon sx={{ fontSize: 16 }} />
             <p className="pl-2 text-sm">30% off storewide — Limited time!</p>
