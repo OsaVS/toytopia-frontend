@@ -48,9 +48,11 @@ const ProductPage = () => {
         />
       </div>
 
-      {/* <div className="w-full mt-10"> 
-        <MoreProductsCard />
-      </div> */}
+      <div className="w-full mt-10 mb-10"> 
+            <MoreProductsCard />
+        </div>   
+
+      
     </div>
   );
 };
