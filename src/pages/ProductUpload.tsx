@@ -3,13 +3,17 @@ import {
   useAddProductMutation,
   useGetProductByIdQuery,
 } from "../features/product/productApi";
+import { ToyCategory } from "../types/product";
+import Loader from "../components/Loader";
 
 const ProductUpload = () => {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState<ToyCategory | "">("");
+  const [isNewProduct, setIsNewProduct] = useState(true);
+  const [discount, setDiscount] = useState(0);
   const [stock, setStock] = useState("");
   const [mainImage, setMainImage] = useState("");
   const [subImages, setSubImages] = useState<string[]>([]);
@@ -59,11 +63,17 @@ const ProductUpload = () => {
       description,
       price: Number(price),
       category,
+      isNewProduct,
+      discount,
       stock: Number(stock),
       mainImage,
       subImages,
     });
   };
+
+  if (isLoading) {
+    <Loader />;
+  }
 
   return (
     <div>
@@ -89,12 +99,34 @@ const ProductUpload = () => {
           onChange={(e) => setPrice(e.target.value)}
           required
         />
-        <input
-          type="text"
-          placeholder="Category"
+        <select
           value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          onChange={(e) => setCategory(e.target.value as ToyCategory)}
           required
+        >
+          <option value="">Select Category</option>
+          {Object.values(ToyCategory).map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+        <select
+          value={isNewProduct ? "Yes" : "No"}
+          onChange={(e) => setIsNewProduct(e.target.value === "Yes")}
+          required
+        >
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+        <input
+          type="number"
+          placeholder="Discount (%)"
+          value={discount}
+          onChange={(e) => setDiscount(Number(e.target.value))}
+          required
+          min={0}
+          max={100}
         />
         <input
           type="number"
@@ -116,9 +148,7 @@ const ProductUpload = () => {
           onChange={handleSubImagesUpload}
           required
         />
-        <button type="submit" disabled={isLoading}>
-          Upload
-        </button>
+        <button type="submit">Upload</button>
       </form>
       {error && <p>Error uploading product.</p>}
 
