@@ -7,6 +7,7 @@ import PrivateRoute from "./helpers/PrivateRoute";
 import Shop from "./pages/Shop";
 import ProductPage from "./pages/ProductPage";
 import Layout from "./components/Layout";
+import Cart from "./pages/Cart";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route path="home" element={<Home />} />
               <Route path="shop" element={<Shop />} />
               <Route path="product" element={<ProductPage />} />
+              <Route path="cart" element={<Cart />} />
             </Route>
           </Route>
         </Routes>
