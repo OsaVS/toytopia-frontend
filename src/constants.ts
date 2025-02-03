@@ -1,7 +1,13 @@
-import { Title } from "@mui/icons-material"
-import image from "./assets/shopItems/image.png"
+export const TP_BASE = "http://localhost:3000/";
 
-export const TP_BASE = "http://localhost:3000/"
+export const navItems = [
+  { name: "Home", path: "/home" },
+  { name: "Shop", path: "/shop" },
+  { name: "Product", path: "/product" },
+  { name: "Contact Us", path: "/contact" },
+];
+
+import image from "./assets/shopItems/image.png"
 
 export const productList = [
     {
