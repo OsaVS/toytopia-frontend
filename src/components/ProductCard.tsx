@@ -86,11 +86,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
     };
 
   return (
-    <div className='ml-20 mr-20'>
-        <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
+    <div className='ml-8 mr-8 md:ml-20 md:mr-20'>
+        <div className="grid grid-cols-1 md:grid-cols-2 min-h-screen">
             {/* Left Section */}
             
-            <div className=" flex flex-col h-full pr-6 bg-white">
+            <div className=" flex flex-col h-full md:pr-6 bg-white">
                 {/* Enlarged Image */}
                 <div className="relative h-[70vh] min-h-[400px] max-h-[600px] flex items-center justify-center mb-4">
                     {/* NEW and 50% off tags */}
@@ -133,7 +133,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 </div>
 
                 {/* Thumbnails */}
-                <div className="grid grid-cols-3 gap-2 h-[30vh] overflow-y-auto">
+                <div className="hidden md:grid grid-cols-3 gap-2 h-[30vh] overflow-y-auto">
                     {imagesGeneral.map((image, index) => (
                     <button
                         key={index}
@@ -155,7 +155,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
             {/* Right Section */}
 
-            <div className=" pl-6 bg-white ">
+            <div className="w-full md:pl-6 bg-white min-h-screen">
                 <p className="text-gray-600"> 
                     <Rating name="read-only" sx={{'& .MuiRating-iconFilled': {color: "#343839"}}} size='small' value={rating} readOnly />
                     <span className="ml-3 text-[15px]">{noOfReviews} reviews</span>

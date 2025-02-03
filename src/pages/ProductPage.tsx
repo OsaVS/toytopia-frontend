@@ -23,7 +23,7 @@ const ProductPage = () => {
   ];
 
   return (
-    <div className="p-10">
+    <div className="p-4 md:p-10">
       <div className="flex-1 h-full">
         <ProductCard
           title="Tray Table"
