@@ -10,3 +10,18 @@ export enum ToyCategory {
   Musical = "Musical Toys",
   BabyToddler = "Baby & Toddler Toys",
 }
+
+export interface ProductData {
+  productCode: string;
+  name: string;
+  description: string;
+  price: number;
+  mainImage: string;
+  subImages: string[];
+  category: ToyCategory;
+  isNewProduct: boolean;
+  discount: number;
+  stock: number;
+  createdAt: string;
+  updatedAt: string;
+}
