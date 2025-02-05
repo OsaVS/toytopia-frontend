@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <>
-      <div className="w-full h-full bg-black mt-5 text-white pt-10 px-24 xs:hidden md:block">
+      <div className="w-full h-full bg-black text-white pt-10 px-24 xs:hidden md:block">
         <div className="flex items-center justify-between">
           <div>
             <p>
@@ -31,7 +31,7 @@ const Footer = () => {
         </p>
       </div>
 
-      <div className="w-full h-full bg-black mt-5 text-white pt-10 px-24 xs:block md:hidden mx-auto text-center">
+      <div className="w-full h-full bg-black text-white pt-10 px-24 xs:block md:hidden mx-auto text-center">
         <div className="grid grid-cols-1 items-center justify-center">
           <p className="font-semibold text-xl">Toytopia</p>
           <div className="bg-[#E8ECEF] w-[18%] h-[0.2px] my-2 mx-auto"></div>

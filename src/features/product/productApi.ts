@@ -16,15 +16,26 @@ export const productApi = createApi({
   endpoints: (builder) => ({
     addProduct: builder.mutation({
       query: (product) => ({
-        url: "product",
+        url: "products",
         method: "POST",
         body: product,
       }),
     }),
     getProductById: builder.query({
-      query: (id) => `product/${id}`,
+      query: (id) => `products/${id}`,
+    }),
+    getRandomProducts: builder.mutation({
+      query: (amount) => ({
+        url: "products/random",
+        method: "POST",
+        body: { amount },
+      }),
     }),
   }),
 });
 
-export const { useAddProductMutation, useGetProductByIdQuery } = productApi;
+export const {
+  useAddProductMutation,
+  useGetProductByIdQuery,
+  useGetRandomProductsMutation,
+} = productApi;

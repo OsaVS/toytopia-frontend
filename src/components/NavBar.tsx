@@ -7,6 +7,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logOut } from "../features/auth/authSlice";
 import { navItems } from "../constants";
+import logo from '../assets/logo.png'
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,8 +27,8 @@ const NavBar = () => {
 
   return (
     <>
-      <div className="xs:hidden md:flex h-12 items-center justify-between md:px-20">
-        <p>Toytopia</p>
+      <div className="xs:hidden md:flex h-16 items-center justify-between md:px-20">
+        <img src={logo} alt="" className="w-24 h-16 xs:hidden md:block"/>
         <div>
           <ul className="flex items-center gap-5">
             {navItems.map((item) => (
@@ -71,7 +72,7 @@ const NavBar = () => {
         </div>
       </div>
 
-      <div className="xs:flex md:hidden items-center h-12 bg-red-400 justify-between px-5">
+      <div className="xs:flex md:hidden items-center h-12 bg-grn justify-between px-5">
         <div className="flex items-center gap-2">
           <MenuOutlinedIcon sx={{ fontSize: 16 }} onClick={toggleShowBar} />
           <p>Toytopia</p>
