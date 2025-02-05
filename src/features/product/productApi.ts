@@ -31,6 +31,9 @@ export const productApi = createApi({
     getProductById: builder.query({
       query: (id) => `products/${id}`,
     }),
+    getProductByCode: builder.query({
+      query: (productCode) => `products/code/${productCode}`,
+    }),
     getRandomProducts: builder.mutation({
       query: (amount) => ({
         url: "products/random",
@@ -45,5 +48,6 @@ export const {
   useAddProductMutation,
   useUpdateProductImagesMutation,
   useGetProductByIdQuery,
+  useGetProductByCodeQuery,
   useGetRandomProductsMutation,
 } = productApi;
