@@ -15,10 +15,17 @@ export const productApi = createApi({
   }),
   endpoints: (builder) => ({
     addProduct: builder.mutation({
-      query: (product) => ({
+      query: (formData) => ({
         url: "products",
         method: "POST",
-        body: product,
+        body: formData,
+      }),
+    }),
+    updateProductImages: builder.mutation({
+      query: ({ id, formData }) => ({
+        url: `products/${id}/images`,
+        method: "PATCH",
+        body: formData,
       }),
     }),
     getProductById: builder.query({
@@ -36,6 +43,7 @@ export const productApi = createApi({
 
 export const {
   useAddProductMutation,
+  useUpdateProductImagesMutation,
   useGetProductByIdQuery,
   useGetRandomProductsMutation,
 } = productApi;

@@ -5,6 +5,7 @@ import { useGetRandomProductsMutation } from "../features/product/productApi";
 import Loader from "../components/Loader";
 import { ProductData } from "../types/product";
 import ProductItem from "../components/ProductItem";
+import { TP_BASE } from "../constants";
 
 const Home = () => {
   const [fetchRandomProducts, { data, isLoading }] =
@@ -50,7 +51,7 @@ const Home = () => {
       <div className="grid xs:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5 py-10 xs:px-5 sm:px-10 sd:px-16 xl:px-20">
         {data?.data?.map((product: ProductData) => (
           <ProductItem
-            imageUrl={product.mainImage}
+            imageUrl={`${TP_BASE}${product.mainImage}`}
             title={product.name}
             originalPrice={product.price}
             isNew={product.isNewProduct}

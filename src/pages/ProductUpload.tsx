@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import {
   useAddProductMutation,
   useGetProductByIdQuery,
+  useUpdateProductImagesMutation,
 } from "../features/product/productApi";
 import { ToyCategory } from "../types/product";
 import Loader from "../components/Loader";
+import { TP_BASE } from "../constants";
 
 const ProductUpload = () => {
   const [id, setId] = useState("");
@@ -15,60 +17,54 @@ const ProductUpload = () => {
   const [isNewProduct, setIsNewProduct] = useState(true);
   const [discount, setDiscount] = useState(0);
   const [stock, setStock] = useState("");
-  const [mainImage, setMainImage] = useState("");
-  const [subImages, setSubImages] = useState<string[]>([]);
+  const [mainImage, setMainImage] = useState<File | null>(null);
+  const [subImages, setSubImages] = useState<File[]>([]);
 
   const [addProduct, { isLoading, error }] = useAddProductMutation();
+  const [updateProductImages] = useUpdateProductImagesMutation();
   const { data: product, error: productError } = useGetProductByIdQuery(id, {
-    skip: !id,
+    skip: !stock,
   });
-
-  const handleImageUpload = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    setImage: Function
-  ) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        setImage(reader.result as string);
-      };
-    }
-  };
-
-  const handleSubImagesUpload = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const files = event.target.files;
-    if (files) {
-      const imagesArray: string[] = [];
-      Array.from(files).forEach((file) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          imagesArray.push(reader.result as string);
-          if (imagesArray.length === files.length) {
-            setSubImages([...subImages, ...imagesArray]);
-          }
-        };
-      });
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await addProduct({
-      name,
-      description,
-      price: Number(price),
-      category,
-      isNewProduct,
-      discount,
-      stock: Number(stock),
-      mainImage,
-      subImages,
-    });
+    if (!mainImage) return alert("Main image is required!");
+
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("price", String(price));
+    formData.append("category", category);
+    formData.append("isNewProduct", isNewProduct.toString());
+    formData.append("discount", discount.toString());
+    formData.append("stock", String(stock));
+    formData.append("mainImage", mainImage);
+    subImages.forEach((image) => formData.append("subImages", image));
+    await addProduct(formData);
+  };
+
+  const handleUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!mainImage) {
+      alert("Main image is required!");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("mainImage", mainImage);
+    if (subImages) {
+      Array.from(subImages).forEach((file) => {
+        formData.append("subImages", file);
+      });
+    }
+
+    try {
+      console.log(id)
+      await updateProductImages({ id, formData }).unwrap();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   if (isLoading) {
@@ -138,14 +134,14 @@ const ProductUpload = () => {
         <input
           type="file"
           accept="image/*"
-          onChange={(e) => handleImageUpload(e, setMainImage)}
+          onChange={(e) => setMainImage(e.target.files?.[0] || null)}
           required
         />
         <input
           type="file"
           accept="image/*"
           multiple
-          onChange={handleSubImagesUpload}
+          onChange={(e) => setSubImages(Array.from(e.target.files || []))}
           required
         />
         <button type="submit">Upload</button>
@@ -166,20 +162,47 @@ const ProductUpload = () => {
           <p>{product.data.description}</p>
           <p>Price: {product.data.price}LKR</p>
           <img
-            src={product.data.mainImage}
+            src={`${TP_BASE}${product.data.mainImage}`}
             alt={product.data.name}
             width="200"
           />
           {product.data.subImages.map((image: string, index: number) => (
             <img
               key={index}
-              src={image}
+              src={`${TP_BASE}${image}`}
               alt={`${product.data.name} ${index}`}
               width="200"
             />
           ))}
         </div>
       )}
+
+      <div>
+        <h2>Update Product Images</h2>
+        <form onSubmit={handleUpdate}>
+          <input
+            type="text"
+            placeholder="Enter Product ID"
+            value={id}
+            onChange={(e) => setId(e.target.value)}
+          />
+          <br />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setMainImage(e.target.files?.[0] || null)}
+          />
+          <br />
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={(e) => setSubImages(Array.from(e.target.files || []))}
+          />
+          <br />
+          <button type="submit">Update Images</button>
+        </form>
+      </div>
     </div>
   );
 };

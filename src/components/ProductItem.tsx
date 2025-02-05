@@ -13,7 +13,7 @@ const ProductItem = ({
   return (
     <div className="w-full h-auto grid mb-3 border rounded-lg">
       <div className="group relative">
-        <img src={imageUrl} alt="" className="h-60 mx-auto hover:scale-x-105" />
+        <img src={imageUrl} alt="" className="h-60 mx-auto pt-1 hover:scale-x-105" />
         <div className="absolute top-2 left-2">
           {isNew ? (
             <div className="py-[1.5px] px-1 text-center bg-white font-semibold text-sm rounded-md mb-1">
