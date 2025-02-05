@@ -38,9 +38,9 @@ const CartSummary: React.FC<CartSummaryProps> = ({
   const total = subTotal + shippingCost - pickupDecrease;
 
   return (
-    <div className="border-gray-400 border-2 p-4 m-8 rounded-lg">
+    <div className="border-gray-400 border-2 mm:p-4 lg:m-2 rounded-lg">
       <div className="flex flex-col text-2xl font-bold">
-        <span className='font-semibold text-xl pr-4 pl-4 pt-4'>Cart Summary</span>
+        <span className='font-semibold text-lg mm:text-xl pr-4 pl-4 pt-4'>Cart Summary</span>
 
         <RadioGroup
           aria-label="shipping"
@@ -60,7 +60,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
                         color: 'black', // Checked color
                         },
                     }}/>} 
-            label={<div className="flex justify-between w-full"><span>Free shipping</span><span>$0.00</span></div>} 
+            label={<div className="flex justify-between w-full text-sm mm:text-base"><span>Free shipping</span><span>$0.00</span></div>} 
             sx={{
                     width: '100%', 
                     '& .MuiFormControlLabel-label': {
@@ -78,7 +78,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
                     color: 'black', // Checked color
                     },
                 }}/>}
-                label={<div className="flex justify-between w-full"><span>Express shipping</span><span className='flex'>+${costShipping}.00</span></div>}
+                label={<div className="flex justify-between w-full text-sm mm:text-base"><span>Express shipping</span><span className='flex'>+${costShipping}.00</span></div>}
                 sx={{
                     width: '100%', 
                     '& .MuiFormControlLabel-label': {
@@ -96,7 +96,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
                     color: 'black', // Checked color
                     },
                 }}/>}
-                label={<div className="flex justify-between w-full"><span>PickUp</span><span className='flex'>%{pickupPercentage}</span></div>}
+                label={<div className="flex justify-between w-full text-sm mm:text-base"><span>PickUp</span><span className='flex'>%{pickupPercentage}</span></div>}
                 sx={{
                     width: '100%', 
                     '& .MuiFormControlLabel-label': {
@@ -109,17 +109,17 @@ const CartSummary: React.FC<CartSummaryProps> = ({
       </div>
 
       <div className="flex justify-between border-b border-gray-300 p-4">
-        <p className='text-gray-800 text-lg'>Subtotal</p>
+        <p className='text-gray-800 text-base sd:text-lg'>Subtotal</p>
         <p>${subTotal.toFixed(2)}</p>
       </div>
 
       <div className="flex justify-between p-4">
-        <p className='text-xl font-bold'>Total</p>
+        <p className='text-base sd:text-xl font-bold'>Total</p>
         <p>${total.toFixed(2)}</p>
       </div>
 
       <div className="flex justify-between p-4 pt-8">
-        <button className="bg-black text-white text-xl p-4 rounded-lg w-full">
+        <button className="bg-black text-white sd:text-xl p-4 rounded-lg w-full">
             Checkout
         </button>
       </div>
