@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Radio, FormControlLabel, RadioGroup } from '@mui/material';
 
 interface CartSummaryProps {
   subTotal: number;
+  // deliveryMethod: string;
+  // setdeliveryMethod: (value: string) => void;
 //   costShipping: number;
 //   pickupPercentage: number;
 }
 
 const CartSummary: React.FC<CartSummaryProps> = ({
   subTotal,
+  // deliveryMethod,
+  // setdeliveryMethod,
 //   costShipping,
 //   pickupPercentage,
 }) => {
@@ -22,20 +27,38 @@ const CartSummary: React.FC<CartSummaryProps> = ({
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSelectedOption(value);
+    // setdeliveryMethod(value);
 
     if (value === 'shipping') {
       setShippingCost(costShipping);
       setPickupDecrease(0); // Reset pickup increase
     } else if (value === 'pickup') {
-      setPickupDecrease(subTotal * (pickupPercentage / 100));
+      setPickupDecrease(-1 * subTotal * (pickupPercentage / 100));
       setShippingCost(0); // Reset shipping cost
     } else {
       setShippingCost(0);
       setPickupDecrease(0);
     }
+
   };
 
-  const total = subTotal + shippingCost - pickupDecrease;
+  // useEffect to update sessionStorage when shippingCost or pickupDecrease changes
+  useEffect(() => {
+    // Check if 'pickup' option is selected
+  if (selectedOption === 'pickup') {
+    // If pickup is selected, store pickupDecrease as shippingCost
+    sessionStorage.setItem('shippingCost', pickupDecrease.toString());
+  } else {
+    // Otherwise, store the actual shipping cost
+    sessionStorage.setItem('shippingCost', shippingCost.toString());
+  }
+
+    const total = subTotal + shippingCost + pickupDecrease;
+    sessionStorage.setItem('subTotal', subTotal.toString());
+    sessionStorage.setItem('total', total.toString());
+  }, [shippingCost, pickupDecrease, subTotal]);
+
+  const total = subTotal + shippingCost + pickupDecrease;
 
   return (
     <div className="border-gray-400 border-2 mm:p-4 lg:m-2 rounded-lg">
@@ -118,11 +141,11 @@ const CartSummary: React.FC<CartSummaryProps> = ({
         <p>${total.toFixed(2)}</p>
       </div>
 
-      <div className="flex justify-between p-4 pt-8">
-        <button className="bg-black text-white sd:text-xl p-4 rounded-lg w-full">
-            Checkout
-        </button>
-      </div>
+        <Link to="/cart/checkout">
+          <button className="bg-black text-white sd:text-xl p-4 rounded-lg w-full">
+              Checkout
+          </button>
+        </Link>
     </div>
   );
 };

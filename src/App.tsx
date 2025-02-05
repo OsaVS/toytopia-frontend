@@ -8,6 +8,8 @@ import Shop from "./pages/Shop";
 import ProductPage from "./pages/ProductPage";
 import Layout from "./components/Layout";
 import Cart from "./pages/Cart";
+import ShoppingCart from "./pages/ShoppingCart";
+import Checkout from "./pages/Checkout";
 
 function App() {
   return (
@@ -21,7 +23,11 @@ function App() {
               <Route path="home" element={<Home />} />
               <Route path="shop" element={<Shop />} />
               <Route path="product" element={<ProductPage />} />
-              <Route path="cart" element={<Cart />} />
+              <Route path="cart/*" element={<Cart />}>
+                <Route index element={<ShoppingCart />} /> {/* Default */}
+                <Route path="checkout" element={<Checkout />} />
+                {/* <Route path="confirmation" element={<Confirmation />} /> */}
+              </Route>
             </Route>
           </Route>
         </Routes>
