@@ -1,19 +1,27 @@
 import { Rating } from "@mui/material";
 import Button from "./Button";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { useNavigate } from "react-router-dom";
 
 const ProductItem = ({
   imageUrl,
+  productCode,
   title,
   originalPrice,
   isNew,
   rating = 5,
   discountPercentage,
 }: any) => {
+  const navigate = useNavigate();
+
+  const handleNavigate = (code: string): void => {
+    navigate(`/product/${code}`, { replace: true });
+  };
+
   return (
     <div className="w-full h-auto grid mb-3 border rounded-lg">
       <div className="group relative">
-        <img src={imageUrl} alt="" className="h-60 mx-auto pt-1 hover:scale-x-105" />
+        <img src={imageUrl} alt="" className="h-60 mx-auto pt-1" />
         <div className="absolute top-2 left-2">
           {isNew ? (
             <div className="py-[1.5px] px-1 text-center bg-white font-semibold text-sm rounded-md mb-1">
@@ -33,6 +41,7 @@ const ProductItem = ({
           <Button
             type="button"
             label="View Product"
+            onClick={() => handleNavigate(productCode)}
             className="px-3 py-1 font-semibold text-sm"
           />
         </div>
@@ -46,7 +55,9 @@ const ProductItem = ({
           precision={0.5}
           sx={{ color: "#343839" }}
         />
-        <p className="text-base my-1 font-medium text-btn line-clamp-2 min-h-[2.8rem]">{title}</p>
+        <p className="text-base my-1 font-medium text-btn line-clamp-2 min-h-[2.8rem]">
+          {title}
+        </p>
         <div className="flex items-center gap-2">
           {discountPercentage ? (
             <>
