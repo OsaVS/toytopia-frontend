@@ -67,7 +67,7 @@ const ProductItem = ({
                   2
                 )}
               </p>
-              <p className="text-gray500 line-through">${originalPrice}</p>
+              <p className="text-gray500 line-through">Rs.{originalPrice}</p>
             </>
           ) : (
             <p className="text-lg font-medium text-discounted-price">
