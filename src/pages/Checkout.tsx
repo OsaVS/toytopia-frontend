@@ -1,18 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 import { cartList } from '../constants';
-import ClearIcon from '@mui/icons-material/Clear';
-import { red } from '@mui/material/colors';
 import OrderSummary from '../components/OrderSummary';
 import DoneIcon from '@mui/icons-material/Done';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
+import ProfileInputField from '../components/Profileinputfield';
+import { Radio, FormControlLabel, RadioGroup } from '@mui/material';
 
 const Cart = () => {
-  const[quantity, setQuantity] = React.useState(1);
-
-  const incrementQuantity = () => setQuantity(prev => prev + 1);
-  const decrementQuantity = () => setQuantity(prev => (prev === 1 ? prev : prev - 1));
+  const [paymentMethod, setPaymentMethod] = useState('creditcard');
 
   const calculateSubtotal = () => {
     return cartList.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  }
+
+  const handlePayementMethodChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPaymentMethod(event.target.value);
+    sessionStorage.setItem('paymentMethod', event.target.value);
   }
 
   const subTotal = calculateSubtotal();
@@ -20,31 +24,122 @@ const Cart = () => {
   return (
     <div>
         <div className='flex flex-col mt-20 mb-10 mr-8 ml-8 md:mr-10 md:ml-10 lg:mr-20 lg:ml-20'>
-            <div className='flex justify-center items-center text-4xl font-semibold pb-9'>Cart</div>
+            <div className='flex justify-center items-center text-4xl font-semibold pb-9'>CheckOut</div>
             <div className='flex flex-row justify-between md:grid md:grid-cols-3 gap-4'>
-                <div className='flex items-center text-left gap-4 pb-6 pr-8 mm:pr-20 md:pr-14 text-black border-green-500 border-b-2 text-sm'><div className='flex w-10 h-10 rounded-full bg-green-500 justify-center items-center text-white'><DoneIcon /> </div> <span className='lg:text-xl text-green-500'>Shopping cart</span></div>
-                <div className='flex items-center text-left gap-4 pb-6 pr-8 mm:pr-20 md:pr-14 text-black border-black border-b-2 text-sm'><div className='flex w-10 h-10 rounded-full bg-black justify-center items-center text-white'>2</div><span className='hidden md:block lg:text-xl'>Checkout details</span></div>
-                <div className='hidden md:flex items-center text-left text-gray-300 gap-4 pb-6 pr-14 text-sm'><div className='flex w-10 h-10 rounded-full bg-gray-300 justify-center items-center text-white'>3</div><span className='lg:text-xl'>Order complete</span></div>
+                <div className='hidden md:flex items-center text-left gap-4 pb-6 pr-8 mm:pr-20 md:pr-14 text-black border-green-500 border-b-2 text-sm'><div className='flex w-10 h-10 rounded-full bg-green-500 justify-center items-center text-white'><DoneIcon /> </div> <span className='lg:text-xl text-green-500'>Shopping cart</span></div>
+                <div className='flex items-center text-left gap-4 pb-6 pr-8 mm:pr-20 md:pr-14 text-black border-black border-b-2 text-sm'><div className='flex w-10 h-10 rounded-full bg-black justify-center items-center text-white'>2</div><span className='lg:text-xl'>Checkout details</span></div>
+                <div className='flex items-center text-left text-gray-300 gap-4 pb-6 md:pr-14 text-sm'><div className='flex w-10 h-10 rounded-full bg-gray-300 justify-center items-center text-white'>3</div><span className='hidden md:block lg:text-xl'>Order complete</span></div>
             </div>
         </div>
 
         <div className='grid grid-cols-1 md:grid-cols-[2fr_1fr] lg:grid-cols-2 p-8 sd:grid-cols-2 md:pr-10 md:pl-10 lg:pr-16 lg:pl-16 2xl:pr-20 2xl:pl-20'>
-             <div className='flex flex-col space-y-3 lg:mr-4'> 
-              <div className='border-2 border-black rounded-md p-4'>
+             <div className='flex flex-col space-y-3 sd:mr-3 lg:mr-4'> 
+              <div className='border-2 border-gray-400 rounded-md p-4'>
                 <span>Contact Information</span>
+
+                <div className='flex flex-col mt-4'>
+                  <div className='grid grid-cols-2 gap-2'>
+                    <ProfileInputField name='firstname' label='First Name' value='' onChange={() => {}} />
+                    <ProfileInputField name='lastname' label='Last Name' value='' onChange={() => {}} />
+                  </div>
+
+                  <ProfileInputField name='phone' label='Phone' value='' onChange={() => {}} />
+                  <ProfileInputField name='email' label='Email' value='' onChange={() => {}} />
+                </div>
               </div>
 
-              <div className='border-2 border-black rounded-md p-4'>
+              <div className='border-2 border-gray-400 rounded-md p-4'>
                 <span>Shipping Address</span>
+                <div className='flex flex-col mt-4'>
+                  <ProfileInputField name='streetaddress' label='Street Address' value='' onChange={() => {}} />
+                  <ProfileInputField name='country' label='Country' value='' onChange={() => {}} /> 
+                  <ProfileInputField name='city' label='Town/City' value='' onChange={() => {}} />
+
+                  <div className='grid grid-cols-2 gap-2'>
+                    <ProfileInputField name='state' label='State' value='' onChange={() => {}} />
+                    <ProfileInputField name='zip' label='Zip' value='' onChange={() => {}} />
+                  </div>
+                </div>
+                
               </div>
 
-              <div className='border-2 border-black rounded-md p-4'>
-                <span>Payment methodM</span>
+              <div className='border-2 border-gray-400 rounded-md p-4'>
+                <span>Payment method</span>
+                <div className='flex flex-col mt-4 mb-4 border-b-2 border-gray-400 pb-4'>
+                  <RadioGroup 
+                  aria-label="payment" 
+                  name="payment" 
+                  value={paymentMethod} 
+                  onChange={handlePayementMethodChange}
+                  sx={{ gap: 1,}}>
+                    <div className='flex justify-between w-full border-2 border-gray-400 focus-within:border-black focus-within:bg-gray-50 p-2 rounded-lg items-center'>
+                      <FormControlLabel 
+                      value="creditcard" 
+                      control={<Radio sx={{
+                        color: 'black', // Unchecked color
+                        '&.Mui-checked': {
+                          color: 'black', // Checked color
+                        },
+                      }}/>} 
+                      label={<div className='flex w-full justify-between'>
+                        <span>Credit Card</span>
+                        <CreditCardIcon sx={{ color: 'black' }} />
+                      </div>} 
+                      sx={{
+                        width: '100%', 
+                        '& .MuiFormControlLabel-label': {
+                          width: '100%', 
+                        },
+                      }}/>
+                    </div>
+                    
+
+                    <div className='flex justify-between w-full border-2 border-gray-400 focus-within:border-black focus-within:bg-gray-50 p-2 rounded-lg items-center'>
+                      <FormControlLabel 
+                      value="Paypal" 
+                      control={<Radio sx={{
+                        color: 'black', // Unchecked color
+                        '&.Mui-checked': {
+                          color: 'black', // Checked color
+                        },
+                      }}/>} 
+                      label={<div className='flex w-full'>
+                        <span>PayPal</span>
+                      </div>} 
+                      sx={{
+                        width: '100%', 
+                        '& .MuiFormControlLabel-label': {
+                          width: '100%', 
+                        },
+                      }}/>
+                    </div>
+                  </RadioGroup>
+
+                </div>
+
+                <div>
+                  <div>
+                    <ProfileInputField name='cardnumber' label='Card Number' value='' onChange={() => {}} />
+                  </div>
+                  
+                  <div className='grid grid-cols-2 gap-2'>
+                    <ProfileInputField name='expirydate' label='Expiry Date' value='' onChange={() => {}} />
+                    <ProfileInputField name='cvv' label='CVV' value='' onChange={() => {}} />
+                  </div>
+                </div>
               </div>
+
+              <Link to='/cart/ordercomplete'>
+                <button className='hidden sd:block mt-4 bg-black text-white lg:text-lg rounded-lg p-4 w-full'>Place Order</button>
+              </Link>
             </div>
 
-            <div className='flex flex-col pt-14 md:pt-0 md:m-2 lg:ml-4'>
+            <div className='flex flex-col sd:ml-3 lg:ml-4'>
               <OrderSummary cartList={cartList}/>
+
+              <Link to='/cart/ordercomplete'>
+                <button className='sd:hidden mt-4 bg-black text-white sd:text-lg rounded-lg p-4 w-full'>Place Order</button>
+              </Link>
             </div>
         </div>
     </div>

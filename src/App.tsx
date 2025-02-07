@@ -11,6 +11,7 @@ import ProductUpload from "./pages/ProductUpload";
 import Cart from "./pages/Cart";
 import ShoppingCart from "./pages/ShoppingCart";
 import Checkout from "./pages/Checkout";
+import OrderComplete from "./pages/OrderComplete";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               <Route path="cart/*" element={<Cart />}>
                 <Route index element={<ShoppingCart />} /> {/* Default */}
                 <Route path="checkout" element={<Checkout />} />
+                <Route path="ordercomplete" element={<OrderComplete />} />
                 {/* <Route path="confirmation" element={<Confirmation />} /> */}
               </Route>
               <Route path="addproduct" element={<ProductUpload />} />

@@ -1,5 +1,5 @@
 import React from 'react'
-import { ProductCart } from '../types/Product'
+import { ProductCart } from '../types/product'
 
 interface OrderSummaryProps {
     cartList: ProductCart[]
@@ -12,11 +12,11 @@ const OrderSummary = ({ cartList }: OrderSummaryProps
     const shippingCost = sessionStorage.getItem('shippingCost');
 
   return (
-    <div className='border-2 border-black p-4 rounded-lg '>
+    <div className='border-2 border-gray-400 p-4 rounded-lg '>
         <span className='lg:text-xl font-bold'>Order Summary</span>
         <div className='flex flex-col pt-4'>
             {cartList.map((cart, index) => (
-                <div key={index} className='flex flex-row border-b border-gray-400 pb-4 w-full'>
+                <div key={index} className='flex flex-row border-b border-gray-300 pt-4 pb-4 w-full'>
                     <div className='flex flex-row justify-between items-center gap-4 w-full'>
                         <div className='flex flex-row'>
                             <img src={cart.imageUrl} alt={cart.title} className='w-20 h-20'/>
