@@ -1,4 +1,3 @@
-import React from "react";
 import ProductCard from "../components/ProductCard";
 import TrayT1 from "../assets/thumbnail1.png";
 import TrayT2 from "../assets/thumbnail2.png";
@@ -18,13 +17,13 @@ const ProductPage = () => {
   ];
 
   const imagesColor = [
-    {color: 'Black', url: TrayT1}, // Enlarged image
-    {color: 'Brown', url: TrayT2},
-    {color: 'White', url:TrayT3}, // Thumbnail 2
+    { color: "Black", url: TrayT1 }, // Enlarged image
+    { color: "Brown", url: TrayT2 },
+    { color: "White", url: TrayT3 }, // Thumbnail 2
   ];
 
   return (
-    <div className="p-10">
+    <div className="p-4 md:p-10">
       <div className="flex-1 h-full">
         <ProductCard
           title="Tray Table"
@@ -48,11 +47,9 @@ const ProductPage = () => {
         />
       </div>
 
-      <div className="w-full mt-10 mb-10"> 
-            <MoreProductsCard />
-        </div>   
-
-      
+      <div className="w-full mt-10 mb-10">
+        <MoreProductsCard />
+      </div>
     </div>
   );
 };

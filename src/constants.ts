@@ -1,9 +1,15 @@
-import { Title } from "@mui/icons-material"
+export const TP_BASE = "http://localhost:3000/";
+
+export const navItems = [
+  { name: "Home", path: "/home" },
+  { name: "Shop", path: "/shop" },
+  { name: "Product", path: "/product" },
+  { name: "Contact Us", path: "/contact" },
+];
+
 import image from "./assets/shopItems/image.png"
 import product from "./assets/thumbnail2.png"
 import { colors } from "@mui/material"
-
-export const TP_BASE = "http://localhost:3000/"
 
 export const productList = [
     {

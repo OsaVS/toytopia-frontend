@@ -7,6 +7,7 @@ import PrivateRoute from "./helpers/PrivateRoute";
 import Shop from "./pages/Shop";
 import ProductPage from "./pages/ProductPage";
 import Layout from "./components/Layout";
+import ProductUpload from "./pages/ProductUpload";
 import Cart from "./pages/Cart";
 import ShoppingCart from "./pages/ShoppingCart";
 import Checkout from "./pages/Checkout";
@@ -28,6 +29,7 @@ function App() {
                 <Route path="checkout" element={<Checkout />} />
                 {/* <Route path="confirmation" element={<Confirmation />} /> */}
               </Route>
+              <Route path="addproduct" element={<ProductUpload />} />
             </Route>
           </Route>
         </Routes>
