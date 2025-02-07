@@ -3,14 +3,29 @@ import MoreProductsCard from "../components/MoreProductsCard";
 import { useParams } from "react-router-dom";
 import { useGetProductByCodeQuery } from "../features/product/productApi";
 import Loader from "../components/Loader";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useAddToCartMutation } from "../features/cart/cartApi";
 
 const ProductPage = () => {
   const { productCode } = useParams();
-  console.log(productCode)
   const { data, isLoading, refetch } = useGetProductByCodeQuery(productCode);
+  const [addToCart] = useAddToCartMutation();
   const product = data?.data || null;
   const images = product ? [product.mainImage, ...product.subImages] : [];
+  const [quantity, setQuantity] = useState(1);
+
+  const handleIncrementQuantity = () => setQuantity((prev) => prev + 1);
+  const handleDecrementQuantity = () =>
+    setQuantity((prev) => (prev === 1 ? prev : prev - 1));
+
+  const handleAddToCart = () => {
+    if (product) {
+      addToCart({
+        productId: product._id,
+        quantity: quantity,
+      });
+    }
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -39,6 +54,10 @@ const ProductPage = () => {
             { name: "John Doe", review: "Great product!", rating: 5 },
             { name: "Jane Smith", review: "Good value for money.", rating: 4 },
           ]}
+          onAddToCart={handleAddToCart}
+          quantity={quantity}
+          onIncrementQuantity={handleIncrementQuantity}
+          onDecrementQuantity={handleDecrementQuantity}
         />
       </div>
 

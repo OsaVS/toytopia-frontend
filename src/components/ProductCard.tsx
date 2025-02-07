@@ -28,6 +28,9 @@ interface ProductCardProps {
   productReviews?: { name: string; review: string; rating: number }[];
   productQuestions?: string;
   onAddToCart?: () => void;
+  quantity: number;
+  onIncrementQuantity: () => void;
+  onDecrementQuantity: () => void;
   onAddToWishlist?: () => void;
 }
 
@@ -43,22 +46,20 @@ const ProductCard: React.FC<ProductCardProps> = ({
   isNew,
   discount,
   onAddToCart,
+  quantity,
+  onIncrementQuantity,
+  onDecrementQuantity,
   onAddToWishlist,
   productReviews,
 }) => {
   const [selectedImage, setSelectedImage] = useState(imagesGeneral[0]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [quantity, setQuantity] = useState(1);
   const [ratingValue, setRatingValue] = useState<number | null>(0);
-
-  const incrementQuantity = () => setQuantity((prev) => prev + 1);
-  const decrementQuantity = () =>
-    setQuantity((prev) => (prev === 1 ? prev : prev - 1));
 
   const prevImage = () => {
     setSelectedImageIndex((prevIndex) => {
       const newIndex = prevIndex === 0 ? prevIndex : prevIndex - 1;
-      setSelectedImage(imagesGeneral[newIndex]); 
+      setSelectedImage(imagesGeneral[newIndex]);
       return newIndex;
     });
   };
@@ -97,13 +98,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 <span className="bg-white text-black text-sm sm:text-base md:text-lg px-2 py-1 rounded shadow">
                   NEW
                 </span>
-              ): null}
+              ) : null}
               {discount ? (
                 <span className="bg-green-500 text-white text-sm sm:text-base md:text-lg px-2 py-1 rounded shadow">
                   {" "}
                   -{discount}%{" "}
                 </span>
-              ): null}
+              ) : null}
             </div>
 
             <IconButton
@@ -223,14 +224,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <div className="flex items-center justify-between bg-gray-100 rounded-lg p-2">
               <button
                 className="text-gray-500 px-2"
-                onClick={decrementQuantity}
+                onClick={onDecrementQuantity}
               >
                 -
               </button>
               <span className="px-4 text-black">{quantity}</span>
               <button
                 className="text-gray-500 px-2"
-                onClick={incrementQuantity}
+                onClick={onIncrementQuantity}
               >
                 +
               </button>

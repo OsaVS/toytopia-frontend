@@ -8,6 +8,7 @@ import Shop from "./pages/Shop";
 import ProductPage from "./pages/ProductPage";
 import Layout from "./components/Layout";
 import ProductUpload from "./pages/ProductUpload";
+import CartExample from "./pages/CartExample";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route path="shop" element={<Shop />} />
               <Route path="product/:productCode" element={<ProductPage />} />
               <Route path="addproduct" element={<ProductUpload />} />
+              <Route path="examplecart" element={<CartExample/>} />
             </Route>
           </Route>
         </Routes>
