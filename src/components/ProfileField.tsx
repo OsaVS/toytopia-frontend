@@ -1,0 +1,72 @@
+import React from "react";
+import { TextField } from "@mui/material";
+
+interface ProfileFieldProps {
+  label: string;
+  name: string;
+  type?: string;
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const ProfileField: React.FC<ProfileFieldProps> = ({
+  label,
+  name,
+  type = "text",
+  value,
+  onChange,
+}) => {
+  return (
+    <div className="mb-3">
+      <label
+        htmlFor={name}
+        className="block text-sm font-medium mb-1"
+        style={{ color: "#6C7275" }}
+      >
+        {label} *
+      </label>
+      <TextField
+        fullWidth
+        id={name}
+        name={name}
+        placeholder={label}
+        variant="outlined"
+        type={type}
+        value={value}
+        onChange={onChange}
+        InputLabelProps={{
+          shrink: false,
+        }}
+        inputProps={{
+          "aria-label": label,
+          style: { color: "#6C7275" },
+        }}
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            padding: "2px",
+            borderRadius: "6px",
+            fontSize: "14px",
+            // Remove explicit border here
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#A5A5A5",
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: "black",
+              borderWidth: "1px",
+            },
+          },
+          // Add default border styling to notchedOutline
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#CBCBCB", // Default border color
+          },
+          "& .MuiOutlinedInput-input": {
+            padding: "8px 10px",
+            color: "#6C7275",
+          },
+        }}
+      />
+    </div>
+  );
+};
+
+export default ProfileField;
