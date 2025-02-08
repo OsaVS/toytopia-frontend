@@ -5,7 +5,11 @@ import { useGetRandomProductsMutation } from "../features/product/productApi";
 import Loader from "../components/Loader";
 import { ProductData } from "../types/product";
 import ProductItem from "../components/ProductItem";
-import { TP_BASE } from "../constants";
+import PromotionBanner from "../components/PromotionBanner";
+import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
+import PriceChangeOutlinedIcon from "@mui/icons-material/PriceChangeOutlined";
+import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
+import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 
 const Home = () => {
   const [fetchRandomProducts, { data, isLoading }] =
@@ -48,17 +52,58 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="grid xs:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5 py-10 xs:px-5 sm:px-10 sd:px-16 xl:px-20">
-        {data?.data?.map((product: ProductData) => (
-          <ProductItem
-            imageUrl={`${TP_BASE}${product.mainImage}`}
-            title={product.name}
-            originalPrice={product.price}
-            isNew={product.isNewProduct}
-            rating={5}
-            discountPercentage={product.discount}
-          />
-        ))}
+      <div className="xs:px-5 sm:px-10 sd:px-16 xl:px-20 mt-20">
+        <h1 className="text-center md:text-left text-2xl sd:text-3xl font-semibold">
+          Featured Products
+        </h1>
+        <div className="grid xs:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5 py-10">
+          {data?.data?.map((product: ProductData) => (
+            <ProductItem
+              imageUrl={product.mainImage}
+              productCode={product.productCode}
+              title={product.name}
+              originalPrice={product.price}
+              isNew={product.isNewProduct}
+              rating={5}
+              discountPercentage={product.discount}
+            />
+          ))}
+        </div>
+      </div>
+
+      <PromotionBanner date={"2025-02-10T23:59:59"} image={hero} />
+
+      <div className="grid grid-cols-1 sd:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 items-center justify-center xs:gap-5 md:gap-10 xs:px-5 sm:px-10 sd:px-16 xl:px-24 my-20">
+        <div className="bg-[#F3F5F7] w-full h-auto grid items-start py-8 pl-6 pr-8">
+          <LocalShippingOutlinedIcon sx={{ fontSize: 50, color: "#6C7275" }} />
+          <p className="text-[#141718] mt-3 text-lg font-semibold">
+            Free Shipping
+          </p>
+          <p className="text-[10px] text-[#6C7275] mt-1">Order above Rs.2000</p>
+        </div>
+        <div className="bg-[#F3F5F7] w-full h-auto grid items-start p-8">
+          <PriceChangeOutlinedIcon sx={{ fontSize: 50, color: "#6C7275" }} />
+          <p className="text-[#141718] mt-3 text-lg font-semibold">
+            Money-back
+          </p>
+          <p className="text-[10px] text-[#6C7275] mt-1">30 days guarantee</p>
+        </div>
+        <div className="bg-[#F3F5F7] w-full h-auto grid items-start p-8">
+          <HttpsOutlinedIcon sx={{ fontSize: 50, color: "#6C7275" }} />
+          <p className="text-[#141718] mt-3 text-lg font-semibold">
+            Secure Payments
+          </p>
+          <p className="text-[10px] text-[#6C7275] mt-1">Secured by Stripe</p>
+        </div>
+        <div className="bg-[#F3F5F7] w-full h-auto grid items-start p-8">
+          <LocalPhoneOutlinedIcon sx={{ fontSize: 50, color: "#6C7275" }} />
+          <p className="text-[#141718] mt-3 text-lg font-semibold">
+            24/7 Support
+          </p>
+          <p className="text-[10px] text-[#6C7275] mt-1">
+            Phone and Email support
+          </p>
+        </div>
       </div>
     </>
   );

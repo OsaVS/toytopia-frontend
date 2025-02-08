@@ -9,6 +9,7 @@ import ProductPage from "./pages/ProductPage";
 import Layout from "./components/Layout";
 import ProductUpload from "./pages/ProductUpload";
 import Profile from "./pages/Profile";
+import CartExample from "./pages/CartExample";
 
 function App() {
   return (
@@ -21,9 +22,10 @@ function App() {
             <Route element={<Layout />}>
               <Route path="home" element={<Home />} />
               <Route path="shop" element={<Shop />} />
-              <Route path="product" element={<ProductPage />} />
+              <Route path="product/:productCode" element={<ProductPage />} />
               <Route path="addproduct" element={<ProductUpload />} />
               <Route path="profile" element={<Profile />} />
+              <Route path="examplecart" element={<CartExample/>} />
             </Route>
           </Route>
         </Routes>
