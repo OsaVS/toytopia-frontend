@@ -168,7 +168,7 @@ const SignUp = () => {
               type="text"
               name="lastName"
               value={formData.lastName}
-              placeholder="Your Surname"
+              placeholder="Your Last name"
               required={true}
               onChange={handleChange}
               error={errors.lastName}
