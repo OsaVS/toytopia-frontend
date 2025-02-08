@@ -7,14 +7,15 @@ import PasswordField from "../../components/PasswordField";
 import Button from "../../components/Button";
 import { errorView, successMessage } from "../../helpers/ToastHelper";
 import { UserType } from "../../types/user";
-import Loader from '../../components/Loader';
+import Loader from "../../components/Loader";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [signup, { isLoading }] = useSignupMutation();
 
   interface FormData {
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     password: string;
     username: string;
@@ -22,14 +23,16 @@ const SignUp = () => {
   }
 
   interface FormErrors {
-    name?: string;
+    firstName?: string;
+    lastName?: string;
     email?: string;
     password?: string;
     username?: string;
   }
 
   const [formData, setFormData] = useState<FormData>({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     username: "",
@@ -42,13 +45,22 @@ const SignUp = () => {
     const newErrors: FormErrors = { ...errors };
 
     switch (name) {
-      case "name":
+      case "firstName":
         if (!value.trim()) {
-          newErrors.name = "Name is required";
+          newErrors.firstName = "Name is required";
         } else if (value.length < 2 || value.length > 50) {
-          newErrors.name = "Name must be between 2 and 50 characters";
+          newErrors.firstName = "Name must be between 2 and 50 characters";
         } else {
-          delete newErrors.name;
+          delete newErrors.firstName;
+        }
+        break;
+      case "lastName":
+        if (!value.trim()) {
+          newErrors.lastName = "Name is required";
+        } else if (value.length < 2 || value.length > 50) {
+          newErrors.lastName = "Name must be between 2 and 50 characters";
+        } else {
+          delete newErrors.lastName;
         }
         break;
       case "username":
@@ -145,12 +157,21 @@ const SignUp = () => {
           <form onSubmit={handleSubmit}>
             <InputField
               type="text"
-              name="name"
-              value={formData.name}
-              placeholder="Your Name"
+              name="firstName"
+              value={formData.firstName}
+              placeholder="Your First Name"
               required={true}
               onChange={handleChange}
-              error={errors.name}
+              error={errors.firstName}
+            />
+            <InputField
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              placeholder="Your Surname"
+              required={true}
+              onChange={handleChange}
+              error={errors.lastName}
             />
             <InputField
               type="text"
