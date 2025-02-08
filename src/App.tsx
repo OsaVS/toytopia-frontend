@@ -12,6 +12,8 @@ import Cart from "./pages/Cart";
 import ShoppingCart from "./pages/ShoppingCart";
 import Checkout from "./pages/Checkout";
 import OrderComplete from "./pages/OrderComplete";
+import Profile from "./pages/Profile";
+import CartExample from "./pages/CartExample";
 
 function App() {
   return (
@@ -31,7 +33,10 @@ function App() {
                 <Route path="ordercomplete" element={<OrderComplete />} />
                 {/* <Route path="confirmation" element={<Confirmation />} /> */}
               </Route>
+              <Route path="product/:productCode" element={<ProductPage />} />
               <Route path="addproduct" element={<ProductUpload />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="examplecart" element={<CartExample/>} />
             </Route>
           </Route>
         </Routes>

@@ -1,49 +1,63 @@
 import ProductCard from "../components/ProductCard";
-import TrayT1 from "../assets/thumbnail1.png";
-import TrayT2 from "../assets/thumbnail2.png";
-import TrayT3 from "../assets/thumbnail3.png";
-import TrayG from "../assets/TrayG.png";
-import image2 from "../assets/image2.png";
-import image3 from "../assets/image3.png";
-import image4 from "../assets/image4.png";
 import MoreProductsCard from "../components/MoreProductsCard";
+import { useParams } from "react-router-dom";
+import { useGetProductByCodeQuery } from "../features/product/productApi";
+import Loader from "../components/Loader";
+import { useEffect, useState } from "react";
+import { useAddToCartMutation } from "../features/cart/cartApi";
 
 const ProductPage = () => {
-  const images = [
-    TrayG, // Enlarged image
-    image2, // Thumbnail 1
-    image3, // Thumbnail 2
-    image4, // Thumbnail 3
-  ];
+  const { productCode } = useParams();
+  const { data, isLoading, refetch } = useGetProductByCodeQuery(productCode);
+  const [addToCart] = useAddToCartMutation();
+  const product = data?.data || null;
+  const images = product ? [product.mainImage, ...product.subImages] : [];
+  const [quantity, setQuantity] = useState(1);
 
-  const imagesColor = [
-    { color: "Black", url: TrayT1 }, // Enlarged image
-    { color: "Brown", url: TrayT2 },
-    { color: "White", url: TrayT3 }, // Thumbnail 2
-  ];
+  const handleIncrementQuantity = () => setQuantity((prev) => prev + 1);
+  const handleDecrementQuantity = () =>
+    setQuantity((prev) => (prev === 1 ? prev : prev - 1));
+
+  const handleAddToCart = () => {
+    if (product) {
+      addToCart({
+        productId: product._id,
+        quantity: quantity,
+      });
+    }
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    refetch();
+  }, [productCode]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="p-4 md:p-10">
       <div className="flex-1 h-full">
         <ProductCard
-          title="Tray Table"
-          description="Light and easy to move around with removable tray top, handy for serving snacks."
-          originalPrice="$400.00"
-          discountedPrice="$199.00"
-          // offerExpires={{ days: 2, hours: 12, minutes: 45, seconds: 5 }}
+          title={product.name}
+          description={product.description}
+          originalPrice={product.price}
           imagesGeneral={images}
-          imagesColor={imagesColor}
-          category="Living Room"
-          productCode="FUR001"
-          rating={1}
+          category={product.category}
+          productCode={product.productCode}
+          rating={5}
           noOfReviews={12}
-          isNew={true}
-          discount={50}
-          productDetails="Details about the product"
+          isNew={product.isNewProduct}
+          discount={product.discount}
           productReviews={[
             { name: "John Doe", review: "Great product!", rating: 5 },
             { name: "Jane Smith", review: "Good value for money.", rating: 4 },
           ]}
+          onAddToCart={handleAddToCart}
+          quantity={quantity}
+          onIncrementQuantity={handleIncrementQuantity}
+          onDecrementQuantity={handleDecrementQuantity}
         />
       </div>
 
