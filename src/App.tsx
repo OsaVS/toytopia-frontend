@@ -8,6 +8,10 @@ import Shop from "./pages/Shop";
 import ProductPage from "./pages/ProductPage";
 import Layout from "./components/Layout";
 import ProductUpload from "./pages/ProductUpload";
+import Cart from "./pages/Cart";
+import ShoppingCart from "./pages/ShoppingCart";
+import Checkout from "./pages/Checkout";
+import OrderComplete from "./pages/OrderComplete";
 import Profile from "./pages/Profile";
 import CartExample from "./pages/CartExample";
 
@@ -22,6 +26,13 @@ function App() {
             <Route element={<Layout />}>
               <Route path="home" element={<Home />} />
               <Route path="shop" element={<Shop />} />
+              <Route path="product" element={<ProductPage />} />
+              <Route path="cart/*" element={<Cart />}>
+                <Route index element={<ShoppingCart />} /> {/* Default */}
+                <Route path="checkout" element={<Checkout />} />
+                <Route path="ordercomplete" element={<OrderComplete />} />
+                {/* <Route path="confirmation" element={<Confirmation />} /> */}
+              </Route>
               <Route path="product/:productCode" element={<ProductPage />} />
               <Route path="addproduct" element={<ProductUpload />} />
               <Route path="profile" element={<Profile />} />

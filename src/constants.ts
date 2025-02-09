@@ -8,6 +8,8 @@ export const navItems = [
 ];
 
 import image from "./assets/shopItems/image.png"
+import product from "./assets/thumbnail2.png"
+import { colors } from "@mui/material"
 
 export const productList = [
     {
@@ -72,5 +74,32 @@ export const productList = [
         isNew: true,
         rating: 4,
         discountPercentage: 50,
+    }
+]
+
+export const cartList = [
+    {
+        imageUrl: product,
+        productCode: 1010,
+        title: "Loveseat Sofa",
+        price: 199,
+        quantity: 1,
+        color: "Black",
+    },
+    {
+        imageUrl: product,
+        productCode: 1010,
+        title: "Loveseat Sofa",
+        price: 199,
+        quantity: 1,
+        color: "Black",
+    },
+    {
+        imageUrl: product,
+        productCode: 1010,
+        title: "Loveseat Sofa",
+        price: 199,
+        quantity: 1,
+        color: "Black",
     }
 ]
