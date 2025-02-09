@@ -4,7 +4,7 @@ import { cartList } from '../constants';
 import OrderSummary from '../components/OrderSummary';
 import DoneIcon from '@mui/icons-material/Done';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
-import ProfileInputField from '../components/Profileinputfield';
+import ProfileField from '../components/ProfileField';
 import { Radio, FormControlLabel, RadioGroup } from '@mui/material';
 
 const Cart = () => {
@@ -39,25 +39,25 @@ const Cart = () => {
 
                 <div className='flex flex-col mt-4'>
                   <div className='grid grid-cols-2 gap-2'>
-                    <ProfileInputField name='firstname' label='First Name' value='' onChange={() => {}} />
-                    <ProfileInputField name='lastname' label='Last Name' value='' onChange={() => {}} />
+                    <ProfileField name='firstname' label='First Name' value='' onChange={() => {}} />
+                    <ProfileField name='lastname' label='Last Name' value='' onChange={() => {}} />
                   </div>
 
-                  <ProfileInputField name='phone' label='Phone' value='' onChange={() => {}} />
-                  <ProfileInputField name='email' label='Email' value='' onChange={() => {}} />
+                  <ProfileField name='phone' label='Phone' value='' onChange={() => {}} />
+                  <ProfileField name='email' label='Email' value='' onChange={() => {}} />
                 </div>
               </div>
 
               <div className='border-2 border-gray-400 rounded-md p-4'>
                 <span>Shipping Address</span>
                 <div className='flex flex-col mt-4'>
-                  <ProfileInputField name='streetaddress' label='Street Address' value='' onChange={() => {}} />
-                  <ProfileInputField name='country' label='Country' value='' onChange={() => {}} /> 
-                  <ProfileInputField name='city' label='Town/City' value='' onChange={() => {}} />
+                  <ProfileField name='streetaddress' label='Street Address' value='' onChange={() => {}} />
+                  <ProfileField name='country' label='Country' value='' onChange={() => {}} /> 
+                  <ProfileField name='city' label='Town/City' value='' onChange={() => {}} />
 
                   <div className='grid grid-cols-2 gap-2'>
-                    <ProfileInputField name='state' label='State' value='' onChange={() => {}} />
-                    <ProfileInputField name='zip' label='Zip' value='' onChange={() => {}} />
+                    <ProfileField name='state' label='State' value='' onChange={() => {}} />
+                    <ProfileField name='zip' label='Zip' value='' onChange={() => {}} />
                   </div>
                 </div>
                 
@@ -119,12 +119,12 @@ const Cart = () => {
 
                 <div>
                   <div>
-                    <ProfileInputField name='cardnumber' label='Card Number' value='' onChange={() => {}} />
+                    <ProfileField name='cardnumber' label='Card Number' value='' onChange={() => {}} />
                   </div>
                   
                   <div className='grid grid-cols-2 gap-2'>
-                    <ProfileInputField name='expirydate' label='Expiry Date' value='' onChange={() => {}} />
-                    <ProfileInputField name='cvv' label='CVV' value='' onChange={() => {}} />
+                    <ProfileField name='expirydate' label='Expiry Date' value='' onChange={() => {}} />
+                    <ProfileField name='cvv' label='CVV' value='' onChange={() => {}} />
                   </div>
                 </div>
               </div>
