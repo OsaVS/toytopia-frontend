@@ -125,8 +125,14 @@ const SignUp = () => {
       await signup(formData).unwrap();
       successMessage("Account created successfully");
       navigate("/");
-    } catch (err) {
-      errorView("Registration failed, please try again");
+    } catch (err: any) {
+      if (err?.data?.message) {
+        errorView(err.data.message);
+      } else {
+        errorView(
+          "Registration failed. Please check your details and try again."
+        );
+      }
     }
   };
 
