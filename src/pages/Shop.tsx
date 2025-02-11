@@ -1,55 +1,61 @@
-import React, { useState } from "react";
-import { Grid, Typography, Box } from "@mui/material";
-import ProductCard from "../components/ShopCard";
-import productImage from "../assets/shopItems/image.png";
+import { useEffect, useState } from "react";
 import FilterComponent from "../components/Filter";
-import Newsletter from "../components/Newsletter";
+import { useGetProductsByCategoryAndPriceMutation } from "../features/product/productApi";
+import Loader from "../components/Loader";
+import ProductItem from "../components/ProductItem";
+import { ProductData } from "../types/product";
 
 const Shop = () => {
-  const [category, setCategory] = useState<string>("All Rooms"); // State to track selected category
+  const [category, setCategory] = useState<string>("All");
+  const [selectedPrice, setSelectedPrice] = useState<string>("All");
+
+  const [fetchProducts, { data, isLoading }] =
+    useGetProductsByCategoryAndPriceMutation();
+
+  useEffect(() => {
+    fetchProducts({ category, priceRange: selectedPrice });
+  }, [category, selectedPrice]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Main Content Section with padding */}
-      <div className="flex-1 pl-4">
-        <Grid container spacing={2} sx={{ padding: 2 }}>
-          {/* Left Side - Filter Component */}
-          <Grid item xs={12} md={3}>
-            <FilterComponent setCategory={setCategory} />
-          </Grid>
-
-          {/* Right Side - Product Cards */}
-          <Grid item xs={12} md={9}>
-            {/* Dynamic Title for the page */}
-            <Typography variant="h4" sx={{ mb: 3 }}>
-              {category}
-            </Typography>
-
-            {/* Product Cards Grid */}
-            <Grid container spacing={3}>
-              {Array.from({ length: 9 }).map((_, index) => (
-                <Grid item xs={12} sm={6} md={4} key={index}>
-                  <ProductCard
-                    imageUrl={productImage}
-                    title={`Loveseat Sofa ${index + 1}`}
-                    originalPrice={400}
-                    discountedPrice={199}
-                    isNew={index % 2 === 0}
-                    discountPercentage={50}
-                    rating={4}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </Grid>
-        </Grid>
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-4 xs:px-5 sm:px-10 sd:px-16 xl:px-24 mt-5">
+        <div className="col-span-1 md:col-span-2 xl:col-span-1 xl:pr-5 2xl:pr-0">
+          <FilterComponent
+            setCategory={setCategory}
+            selectedCategory={category}
+            setSelectedPrice={setSelectedPrice}
+            selectedPrice={selectedPrice}
+          />
+        </div>
+        <div className="col-span-3 md:col-span-2 xl:col-span-3">
+          <p className="text-lg font-medium mb-3">{category}</p>
+          <div className="grid xs:grid-cols-1 md:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-5 py-5">
+            {data?.data?.length > 0 ? (
+              data.data.map((product: ProductData) => (
+                <ProductItem
+                  key={product.productCode}
+                  imageUrl={product.mainImage}
+                  productCode={product.productCode}
+                  title={product.name}
+                  originalPrice={product.price}
+                  isNew={product.isNewProduct}
+                  rating={5}
+                  discountPercentage={product.discount}
+                />
+              ))
+            ) : (
+              <div className="col-span-full text-center text-gray-500">
+                No products found.
+              </div>
+            )}
+          </div>
+        </div>
       </div>
-
-      {/* Newsletter Footer with no padding */}
-      <Box sx={{ width: "100%", mt: "auto", padding: 0 }}>
-        <Newsletter />
-      </Box>
-    </div>
+    </>
   );
 };
 

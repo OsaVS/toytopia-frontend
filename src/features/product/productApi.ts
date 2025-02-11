@@ -41,6 +41,13 @@ export const productApi = createApi({
         body: { amount },
       }),
     }),
+    getProductsByCategoryAndPrice: builder.mutation({
+      query: ({ category, priceRange }) => ({
+        url: "products/category-price",
+        method: "POST",
+        body: { category, priceRange },
+      }),
+    }),
   }),
 });
 
@@ -50,4 +57,5 @@ export const {
   useGetProductByIdQuery,
   useGetProductByCodeQuery,
   useGetRandomProductsMutation,
+  useGetProductsByCategoryAndPriceMutation,
 } = productApi;
