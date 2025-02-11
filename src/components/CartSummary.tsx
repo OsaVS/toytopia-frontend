@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Radio, FormControlLabel, RadioGroup } from '@mui/material';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 interface CartSummaryProps {
   subTotal: number;
@@ -9,6 +10,18 @@ interface CartSummaryProps {
 //   costShipping: number;
 //   pickupPercentage: number;
 }
+
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 320,
+      sm: 425,  // Custom small breakpoint
+      md: 768,  // Custom medium breakpoint
+      lg: 800, // Custom large breakpoint
+      xl: 1024, // Custom extra-large breakpoint
+    },
+  },
+});
 
 const CartSummary: React.FC<CartSummaryProps> = ({
   subTotal,
@@ -61,91 +74,98 @@ const CartSummary: React.FC<CartSummaryProps> = ({
   const total = subTotal + shippingCost + pickupDecrease;
 
   return (
-    <div className="border-gray-400 border-2 mm:p-4 lg:m-2 rounded-lg">
+    <div className="border-gray-400 border-2 lg:m-2 rounded-lg">
       <div className="flex flex-col text-2xl font-bold">
-        <span className='font-semibold text-lg mm:text-xl pr-4 pl-4 pt-4'>Cart Summary</span>
+        <span className='font-semibold text-lg mm:text-xl pr-4 pl-4 pt-4 xl:pr-8 xl:pl-8 xl:pt-8'>Cart Summary</span>
 
-        <RadioGroup
-          aria-label="shipping"
-          name="shipping"
-          value={selectedOption}
-          onChange={handleOptionChange}
-          sx={{ gap: 2,
-            padding: '16px',
-           }}
-        >
-          <div className="flex justify-between w-full border-2 border-gray-400 focus-within:border-black p-2 rounded-lg items-center">
-            <FormControlLabel 
-            value="free" 
-            control={<Radio sx={{
-                        color: 'black', // Unchecked color
-                        '&.Mui-checked': {
-                        color: 'black', // Checked color
-                        },
-                    }}/>} 
-            label={<div className="flex justify-between w-full text-sm mm:text-base"><span>Free shipping</span><span>$0.00</span></div>} 
-            sx={{
-                    width: '100%', 
-                    '& .MuiFormControlLabel-label': {
+        <ThemeProvider theme={theme}>
+          <RadioGroup
+            aria-label="shipping"
+            name="shipping"
+            value={selectedOption}
+            onChange={handleOptionChange}
+            sx={{ gap: 2,
+              padding: {
+                xl: '32px',
+                xs: '16px',
+              },
+            }}
+          >
+            <div className="flex justify-between w-full border-2 border-gray-400 focus-within:border-black p-2 rounded-lg items-center">
+              <FormControlLabel 
+              value="free" 
+              control={<Radio sx={{
+                          color: 'black', // Unchecked color
+                          '&.Mui-checked': {
+                          color: 'black', // Checked color
+                          },
+                      }}/>} 
+              label={<div className="flex justify-between w-full text-sm mm:text-base"><span>Free shipping</span><span>$0.00</span></div>} 
+              sx={{
                       width: '100%', 
-                    },
-                  }}/>
-          </div>
-          
-          <div className="flex justify-between w-full border-2 border-gray-400 focus-within:border-black p-2 rounded-lg items-center">
-            <FormControlLabel
-                value="shipping"
-                control={<Radio sx={{
-                    color: 'black', // Unchecked color
-                    '&.Mui-checked': {
-                    color: 'black', // Checked color
-                    },
-                }}/>}
-                label={<div className="flex justify-between w-full text-sm mm:text-base"><span>Express shipping</span><span className='flex'>+${costShipping}.00</span></div>}
-                sx={{
-                    width: '100%', 
-                    '& .MuiFormControlLabel-label': {
+                      '& .MuiFormControlLabel-label': {
+                        width: '100%', 
+                      },
+                    }}/>
+            </div>
+            
+            <div className="flex justify-between w-full border-2 border-gray-400 focus-within:border-black p-2 rounded-lg items-center">
+              <FormControlLabel
+                  value="shipping"
+                  control={<Radio sx={{
+                      color: 'black', // Unchecked color
+                      '&.Mui-checked': {
+                      color: 'black', // Checked color
+                      },
+                  }}/>}
+                  label={<div className="flex justify-between w-full text-sm mm:text-base"><span>Express shipping</span><span className='flex'>+${costShipping}.00</span></div>}
+                  sx={{
                       width: '100%', 
-                    },
-                  }}
-            />
-          </div>
-          <div className="flex justify-between w-full border-2 border-gray-400 focus-within:border-black p-2 rounded-lg items-center">
-            <FormControlLabel
-                value="pickup"
-                control={<Radio sx={{
-                    color: 'black', // Unchecked color
-                    '&.Mui-checked': {
-                    color: 'black', // Checked color
-                    },
-                }}/>}
-                label={<div className="flex justify-between w-full text-sm mm:text-base"><span>PickUp</span><span className='flex'>%{pickupPercentage}</span></div>}
-                sx={{
-                    width: '100%', 
-                    '& .MuiFormControlLabel-label': {
+                      '& .MuiFormControlLabel-label': {
+                        width: '100%', 
+                      },
+                    }}
+              />
+            </div>
+            <div className="flex justify-between w-full border-2 border-gray-400 focus-within:border-black p-2 rounded-lg items-center">
+              <FormControlLabel
+                  value="pickup"
+                  control={<Radio sx={{
+                      color: 'black', // Unchecked color
+                      '&.Mui-checked': {
+                      color: 'black', // Checked color
+                      },
+                  }}/>}
+                  label={<div className="flex justify-between w-full text-sm mm:text-base"><span>PickUp</span><span className='flex'>%{pickupPercentage}</span></div>}
+                  sx={{
                       width: '100%', 
-                    },
-                  }}
-            />
-           </div>
-        </RadioGroup>
+                      '& .MuiFormControlLabel-label': {
+                        width: '100%', 
+                      },
+                    }}
+              />
+            </div>
+          </RadioGroup>
+        </ThemeProvider>
       </div>
 
-      <div className="flex justify-between border-b border-gray-300 p-4">
+      <div className="flex justify-between border-b border-gray-300 mx-4 xl:mx-8 py-4">
         <p className='text-gray-800 text-base sd:text-lg'>Subtotal</p>
         <p>${subTotal.toFixed(2)}</p>
       </div>
 
-      <div className="flex justify-between p-4">
+      <div className="flex justify-between mx-4 xl:mx-8 py-4">
         <p className='text-base sd:text-xl font-bold'>Total</p>
         <p>${total.toFixed(2)}</p>
       </div>
 
+      <div className='p-4 xl:px-8 xl:pb-8'>
         <Link to="/cart/checkout">
           <button className="bg-black text-white sd:text-xl p-4 rounded-lg w-full">
               Checkout
           </button>
         </Link>
+      </div>
     </div>
   );
 };
