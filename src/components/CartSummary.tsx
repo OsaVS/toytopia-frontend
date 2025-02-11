@@ -100,7 +100,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
                           color: 'black', // Checked color
                           },
                       }}/>} 
-              label={<div className="flex justify-between w-full text-sm mm:text-base"><span>Free shipping</span><span>$0.00</span></div>} 
+              label={<div className="flex justify-between w-full text-sm mm:text-base md:text-xs xl:text-base"><span>Free shipping</span><span>Rs.0.00</span></div>} 
               sx={{
                       width: '100%', 
                       '& .MuiFormControlLabel-label': {
@@ -118,7 +118,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
                       color: 'black', // Checked color
                       },
                   }}/>}
-                  label={<div className="flex justify-between w-full text-sm mm:text-base"><span>Express shipping</span><span className='flex'>+${costShipping}.00</span></div>}
+                  label={<div className="flex justify-between w-full text-sm mm:text-base md:text-xs xl:text-base"><span>Express shipping</span><span className='flex'>+Rs.{costShipping}.00</span></div>}
                   sx={{
                       width: '100%', 
                       '& .MuiFormControlLabel-label': {
@@ -136,7 +136,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
                       color: 'black', // Checked color
                       },
                   }}/>}
-                  label={<div className="flex justify-between w-full text-sm mm:text-base"><span>PickUp</span><span className='flex'>%{pickupPercentage}</span></div>}
+                  label={<div className="flex justify-between w-full text-sm mm:text-base md:text-xs xl:text-base"><span>PickUp</span><span className='flex'>%{pickupPercentage}</span></div>}
                   sx={{
                       width: '100%', 
                       '& .MuiFormControlLabel-label': {
@@ -151,12 +151,12 @@ const CartSummary: React.FC<CartSummaryProps> = ({
 
       <div className="flex justify-between border-b border-gray-300 mx-4 xl:mx-8 py-4">
         <p className='text-gray-800 text-base sd:text-lg'>Subtotal</p>
-        <p>${subTotal.toFixed(2)}</p>
+        <p>Rs.{subTotal.toFixed(2)}</p>
       </div>
 
       <div className="flex justify-between mx-4 xl:mx-8 py-4">
         <p className='text-base sd:text-xl font-bold'>Total</p>
-        <p>${total.toFixed(2)}</p>
+        <p>Rs.{total.toFixed(2)}</p>
       </div>
 
       <div className='p-4 xl:px-8 xl:pb-8'>

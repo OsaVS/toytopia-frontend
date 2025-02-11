@@ -22,10 +22,10 @@ const ShoppingCart = () => {
     <div className='px-10 sd:px-16 md:px-20'>
         <div className='flex flex-col mt-20 mb-10'>
             <div className='flex justify-center items-center text-4xl font-semibold pb-9'>Cart</div>
-            <div className='flex flex-row justify-between md:grid md:grid-cols-3 gap-4'>
-                <div className='flex items-center text-left gap-4 pb-6 pr-8 mm:pr-20 md:pr-8 lg:pr-14 text-black border-black border-b-2 text-sm'><div className='flex w-10 h-10 rounded-full bg-black justify-center items-center text-white'>1</div> <span className='lg:text-xl'>Shopping cart</span></div>
-                <div className='flex items-center text-left text-gray-300 gap-4 pb-6 md:pr-8 lg:pr-14 text-sm'><div className='flex w-10 h-10 rounded-full bg-gray-300 justify-center items-center text-white'>2</div><span className='hidden md:block lg:text-xl'>Checkout details</span></div>
-                <div className='hidden md:flex items-center text-left text-gray-300 gap-4 pb-6 md:pr-8 pr-14 text-sm'><div className='flex w-10 h-10 rounded-full bg-gray-300 justify-center items-center text-white'>3</div><span className='lg:text-xl'>Order complete</span></div>
+            <div className='flex flex-row w-full justify-between xl:grid xl:grid-cols-3 gap-4'>
+                <div className='flex items-center text-left gap-4 md:gap-2 xl:gap-4 pb-6 pr-8 mm:pr-20 md:pr-8 lg:pr-14 text-black border-black border-b-2 text-sm'><div className='flex w-10 h-10 rounded-full bg-black justify-center items-center text-white'>1</div> <span className='xl:text-xl'>Shopping cart</span></div>
+                <div className='flex items-center text-left text-gray-300 gap-4 md:gap-2 xl:gap-4 pb-6 md:pr-8 lg:pr-14 text-sm'><div className='flex w-10 h-10 rounded-full bg-gray-300 justify-center items-center text-white'>2</div><span className='hidden md:block xl:text-xl'>Checkout details</span></div>
+                <div className='hidden md:flex items-center text-left text-gray-300 gap-4 md:gap-2 xl:gap-4 pb-6 md:pr-8 pr-14 text-sm'><div className='flex w-10 h-10 rounded-full bg-gray-300 justify-center items-center text-white'>3</div><span className='xl:text-xl'>Order complete</span></div>
             </div>
         </div>
 
@@ -47,11 +47,11 @@ const ShoppingCart = () => {
                             <div className='flex flex-row items-center gap-4'>
                               <img src={cart.imageUrl}></img>
                               <div className='flex flex-col'>
-                                <div>{cart.title}</div>
-                                <div className='text-gray-400 text-xs mm:text-sm'>Color:{cart.color}</div>
+                                <div className='md:text-sm xl:text-base'>{cart.title}</div>
+                                <div className='text-gray-400 text-xs mm:text-sm md:text-xs xl:text-sm'>Color:{cart.color}</div>
                                 <div className="xl:hidden flex items-center justify-between w-[75%] rounded-lg p-2 space-x-2 border border-gray-400 border-2 mt-4">
                                   <button className='text-gray-500' onClick={decrementQuantity}>-</button>
-                                  <span className='text-black'>{cart.quantity}</span>
+                                  <span className='text-black md:text-xs'>{cart.quantity}</span>
                                   <button className='text-gray-500' onClick={incrementQuantity}>+</button>
                                 </div>
                               </div>
@@ -67,12 +67,12 @@ const ShoppingCart = () => {
                           </td>
 
                           <td className='text-right sd:text-center py-4'>
-                            <div className='flex flex-col'>
-                              <div>${cart.price}.00</div>
+                            <div className='flex flex-col md:text-sm xl:text-base'>
+                              <div>Rs.{cart.price}.00</div>
                               <div className='sd:hidden'><ClearIcon sx={{color:"red"}}/></div>
                             </div>
                           </td>
-                          <td className='hidden sd:table-cell text-right py-4'>${cart.price * cart.quantity}.00</td>
+                          <td className='hidden sd:table-cell text-right py-4 md:text-sm xl:text-base'>Rs.{cart.price * cart.quantity}.00</td>
                           <td className='hidden sd:table-cell text-right py-4'><ClearIcon sx={{color:"red"}}/></td>
                       </tr>
                     ))}
