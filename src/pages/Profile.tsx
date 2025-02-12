@@ -3,6 +3,7 @@ import ProfileField from "../components/ProfileField";
 import Button from "../components/Button";
 import ProfileSidebar from "../components/ProfileSideBar";
 import MobileProfileMenu from "../components/MobileProfileMenu";
+import AccountTable from "../components/AccountTable";
 
 const ProfilePage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -43,12 +44,10 @@ const ProfilePage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col px-4 md:px-20">
-      {/* Top Centered Title */}
       <div className="w-full flex justify-center items-center py-6">
         <h1 className="text-2xl font-semibold">My Account</h1>
       </div>
 
-      {/* Mobile View */}
       <div className="block md:hidden">
         <MobileProfileMenu
           onChangeSection={handleSectionChange}
@@ -57,9 +56,7 @@ const ProfilePage: React.FC = () => {
         />
       </div>
 
-      {/* Desktop View */}
       <div className="flex flex-col md:flex-row">
-        {/* Left Side - Desktop */}
         <div className="hidden md:block w-full md:w-3/12 lg:w-2/12 p-4">
           <ProfileSidebar
             onChangeSection={handleSectionChange}
@@ -67,17 +64,14 @@ const ProfilePage: React.FC = () => {
           />
         </div>
 
-        {/* Right Side (Full Width for Form) */}
-        <div className="w-full md:w-9/12 lg:w-10/12 p-4">
+        <div className="w-full md:w-9/12 lg:w-10/12 ">
           <div className="w-full p-4 md:p-6 rounded-lg">
             <h2 className="text-xl font-semibold mb-4">
               {activeSection} Details
             </h2>
 
-            {/* Rest of your existing form content */}
             {activeSection === "Account" && (
               <div className="space-y-5">
-                {/* Profile Fields */}
                 <ProfileField
                   name="firstName"
                   label="First Name"
@@ -110,7 +104,6 @@ const ProfilePage: React.FC = () => {
                   onChange={handleInputChange}
                 />
 
-                {/* Password Fields */}
                 <h2 className="text-xl font-semibold mt-8">Password</h2>
 
                 <ProfileField
@@ -145,8 +138,12 @@ const ProfilePage: React.FC = () => {
                 />
               </div>
             )}
-            {activeSection === "Address" && <div>Address Details</div>}
-            {activeSection === "Orders" && <div>Order History</div>}
+            {activeSection === "Address" && <div>AccountTable</div>}
+            {activeSection === "Orders" && (
+              <div>
+                <AccountTable></AccountTable>
+              </div>
+            )}
             {activeSection === "Wishlist" && <div>Wishlist Items</div>}
           </div>
         </div>

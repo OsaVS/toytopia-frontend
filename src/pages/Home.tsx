@@ -105,6 +105,23 @@ const Home = () => {
           </p>
         </div>
       </div>
+
+      <div className="grid items-center justify-center xs:px-5 sm:px-10 sd:px-16 xl:px-24">
+        <div className="text-center">
+          <p className="text-gray-500 font-semibold mb-2">NEWSFEED</p>
+          <p className="text-2xl sd:text-3xl font-semibold mb-2">Instagram</p>
+          <p className="font-medium mb-2">
+            Follow us on social media for more discount & promotions
+          </p>
+          <p className="text-gray-500 font-medium">@toytopia_official</p>
+        </div>
+        <div className="grid grid-cols-1 sd:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 items-center justify-center xs:gap-5 md:gap-10 my-8 mx-auto">
+          <div className="w-60 h-60 bg-gray-500"></div>
+          <div className="w-60 h-60 bg-gray-500"></div>
+          <div className="w-60 h-60 bg-gray-500"></div>
+          <div className="w-60 h-60 bg-gray-500"></div>
+        </div>
+      </div>
     </>
   );
 };
