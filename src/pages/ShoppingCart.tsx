@@ -1,8 +1,6 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
 import { cartList } from '../constants';
 import ClearIcon from '@mui/icons-material/Clear';
-import { red } from '@mui/material/colors';
 import CartSummary from '../components/CartSummary';
 
 const ShoppingCart = () => {
@@ -20,7 +18,7 @@ const ShoppingCart = () => {
 
   return (
     <div className='px-10 sd:px-16 md:px-20'>
-        <div className='flex flex-col mt-20 mb-10'>
+        <div className='flex flex-col mt-20 mb-10 px-0 lg:px-5'>
             <div className='flex justify-center items-center text-4xl font-semibold pb-9'>Cart</div>
             <div className='flex flex-row w-full justify-between xl:grid xl:grid-cols-3 gap-4'>
                 <div className='flex items-center text-left gap-4 md:gap-2 xl:gap-4 pb-6 pr-8 mm:pr-20 md:pr-8 lg:pr-14 text-black border-black border-b-2 text-sm'><div className='flex w-10 h-10 rounded-full bg-black justify-center items-center text-white'>1</div> <span className='xl:text-xl'>Shopping cart</span></div>
