@@ -7,7 +7,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logOut } from "../features/auth/authSlice";
 import { navItems } from "../constants";
-import logo from '../assets/logo.png'
+import logo from "../assets/logo.png";
+import { useCart } from "../context/CartContext";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,6 +16,7 @@ const NavBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+  const { cartCount } = useCart();
 
   const handleLogout = () => {
     dispatch(logOut());
@@ -28,7 +30,7 @@ const NavBar = () => {
   return (
     <>
       <div className="xs:hidden md:flex h-16 items-center justify-between md:px-20">
-        <img src={logo} alt="" className="w-24 h-16 xs:hidden md:block"/>
+        <img src={logo} alt="" className="w-24 h-16 xs:hidden md:block" />
         <div>
           <ul className="flex items-center gap-5">
             {navItems.map((item) => (
@@ -68,7 +70,16 @@ const NavBar = () => {
               </div>
             )}
           </div>
-          <LocalMallOutlinedIcon sx={{ fontSize: 20 }} />
+          <div className="relative">
+            <Link to="/cart">
+              <LocalMallOutlinedIcon sx={{ fontSize: 20, cursor: "pointer" }} />
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-grn text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
+                  {cartCount}
+                </span>
+              )}
+            </Link>
+          </div>
         </div>
       </div>
 

@@ -1,104 +1,180 @@
-import React from 'react'
-import { cartList } from '../constants';
-import ClearIcon from '@mui/icons-material/Clear';
-import CartSummary from '../components/CartSummary';
+import { TP_BASE } from "../constants";
+import ClearIcon from "@mui/icons-material/Clear";
+import CartSummary from "../components/CartSummary";
+import Loader from "../components/Loader";
+import { useCart } from "../context/CartContext";
 
 const ShoppingCart = () => {
-  const[quantity, setQuantity] = React.useState(1);
-  const[deliveryMethod, setDeliveryMethod] = React.useState('free');
+  const { cart, isLoading, addToCart, removeFromCart } = useCart();
 
-  const incrementQuantity = () => setQuantity(prev => prev + 1);
-  const decrementQuantity = () => setQuantity(prev => (prev === 1 ? prev : prev - 1));
+  const handleAddToCart = async (productId: string, quantity: number) => {
+    await addToCart(productId, quantity);
+  };
 
-  const calculateSubtotal = () => {
-    return cartList.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  }
+  const handleRemoveFromCart = async (productId: string) => {
+    await removeFromCart(productId);
+  };
 
-  const subTotal = calculateSubtotal();
+  const calculateTotal = () => {
+    return cart?.reduce((total: number, item: any) => {
+      const itemPrice = item.product?.price || 0;
+      return total + itemPrice * item.quantity;
+    }, 0);
+  };
+
+  const totalAmount = calculateTotal();
+
+  if (isLoading) return <Loader />;
 
   return (
-    <div className='px-10 sd:px-16 md:px-20'>
-        <div className='flex flex-col mt-20 mb-10 px-0 lg:px-5'>
-            <div className='flex justify-center items-center text-4xl font-semibold pb-9'>Cart</div>
-            <div className='flex flex-row w-full justify-between xl:grid xl:grid-cols-3 gap-4'>
-                <div className='flex items-center text-left gap-4 md:gap-2 xl:gap-4 pb-6 pr-8 mm:pr-20 md:pr-8 lg:pr-14 text-black border-black border-b-2 text-sm'><div className='flex w-10 h-10 rounded-full bg-black justify-center items-center text-white'>1</div> <span className='xl:text-xl'>Shopping cart</span></div>
-                <div className='flex items-center text-left text-gray-300 gap-4 md:gap-2 xl:gap-4 pb-6 md:pr-8 lg:pr-14 text-sm'><div className='flex w-10 h-10 rounded-full bg-gray-300 justify-center items-center text-white'>2</div><span className='hidden md:block xl:text-xl'>Checkout details</span></div>
-                <div className='hidden md:flex items-center text-left text-gray-300 gap-4 md:gap-2 xl:gap-4 pb-6 md:pr-8 pr-14 text-sm'><div className='flex w-10 h-10 rounded-full bg-gray-300 justify-center items-center text-white'>3</div><span className='xl:text-xl'>Order complete</span></div>
+    <div className="px-10 sd:px-16 md:px-20">
+      <div className="flex flex-col mt-14 mb-10 px-0 lg:px-5">
+        <div className="flex justify-center items-center text-4xl font-semibold pb-9">
+          Cart
+        </div>
+        <div className="flex flex-row w-full justify-between xl:grid xl:grid-cols-3 gap-4">
+          <div className="flex items-center text-left gap-4 md:gap-2 xl:gap-4 pb-6 pr-8 mm:pr-20 md:pr-8 lg:pr-14 text-black border-black border-b-2 text-sm">
+            <div className="flex w-10 h-10 rounded-full bg-black justify-center items-center text-white">
+              1
+            </div>{" "}
+            <span className="xl:text-xl">Shopping cart</span>
+          </div>
+          <div className="flex items-center text-left text-gray-300 gap-4 md:gap-2 xl:gap-4 pb-6 md:pr-8 lg:pr-14 text-sm">
+            <div className="flex w-10 h-10 rounded-full bg-gray-300 justify-center items-center text-white">
+              2
             </div>
+            <span className="hidden md:block xl:text-xl">Checkout details</span>
+          </div>
+          <div className="hidden md:flex items-center text-left text-gray-300 gap-4 md:gap-2 xl:gap-4 pb-6 md:pr-8 pr-14 text-sm">
+            <div className="flex w-10 h-10 rounded-full bg-gray-300 justify-center items-center text-white">
+              3
+            </div>
+            <span className="xl:text-xl">Order complete</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col md:flex-row">
+        <div className="flex flex-col w-full md:w-[60%] 2xl:w-[50%] md:mt-4 md:mr-2 xl:m-4">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b-2 border-black">
+                <th className="text-left pb-4 font-semibold md:pr-4 lg:pr-10">
+                  Product
+                </th>
+                <th className="hidden lg:table-cell text-left pb-4 font-semibold">
+                  Quantity
+                </th>
+                <th className="hidden sd:table-cell text-center pb-4 font-semibold">
+                  Price
+                </th>
+                <th className="hidden sd:table-cell text-right whitespace-nowrap pb-4 font-semibold">
+                  Subtotal
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {cart?.length === 0 ? (
+                <td colSpan={4} className="text-center pt-5">
+                  Your cart is empty
+                </td>
+              ) : (
+                cart?.map((item: any) => (
+                  <tr key={item.productId} className="border-b border-gray-400">
+                    <td className="text-left py-4">
+                      <div className="flex flex-row items-center gap-4">
+                        <img
+                          src={`${TP_BASE}${item.product?.mainImage}`}
+                          width={100}
+                          height={100}
+                        ></img>
+                        <div className="flex flex-col">
+                          <div className="md:text-sm xl:text-base">
+                            {item.product?.name}
+                          </div>
+                          <div className="xl:hidden flex items-center justify-between w-[75%] rounded-lg p-2 space-x-2 border-2 border-gray-400 mt-4">
+                            <button
+                              className="text-gray-500"
+                              onClick={() =>
+                                item.quantity > 1
+                                  ? handleAddToCart(item.productId, -1)
+                                  : handleRemoveFromCart(item.productId)
+                              }
+                            >
+                              -
+                            </button>
+                            <span className="text-black md:text-xs">
+                              {item.quantity}
+                            </span>
+                            <button
+                              className="text-gray-500"
+                              onClick={() => handleAddToCart(item.productId, 1)}
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td className="hidden xl:flex items-center justify-center py-4">
+                      <div className="flex items-center justify-between xl:w-[90%] rounded-lg p-2 space-x-2 border-2 border-gray-400 mt-4">
+                        <button
+                          className="text-gray-500"
+                          onClick={() =>
+                            item.quantity > 1
+                              ? handleAddToCart(item.productId, -1)
+                              : handleRemoveFromCart(item.productId)
+                          }
+                        >
+                          -
+                        </button>
+                        <span className="text-black">{item.quantity}</span>
+                        <button
+                          className="text-gray-500"
+                          onClick={() => handleAddToCart(item.productId, 1)}
+                        >
+                          +
+                        </button>
+                      </div>
+                    </td>
+
+                    <td className="text-right sd:text-center py-4">
+                      <div className="flex flex-col md:text-sm xl:text-base">
+                        <div>Rs.{item.product?.price}.00</div>
+                        <div className="sd:hidden">
+                          <ClearIcon
+                            sx={{
+                              color: "red",
+                              "&:hover": { cursor: "pointer" },
+                            }}
+                            onClick={() => handleRemoveFromCart(item.productId)}
+                          />
+                        </div>
+                      </div>
+                    </td>
+                    <td className="hidden sd:table-cell text-right py-4 md:text-sm xl:text-base">
+                      Rs.{item.product?.price * item.quantity}.00
+                    </td>
+                    <td className="hidden sd:table-cell text-right py-4">
+                      <ClearIcon
+                        sx={{ color: "red", "&:hover": { cursor: "pointer" } }}
+                        onClick={() => handleRemoveFromCart(item.productId)}
+                      />
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
 
-        <div className='flex flex-col md:flex-row'>
-            <div className='flex flex-col w-full md:w-[60%] 2xl:w-[50%] md:mt-4 md:mr-2 xl:m-4'>
-              <table className='w-full'>
-                  <thead>
-                      <tr className='border-b-2 border-black'>
-                          <th className='text-left pb-4 font-semibold md:pr-4 lg:pr-10' >Product</th>
-                          <th className='hidden lg:table-cell text-left pb-4 font-semibold' >Quantity</th>
-                          <th className='hidden sd:table-cell text-center pb-4 font-semibold' >Price</th>
-                          <th className='hidden sd:table-cell text-right whitespace-nowrap pb-4 font-semibold'>Subtotal</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                    {cartList.map((cart, index) => (
-                      <tr key={index} className='border-b border-gray-400'>
-                          <td className='text-left py-4'>
-                            <div className='flex flex-row items-center gap-4'>
-                              <img src={cart.imageUrl}></img>
-                              <div className='flex flex-col'>
-                                <div className='md:text-sm xl:text-base'>{cart.title}</div>
-                                <div className='text-gray-400 text-xs mm:text-sm md:text-xs xl:text-sm'>Color:{cart.color}</div>
-                                <div className="xl:hidden flex items-center justify-between w-[75%] rounded-lg p-2 space-x-2 border border-gray-400 border-2 mt-4">
-                                  <button className='text-gray-500' onClick={decrementQuantity}>-</button>
-                                  <span className='text-black md:text-xs'>{cart.quantity}</span>
-                                  <button className='text-gray-500' onClick={incrementQuantity}>+</button>
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-
-                          <td className='hidden xl:table-cell flex items-center justify-center py-4'>
-                            <div className="flex items-center justify-between xl:w-[90%] rounded-lg p-2 space-x-2 border border-gray-400 border-2 mt-4">
-                              <button className='text-gray-500' onClick={decrementQuantity}>-</button>
-                              <span className='text-black'>{cart.quantity}</span>
-                              <button className='text-gray-500' onClick={incrementQuantity}>+</button>
-                            </div>
-                          </td>
-
-                          <td className='text-right sd:text-center py-4'>
-                            <div className='flex flex-col md:text-sm xl:text-base'>
-                              <div>Rs.{cart.price}.00</div>
-                              <div className='sd:hidden'><ClearIcon sx={{color:"red"}}/></div>
-                            </div>
-                          </td>
-                          <td className='hidden sd:table-cell text-right py-4 md:text-sm xl:text-base'>Rs.{cart.price * cart.quantity}.00</td>
-                          <td className='hidden sd:table-cell text-right py-4'><ClearIcon sx={{color:"red"}}/></td>
-                      </tr>
-                    ))}
-                      {/* <tr>
-                          <td className='text-left py-4'>Product 1</td>
-
-                          <td className='flex items-center justify-center py-4'>
-                            <div className="flex items-center justify-between w-[50%] bg-gray-100 rounded-lg p-2 space-x-2">
-                              <button className='text-gray-500' onClick={decrementQuantity}>-</button>
-                              <span className='text-black'>{quantity}</span>
-                              <button className='text-gray-500' onClick={incrementQuantity}>+</button>
-                            </div>
-                          </td>
-
-                          <td className='text-left py-4'>$19.00</td>
-                          <td className='text-right py-4'>$38.00</td>
-                      </tr> */}
-                  </tbody>
-              </table>
-            </div>
-
-            <div className='flex flex-col w-full md:w-[40%] 2xl:w-[50%] pt-14 pb-14 md:pt-0 md:m-2 lg:m-0'>
-              <CartSummary subTotal={subTotal}/>
-            </div>
+        <div className="flex flex-col w-full md:w-[40%] 2xl:w-[50%] pt-14 pb-14 md:pt-0 md:m-2 lg:m-0">
+          <CartSummary subTotal={totalAmount} />
         </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default ShoppingCart
-
+export default ShoppingCart;

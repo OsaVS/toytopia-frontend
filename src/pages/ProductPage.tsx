@@ -4,15 +4,15 @@ import { useParams } from "react-router-dom";
 import { useGetProductByCodeQuery } from "../features/product/productApi";
 import Loader from "../components/Loader";
 import { useEffect, useState } from "react";
-import { useAddToCartMutation } from "../features/cart/cartApi";
+import { useCart } from "../context/CartContext";
 
 const ProductPage = () => {
   const { productCode } = useParams();
   const { data, isLoading, refetch } = useGetProductByCodeQuery(productCode);
-  const [addToCart] = useAddToCartMutation();
   const product = data?.data || null;
   const images = product ? [product.mainImage, ...product.subImages] : [];
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
 
   const handleIncrementQuantity = () => setQuantity((prev) => prev + 1);
   const handleDecrementQuantity = () =>
@@ -20,10 +20,7 @@ const ProductPage = () => {
 
   const handleAddToCart = () => {
     if (product) {
-      addToCart({
-        productId: product._id,
-        quantity: quantity,
-      });
+      addToCart(product._id, quantity);
     }
   };
 
