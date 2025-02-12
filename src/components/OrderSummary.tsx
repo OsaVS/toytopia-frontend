@@ -33,7 +33,7 @@ const OrderSummary = ({ cartList }: OrderSummaryProps
                             </div>
                         </div>
 
-                        <div>${cart.price}.00</div>
+                        <div>Rs.{cart.price}.00</div>
                     </div>
                 </div>
             ))}
@@ -46,19 +46,19 @@ const OrderSummary = ({ cartList }: OrderSummaryProps
                     shippingCost === '0' ? (
                     <div>Free</div>
                     ) : Number(shippingCost) < 0 ? (
-                    <div className='text-green-500'>-${(Math.abs(Number(shippingCost)).toFixed(2))}</div>
+                    <div className='text-green-500'>-Rs.{(Math.abs(Number(shippingCost)).toFixed(2))}</div>
                     ) : (
-                    <div className='text-red-600'>+${shippingCost}.00</div>
+                    <div className='text-red-600'>+Rs.{shippingCost}.00</div>
                     )
                 }
             </div>
             <div className='flex flex-row justify-between pt-4 border-b border-gray-300'>
                 <div>Subtotal</div>
-                <div>${subTotal}.00</div>
+                <div>Rs.{subTotal}.00</div>
             </div>
             <div className='flex flex-row justify-between pt-4 font-bold'>
                 <div>Total</div>
-                <div>${total}.00</div>
+                <div>Rs.{total}.00</div>
             </div>
         </div>
     </div>
