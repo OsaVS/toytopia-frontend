@@ -5,20 +5,16 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 interface CartSummaryProps {
   subTotal: number;
-  // deliveryMethod: string;
-  // setdeliveryMethod: (value: string) => void;
-//   costShipping: number;
-//   pickupPercentage: number;
 }
 
 const theme = createTheme({
   breakpoints: {
     values: {
       xs: 320,
-      sm: 425,  // Custom small breakpoint
-      md: 768,  // Custom medium breakpoint
-      lg: 800, // Custom large breakpoint
-      xl: 1024, // Custom extra-large breakpoint
+      sm: 425,  
+      md: 768,  
+      lg: 800, 
+      xl: 1024,
     },
   },
 });

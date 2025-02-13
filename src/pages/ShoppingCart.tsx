@@ -55,7 +55,7 @@ const ShoppingCart = () => {
       </div>
 
       <div className="flex flex-col md:flex-row">
-        <div className="flex flex-col w-full md:w-[60%] 2xl:w-[50%] md:mt-4 md:mr-2 xl:m-4">
+        <div className="flex flex-col w-full md:w-[60%] 2xl:w-[60%] md:mt-4 md:mr-2 xl:m-4">
           <table className="w-full">
             <thead>
               <tr className="border-b-2 border-black">
@@ -81,8 +81,8 @@ const ShoppingCart = () => {
               ) : (
                 cart?.map((item: any) => (
                   <tr key={item.productId} className="border-b border-gray-400">
-                    <td className="text-left py-4">
-                      <div className="flex flex-row items-center gap-4">
+                    <td className="text-left py-4 2xl:w-[45%]">
+                      <div className="flex xs:flex-col md:flex-row items-center gap-4">
                         <img
                           src={`${TP_BASE}${item.product?.mainImage}`}
                           width={100}
@@ -169,7 +169,7 @@ const ShoppingCart = () => {
           </table>
         </div>
 
-        <div className="flex flex-col w-full md:w-[40%] 2xl:w-[50%] pt-14 pb-14 md:pt-0 md:m-2 lg:m-0">
+        <div className="flex flex-col w-full md:w-[40%] 2xl:w-[40%] pt-14 pb-14 md:pt-0 md:m-2 lg:m-0">
           <CartSummary subTotal={totalAmount} />
         </div>
       </div>
