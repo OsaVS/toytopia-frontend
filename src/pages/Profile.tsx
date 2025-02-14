@@ -4,6 +4,7 @@ import Button from "../components/Button";
 import ProfileSidebar from "../components/ProfileSideBar";
 import MobileProfileMenu from "../components/MobileProfileMenu";
 import AccountTable from "../components/AccountTable";
+import { Address } from "../components/Address";
 
 const ProfilePage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -138,7 +139,11 @@ const ProfilePage: React.FC = () => {
                 />
               </div>
             )}
-            {activeSection === "Address" && <div>AccountTable</div>}
+            {activeSection === "Address" && (
+              <div>
+                <Address></Address>
+              </div>
+            )}
             {activeSection === "Orders" && (
               <div>
                 <AccountTable></AccountTable>
