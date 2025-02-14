@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
@@ -17,6 +17,10 @@ const NavBar = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { cartCount } = useCart();
+
+  useEffect(() => {
+    setIsDropdownOpen(false);
+  }, [location]);
 
   const handleLogout = () => {
     dispatch(logOut());
