@@ -54,21 +54,21 @@ const ShoppingCart = () => {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row">
-        <div className="flex flex-col w-full md:w-[60%] 2xl:w-[60%] md:mt-4 md:mr-2 xl:m-4">
+      <div className="flex flex-col lg:flex-row">
+        <div className="flex flex-col w-full lg:w-[60%] 2xl:w-[60%] md:mt-4 md:mr-2 xl:m-4">
           <table className="w-full">
             <thead>
               <tr className="border-b-2 border-black">
-                <th className="text-left pb-4 font-semibold md:pr-4 lg:pr-10">
+                <th className="text-left pb-4 font-semibold lg:pr-10">
                   Product
                 </th>
-                <th className="hidden lg:table-cell text-left pb-4 font-semibold">
+                <th className="hidden xl:table-cell text-left pb-4 font-semibold">
                   Quantity
                 </th>
-                <th className="hidden sd:table-cell text-center pb-4 font-semibold">
+                <th className="hidden sd:table-cell text-center pb-4 md:px-4 font-semibold">
                   Price
                 </th>
-                <th className="hidden sd:table-cell text-right whitespace-nowrap pb-4 font-semibold">
+                <th className="hidden sd:table-cell text-right md:pl-4 whitespace-nowrap pb-4 font-semibold">
                   Subtotal
                 </th>
               </tr>
@@ -92,7 +92,7 @@ const ShoppingCart = () => {
                           <div className="md:text-sm xl:text-base">
                             {item.product?.name}
                           </div>
-                          <div className="xl:hidden flex items-center justify-between w-[75%] rounded-lg p-2 space-x-2 border-2 border-gray-400 mt-4">
+                          <div className="xl:hidden flex items-center justify-between w-[110px] md:w-[70px] rounded-lg p-2 space-x-2 border-2 border-gray-400 mt-4">
                             <button
                               className="text-gray-500"
                               onClick={() =>
@@ -169,7 +169,7 @@ const ShoppingCart = () => {
           </table>
         </div>
 
-        <div className="flex flex-col w-full md:w-[40%] 2xl:w-[40%] pt-14 pb-14 md:pt-0 md:m-2 lg:m-0">
+        <div className="flex flex-col w-full lg:w-[40%] 2xl:w-[40%] pt-14 pb-14 lg:pt-0 lg:m-2 lg:m-0">
           <CartSummary subTotal={totalAmount} />
         </div>
       </div>
