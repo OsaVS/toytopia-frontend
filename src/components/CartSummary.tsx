@@ -96,7 +96,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
                           color: 'black', // Checked color
                           },
                       }}/>} 
-              label={<div className="flex justify-between w-full text-sm mm:text-base md:text-xs xl:text-base"><span>Free shipping</span><span>Rs.0.00</span></div>} 
+              label={<div className="flex justify-between w-full text-sm mm:text-base"><span>Free shipping</span><span>Rs.0.00</span></div>} 
               sx={{
                       width: '100%', 
                       '& .MuiFormControlLabel-label': {
@@ -114,7 +114,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
                       color: 'black', // Checked color
                       },
                   }}/>}
-                  label={<div className="flex justify-between w-full text-sm mm:text-base md:text-xs xl:text-base"><span>Express shipping</span><span className='flex'>+Rs.{costShipping}.00</span></div>}
+                  label={<div className="flex justify-between w-full text-sm mm:text-base"><span>Express shipping</span><span className='flex'>+Rs.{costShipping}.00</span></div>}
                   sx={{
                       width: '100%', 
                       '& .MuiFormControlLabel-label': {
@@ -132,7 +132,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
                       color: 'black', // Checked color
                       },
                   }}/>}
-                  label={<div className="flex justify-between w-full text-sm mm:text-base md:text-xs xl:text-base"><span>PickUp</span><span className='flex'>%{pickupPercentage}</span></div>}
+                  label={<div className="flex justify-between w-full text-sm mm:text-base"><span>PickUp</span><span className='flex'>%{pickupPercentage}</span></div>}
                   sx={{
                       width: '100%', 
                       '& .MuiFormControlLabel-label': {
