@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
+import CloseIcon from "@mui/icons-material/Close";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logOut } from "../features/auth/authSlice";
-import { navItems } from "../constants";
+import { mobileNavItems, navItems } from "../constants";
 import logo from "../assets/logo.png";
 import { useCart } from "../context/CartContext";
 
@@ -20,6 +21,7 @@ const NavBar = () => {
 
   useEffect(() => {
     setIsDropdownOpen(false);
+    setIsOpen(false);
   }, [location]);
 
   const handleLogout = () => {
@@ -33,7 +35,7 @@ const NavBar = () => {
 
   return (
     <>
-      <div className="xs:hidden md:flex h-16 items-center justify-between md:px-20">
+      <div className="xs:hidden md:flex h-[70px] items-center justify-between md:px-20 border-b-2">
         <img src={logo} alt="" className="w-24 h-16 xs:hidden md:block" />
         <div>
           <ul className="flex items-center gap-5">
@@ -87,32 +89,49 @@ const NavBar = () => {
         </div>
       </div>
 
-      <div className="xs:flex md:hidden items-center h-12 bg-grn justify-between px-5">
+      <div className="xs:flex md:hidden items-center h-[50px] pt-1 bg-white border-b-2 justify-between px-5">
         <div className="flex items-center gap-2">
           <MenuOutlinedIcon sx={{ fontSize: 16 }} onClick={toggleShowBar} />
           <p>Toytopia</p>
         </div>
-        <div className="flex items-center gap-2">
-          <LocalMallOutlinedIcon sx={{ fontSize: 20 }} />
-          <div className="h-4 w-4 rounded-full bg-black"></div>
+        <div className="relative">
+          <Link to="/cart">
+            <LocalMallOutlinedIcon sx={{ fontSize: 20, cursor: "pointer" }} />
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-grn text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
+                {cartCount}
+              </span>
+            )}
+          </Link>
         </div>
       </div>
 
       <div
-        className={`fixed left-0 top-0 w-[80%] h-svh pt-12 -z-10 transition-all duration-300 transform ${
+        className={`fixed xs:flex items-center justify-center md:hidden left-0 top-0 w-full bg-grn h-svh pt-12 z-50 transition-all duration-300 transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="pl-5 pr-20 mt-5">
-          {navItems.map((item) => (
+        <div className="absolute top-5 right-5">
+          <CloseIcon
+            sx={{
+              fontSize: 20,
+              cursor: "pointer",
+              color: "white",
+              "&:hover": { color: "black" },
+            }}
+            onClick={() => setIsOpen(false)}
+          />
+        </div>
+        <div>
+          {mobileNavItems.map((item) => (
             <div
               key={item.path}
-              className="h-10 flex items-center justify-center hover:bg-gray-500 rounded-lg mb-2"
+              className="h-10 flex items-center justify-center text-white hover:text-black rounded-lg mb-2"
             >
               <Link to={item.path}>{item.name}</Link>
             </div>
           ))}
-          <div className="h-10 flex items-center justify-center bg-red-700 hover:bg-red-800 rounded-lg mb-2">
+          <div className="h-10 min-w-40 flex items-center justify-center bg-red-700 hover:bg-red-800 rounded-lg mt-5">
             <button
               className="xs:block md:hidden text-white"
               onClick={handleLogout}

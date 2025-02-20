@@ -71,7 +71,7 @@ const Home = () => {
         </div>
       </div>
 
-      <PromotionBanner date={"2025-02-10T23:59:59"} image={hero} />
+      <PromotionBanner date={"2025-02-29T23:59:59"} image={hero} />
 
       <div className="grid grid-cols-1 sd:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 items-center justify-center xs:gap-5 md:gap-10 xs:px-5 sm:px-10 sd:px-16 xl:px-24 my-20">
         <div className="bg-[#F3F5F7] w-full h-auto grid items-start py-8 pl-6 pr-8">
