@@ -169,7 +169,7 @@ const ShoppingCart = () => {
           </table>
         </div>
 
-        <div className="flex flex-col w-full lg:w-[40%] 2xl:w-[40%] pt-14 pb-14 lg:pt-0 lg:m-2 lg:m-0">
+        <div className="flex flex-col w-full lg:w-[40%] 2xl:w-[40%] pt-14 pb-14 lg:pt-0 lg:m-0">
           <CartSummary subTotal={totalAmount} />
         </div>
       </div>

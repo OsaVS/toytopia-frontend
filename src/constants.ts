@@ -7,6 +7,15 @@ export const navItems = [
   { name: "Contact Us", path: "/contact" },
 ];
 
+export const mobileNavItems = [
+  { name: "Home", path: "/home" },
+  { name: "Shop", path: "/shop" },
+  { name: "Product", path: "/examplecart" },
+  { name: "Contact Us", path: "/contact" },
+  { name: "Cart", path: "/cart" },
+  { name: "Profile", path: "/profile" },
+];
+
 export const priceRanges = [
   "Rs.0 - 249",
   "Rs.250 - 499",
