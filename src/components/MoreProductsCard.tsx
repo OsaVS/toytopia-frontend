@@ -31,6 +31,7 @@ function MoreProductsCard() {
         <div className="flex space-x-4 sd:space-x-5 min-w-max">
           {data?.data?.map((product: ProductData) => (
             <ProductItem
+              productId={product._id}
               imageUrl={product.mainImage}
               productCode={product.productCode}
               title={product.name}

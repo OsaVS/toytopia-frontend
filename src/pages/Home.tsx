@@ -59,6 +59,7 @@ const Home = () => {
         <div className="grid xs:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5 py-10">
           {data?.data?.map((product: ProductData) => (
             <ProductItem
+              productId={product._id}
               imageUrl={product.mainImage}
               productCode={product.productCode}
               title={product.name}

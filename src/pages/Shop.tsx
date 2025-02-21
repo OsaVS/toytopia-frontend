@@ -38,6 +38,7 @@ const Shop = () => {
               data.data.map((product: ProductData) => (
                 <ProductItem
                   key={product.productCode}
+                  productId={product._id}
                   imageUrl={product.mainImage}
                   productCode={product.productCode}
                   title={product.name}
