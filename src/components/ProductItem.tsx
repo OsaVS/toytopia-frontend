@@ -2,8 +2,14 @@ import { Rating } from "@mui/material";
 import Button from "./Button";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useNavigate } from "react-router-dom";
+import {
+  useAddToWishlistMutation,
+  useGetWishlistQuery,
+  useRemoveFromWishlistMutation,
+} from "../features/wishList/wishlistApi";
 
 const ProductItem = ({
+  productId,
   imageUrl,
   productCode,
   title,
@@ -14,8 +20,26 @@ const ProductItem = ({
 }: any) => {
   const navigate = useNavigate();
 
+  const { data: wishlist, refetch } = useGetWishlistQuery(undefined);
+  const [addToWishlist] = useAddToWishlistMutation();
+  const [removeFromWishlist] = useRemoveFromWishlistMutation();
+
   const handleNavigate = (code: string): void => {
     navigate(`/product/${code}`, { replace: true });
+  };
+
+  const isWishlisted = wishlist?.items?.some(
+    (item: any) => item.productId === productId
+  );
+
+  const handleWishlistClick = async () => {
+    if (isWishlisted) {
+      await removeFromWishlist(productId);
+      refetch();
+    } else {
+      await addToWishlist(productId);
+      refetch();
+    }
   };
 
   return (
@@ -34,8 +58,17 @@ const ProductItem = ({
             </div>
           ) : null}
         </div>
-        <div className="absolute top-3 right-3 bg-white w-8 h-8 rounded-full flex items-center justify-center shadow-md shadow-slate-200 cursor-pointer hover:scale-105">
-          <FavoriteBorderIcon />
+        <div
+          className={`absolute top-3 right-3 ${
+            isWishlisted ? "bg-grn" : "bg-white"
+          } w-8 h-8 rounded-full flex items-center justify-center shadow-md shadow-slate-200 cursor-pointer hover:scale-105`}
+          onClick={handleWishlistClick}
+        >
+          {isWishlisted ? (
+            <FavoriteBorderIcon className="text-white" />
+          ) : (
+            <FavoriteBorderIcon />
+          )}
         </div>
         <div className="absolute bottom-[-20px] left-1/2 z-10 -translate-x-1/2 opacity-0 transition-all duration-300 ease-in-out group-hover:bottom-4 group-hover:opacity-100">
           <Button

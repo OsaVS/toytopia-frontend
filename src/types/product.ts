@@ -12,6 +12,7 @@ export enum ToyCategory {
 }
 
 export interface ProductData {
+  _id: string;
   productCode: string;
   name: string;
   description: string;
