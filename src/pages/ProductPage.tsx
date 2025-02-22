@@ -38,6 +38,7 @@ const ProductPage = () => {
       <div className="flex-1 h-full">
         <ProductCard
           title={product.name}
+          productId={product._id}
           description={product.description}
           originalPrice={product.price}
           imagesGeneral={images}

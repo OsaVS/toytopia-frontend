@@ -12,9 +12,15 @@ import {
 } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {
+  useAddToWishlistMutation,
+  useGetWishlistQuery,
+  useRemoveFromWishlistMutation,
+} from "../features/wishList/wishlistApi";
 
 interface ProductCardProps {
   title: string;
+  productId: string;
   description: string;
   originalPrice: number;
   imagesGeneral: string[];
@@ -31,11 +37,11 @@ interface ProductCardProps {
   quantity: number;
   onIncrementQuantity: () => void;
   onDecrementQuantity: () => void;
-  onAddToWishlist?: () => void;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
   title,
+  productId,
   description,
   originalPrice,
   imagesGeneral,
@@ -49,12 +55,29 @@ const ProductCard: React.FC<ProductCardProps> = ({
   quantity,
   onIncrementQuantity,
   onDecrementQuantity,
-  onAddToWishlist,
   productReviews,
 }) => {
   const [selectedImage, setSelectedImage] = useState(imagesGeneral[0]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [ratingValue, setRatingValue] = useState<number | null>(0);
+
+  const { data: wishlist, refetch } = useGetWishlistQuery(undefined);
+  const [addToWishlist] = useAddToWishlistMutation();
+  const [removeFromWishlist] = useRemoveFromWishlistMutation();
+
+  const isWishlisted = wishlist?.items?.some(
+    (item: any) => item.productId === productId
+  );
+
+  const handleWishlistClick = async () => {
+    if (isWishlisted) {
+      await removeFromWishlist(productId);
+      refetch();
+    } else {
+      await addToWishlist(productId);
+      refetch();
+    }
+  };
 
   const prevImage = () => {
     setSelectedImageIndex((prevIndex) => {
@@ -87,12 +110,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <div className="ml-8 mr-8 md:ml-20 md:mr-20">
       <div className="grid grid-cols-1 md:grid-cols-2 min-h-screen">
-        {/* Left Section */}
-
         <div className=" flex flex-col h-full md:pr-6 bg-white">
-          {/* Enlarged Image */}
           <div className="relative h-[70vh] min-h-[400px] max-h-[600px] flex items-center justify-center mb-4">
-            {/* NEW and 50% off tags */}
             <div className="absolute top-4 left-4 flex flex-col space-y-2">
               {isNew ? (
                 <span className="bg-white text-black text-sm sm:text-base md:text-lg px-2 py-1 rounded shadow">
@@ -139,12 +158,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </IconButton>
           </div>
 
-          {/* Thumbnails */}
           <div className="hidden md:grid grid-cols-3 gap-2 h-[30vh] overflow-y-auto">
             {imagesGeneral.map((image, index) => (
               <button
                 key={index}
-                // onClick={() => setSelectedImage(image)}
                 onClick={() => changeImage(index, image)}
                 className={`rounded-lg overflow-hidden border-2 ${
                   selectedImage === image
@@ -161,8 +178,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
             ))}
           </div>
         </div>
-
-        {/* Right Section */}
 
         <div className="w-full md:pl-6 bg-white min-h-screen">
           <p className="text-gray-600">
@@ -198,27 +213,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
             )}
           </div>
 
-          {/* <div className='pb-4 border-b'>Offer
-                    <div className='w-full h-[50px] bg-gray-200'>20 25 10</div>
-                </div> */}
-
-          {/* Color */}
-          {/* <div className="mb-6 mt-4 pb-4">
-                    <p className='text-gray-500 text-sm mb-4'>Choose Color</p>
-                    <p className='text-gray-900 text-lg mb-4'>{color}</p>
-                    <div className="flex space-x-2">
-                        {imagesColor.map((image, index) => (
-                            <button key={index} className="w-11 h-11 overflow-hidden border-2 border-gray-200 focus:border-black" onClick={() => productColor(image.color)}>   
-                                <img
-                                    className="w-full h-full object-cover"
-                                    src={image.url}
-                                    alt={image.color}
-                                />
-                            </button>
-                        ))}
-                    </div>
-                </div> */}
-
           <div className="grid grid-cols-[1fr_3fr] items-center gap-4 mt-6">
             {/* Quantity */}
             <div className="flex items-center justify-between bg-gray-100 rounded-lg p-2">
@@ -237,12 +231,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
               </button>
             </div>
 
-            {/* Wishlist */}
             <button
-              onClick={onAddToWishlist}
-              className="flex-grow border border-black bg-white text-black text-sm text-center p-2 rounded-lg hover:bg-black hover:text-white transition-colors duration-300 flex items-center justify-center"
+              onClick={handleWishlistClick}
+              className={`flex-grow border border-black ${
+                isWishlisted ? "bg-grn" : "bg-white"
+              } text-black text-sm text-center p-2 rounded-lg hover:bg-black hover:text-white transition-colors duration-300 flex items-center justify-center`}
             >
-              <FavoriteBorderIcon sx={{ color: "inherit" }} /> Wishlist
+              <FavoriteBorderIcon
+                sx={{ color: "inherit", marginRight: "5px" }}
+              />{" "}
+              {isWishlisted ? 'Remove from WishList' : 'Add to Wishlist'}
             </button>
           </div>
 
