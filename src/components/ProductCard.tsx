@@ -34,6 +34,7 @@ interface ProductCardProps {
   productReviews?: { name: string; review: string; rating: number }[];
   productQuestions?: string;
   onAddToCart?: () => void;
+  isInCart?: boolean;
   quantity: number;
   onIncrementQuantity: () => void;
   onDecrementQuantity: () => void;
@@ -52,6 +53,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   isNew,
   discount,
   onAddToCart,
+  isInCart,
   quantity,
   onIncrementQuantity,
   onDecrementQuantity,
@@ -214,7 +216,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
 
           <div className="grid grid-cols-[1fr_3fr] items-center gap-4 mt-6">
-            {/* Quantity */}
             <div className="flex items-center justify-between bg-gray-100 rounded-lg p-2">
               <button
                 className="text-gray-500 px-2"
@@ -240,17 +241,18 @@ const ProductCard: React.FC<ProductCardProps> = ({
               <FavoriteBorderIcon
                 sx={{ color: "inherit", marginRight: "5px" }}
               />{" "}
-              {isWishlisted ? 'Remove from WishList' : 'Add to Wishlist'}
+              {isWishlisted ? "Remove from WishList" : "Add to Wishlist"}
             </button>
           </div>
 
-          {/* Add to Cart */}
           <div className="border-b border-gray-200 pb-6">
             <button
               onClick={onAddToCart}
-              className="w-full mt-4 px-4 py-2 text-black bg-black-500 border border-black rounded-lg hover:bg-black hover:text-white transition-colors duration-300"
+              className={`w-full mt-4 px-4 py-2 text-black bg-black-500 border ${
+                isInCart ? "bg-red-600" : "bg-white"
+              } border-black rounded-lg hover:bg-black hover:text-white transition-colors duration-300`}
             >
-              Add to Cart
+              {isInCart ? "Remove from Cart" : "Add to Cart"}
             </button>
           </div>
 

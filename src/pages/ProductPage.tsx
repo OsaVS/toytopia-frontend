@@ -12,15 +12,20 @@ const ProductPage = () => {
   const product = data?.data || null;
   const images = product ? [product.mainImage, ...product.subImages] : [];
   const [quantity, setQuantity] = useState(1);
-  const { addToCart } = useCart();
+  const { cart, isLoading: cartLoading, addToCart, removeFromCart } = useCart();
 
   const handleIncrementQuantity = () => setQuantity((prev) => prev + 1);
   const handleDecrementQuantity = () =>
     setQuantity((prev) => (prev === 1 ? prev : prev - 1));
 
+  const isInCart = cart?.some((item: any) => item.productId === product._id);
+
   const handleAddToCart = () => {
-    if (product) {
-      addToCart(product._id, quantity);
+    if (!isInCart) {
+      addToCart(product?._id, quantity);
+      setQuantity(1);
+    } else {
+      removeFromCart(product?._id);
     }
   };
 
@@ -29,7 +34,7 @@ const ProductPage = () => {
     refetch();
   }, [productCode]);
 
-  if (isLoading) {
+  if (isLoading || cartLoading) {
     return <Loader />;
   }
 
@@ -53,6 +58,7 @@ const ProductPage = () => {
             { name: "Jane Smith", review: "Good value for money.", rating: 4 },
           ]}
           onAddToCart={handleAddToCart}
+          isInCart={isInCart}
           quantity={quantity}
           onIncrementQuantity={handleIncrementQuantity}
           onDecrementQuantity={handleDecrementQuantity}
