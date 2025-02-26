@@ -110,7 +110,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
     newValue: number | null
   ) => {
     setRatingValue(newValue);
-
   };
 
   const handleReviewChange = (event: React.ChangeEvent<HTMLInputElement>) => {
