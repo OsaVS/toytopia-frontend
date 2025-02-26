@@ -1,4 +1,3 @@
-import { productList } from "../constants";
 import { ArrowForward } from "@mui/icons-material";
 import ProductItem from "./ProductItem";
 import { useGetRandomProductsMutation } from "../features/product/productApi";

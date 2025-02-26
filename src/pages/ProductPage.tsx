@@ -18,7 +18,7 @@ const ProductPage = () => {
   const handleDecrementQuantity = () =>
     setQuantity((prev) => (prev === 1 ? prev : prev - 1));
 
-  const isInCart = cart?.some((item: any) => item.productId === product._id);
+  const isInCart = cart?.some((item: any) => item.productId === product?._id);
 
   const handleAddToCart = () => {
     if (!isInCart) {
