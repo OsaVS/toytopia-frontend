@@ -17,6 +17,7 @@ import {
   useGetWishlistQuery,
   useRemoveFromWishlistMutation,
 } from "../features/wishList/wishlistApi";
+import { useAddReviewMutation } from "../features/review/reviewApi";
 
 interface ProductCardProps {
   title: string;
@@ -33,7 +34,7 @@ interface ProductCardProps {
   productDetails?: string;
   productReviews?: { name: string; review: string; rating: number }[];
   productQuestions?: string;
-  onAddToCart?: () => void;
+  onAddToCart: () => void;
   isInCart?: boolean;
   quantity: number;
   onIncrementQuantity: () => void;
@@ -62,10 +63,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const [selectedImage, setSelectedImage] = useState(imagesGeneral[0]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [ratingValue, setRatingValue] = useState<number | null>(0);
+  const [reviewValue, setReviewValue] = useState<string>("")
 
   const { data: wishlist, refetch } = useGetWishlistQuery(undefined);
   const [addToWishlist] = useAddToWishlistMutation();
   const [removeFromWishlist] = useRemoveFromWishlistMutation();
+  const [addReview] = useAddReviewMutation();
 
   const isWishlisted = wishlist?.items?.some(
     (item: any) => item.productId === productId
@@ -108,6 +111,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
   ) => {
     setRatingValue(newValue);
   };
+
+  const handleReviewChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setReviewValue(event.target.value);
+  }
+
+  const handleSubmitReview = (event: React.FormEvent) => {
+    event.preventDefault();
+    addReview({ rating: ratingValue, review: reviewValue, productId: productId});
+  }
 
   return (
     <div className="ml-8 mr-8 md:ml-20 md:mr-20">
@@ -291,31 +303,34 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </AccordionSummary>
           <AccordionDetails>
             <Typography sx={{ fontWeight: "normal" }}>
-              <div className="mb-6">
-                <Rating
-                  name="your-rating"
-                  sx={{ "& .MuiRating-iconFilled": { color: "#343839" } }}
-                  size="small"
-                  value={ratingValue}
-                  onChange={handleRatingChange}
-                />
-                <div className="mt-6">
-                  <TextField
-                    fullWidth
-                    variant="outlined"
-                    multiline
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <button className="text-white bg-black px-4 py-2 rounded-lg">
-                            Write Review
-                          </button>
-                        </InputAdornment>
-                      ),
-                    }}
+              <form onSubmit={handleSubmitReview}>
+                <div className="mb-6">
+                  <Rating
+                    name="your-rating"
+                    sx={{ "& .MuiRating-iconFilled": { color: "#343839" } }}
+                    size="small"
+                    value={ratingValue}
+                    onChange={handleRatingChange}
                   />
+                  <div className="mt-6">
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      onChange={handleReviewChange}
+                      multiline
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <button className="text-white bg-black px-4 py-2 rounded-lg" type="submit">
+                              Write Review
+                            </button>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
+              </form>
               <div>
                 {productReviews &&
                   productReviews.map((review, index) => (
