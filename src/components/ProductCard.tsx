@@ -119,8 +119,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const handleSubmitReview = (event: React.FormEvent) => {
     event.preventDefault();
-    addReview({ rating: ratingValue, review: reviewValue });
-    console.log("Review submitted", ratingValue, reviewValue);
+    addReview({ rating: ratingValue, review: reviewValue, productId: productId});
   }
 
   return (
