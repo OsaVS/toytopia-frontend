@@ -2,6 +2,7 @@ import ProductCard from "../components/ProductCard";
 import MoreProductsCard from "../components/MoreProductsCard";
 import { useParams } from "react-router-dom";
 import { useGetProductByCodeQuery } from "../features/product/productApi";
+import { useAddReviewMutation, useGetReviewsByProductIdQuery} from "../features/review/reviewApi";
 import Loader from "../components/Loader";
 import { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
@@ -13,6 +14,10 @@ const ProductPage = () => {
   const images = product ? [product.mainImage, ...product.subImages] : [];
   const [quantity, setQuantity] = useState(1);
   const { cart, isLoading: cartLoading, addToCart, removeFromCart } = useCart();
+  const [addReview] = useAddReviewMutation();
+  // const [deleteReview] = useDeleteReviewMutation();
+  const { data: reviewsData } = useGetReviewsByProductIdQuery(product?._id);
+  const reviews = reviewsData?.data || [];
 
   const handleIncrementQuantity = () => setQuantity((prev) => prev + 1);
   const handleDecrementQuantity = () =>
@@ -53,10 +58,7 @@ const ProductPage = () => {
           noOfReviews={12}
           isNew={product.isNewProduct}
           discount={product.discount}
-          productReviews={[
-            { name: "John Doe", review: "Great product!", rating: 5 },
-            { name: "Jane Smith", review: "Good value for money.", rating: 4 },
-          ]}
+          productReviews={reviews}
           onAddToCart={handleAddToCart}
           isInCart={isInCart}
           quantity={quantity}
