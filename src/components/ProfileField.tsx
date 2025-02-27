@@ -7,6 +7,7 @@ interface ProfileFieldProps {
   type?: string;
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  required?: boolean;
 }
 
 const ProfileField: React.FC<ProfileFieldProps> = ({
@@ -15,6 +16,7 @@ const ProfileField: React.FC<ProfileFieldProps> = ({
   type = "text",
   value,
   onChange,
+  required = true,
 }) => {
   return (
     <div className="mb-3">
@@ -34,6 +36,7 @@ const ProfileField: React.FC<ProfileFieldProps> = ({
         type={type}
         value={value}
         onChange={onChange}
+        required={required}
         InputLabelProps={{
           shrink: false,
         }}
@@ -55,7 +58,7 @@ const ProfileField: React.FC<ProfileFieldProps> = ({
             },
           },
           "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#CBCBCB", 
+            borderColor: "#CBCBCB",
           },
           "& .MuiOutlinedInput-input": {
             padding: "8px 10px",
