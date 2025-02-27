@@ -3,6 +3,7 @@ import ProfileField from "./ProfileField";
 import { useAddAddressMutation } from "../features/address/addressApi";
 import Loader from "./Loader";
 import Button from "./Button";
+import { errorView, successMessage } from "../helpers/ToastHelper";
 
 export const Address = () => {
   const [formData, setFormData] = useState({
@@ -17,11 +18,20 @@ export const Address = () => {
     postalCode: "",
   });
 
-  const [addAddress, { isLoading }] = useAddAddressMutation();
+  const [addAddress, { isLoading, isSuccess }] = useAddAddressMutation();
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
-    console.log(formData);
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement> | string,
+    name?: string
+  ) => {
+    if (typeof event === "string" && name) {
+      setFormData((prev) => ({ ...prev, [name]: event }));
+    } else if (typeof event !== "string") {
+      setFormData((prev) => ({
+        ...prev,
+        [event.target.name]: event.target.value,
+      }));
+    }
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -39,8 +49,9 @@ export const Address = () => {
         country: "",
         postalCode: "",
       });
+      isSuccess && successMessage("Address added successfully");
     } catch (error) {
-      console.error("Error adding address:", error);
+      errorView("Error adding address");
     }
   };
 
