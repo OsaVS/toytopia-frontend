@@ -46,7 +46,6 @@ const ProfileField: React.FC<ProfileFieldProps> = ({
             padding: "2px",
             borderRadius: "6px",
             fontSize: "14px",
-            // Remove explicit border here
             "&:hover .MuiOutlinedInput-notchedOutline": {
               borderColor: "#A5A5A5",
             },
@@ -55,9 +54,8 @@ const ProfileField: React.FC<ProfileFieldProps> = ({
               borderWidth: "1px",
             },
           },
-          // Add default border styling to notchedOutline
           "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#CBCBCB", // Default border color
+            borderColor: "#CBCBCB", 
           },
           "& .MuiOutlinedInput-input": {
             padding: "8px 10px",
