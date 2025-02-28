@@ -1,9 +1,13 @@
 import { useState } from "react";
 import ProfileField from "./ProfileField";
-import { useAddAddressMutation } from "../features/address/addressApi";
+import {
+  useAddAddressMutation,
+  useGetAddressesQuery,
+} from "../features/address/addressApi";
 import Loader from "./Loader";
 import Button from "./Button";
 import { errorView, successMessage } from "../helpers/ToastHelper";
+import AddressBox from "./AddressBox";
 
 export const Address = () => {
   const [formData, setFormData] = useState({
@@ -18,7 +22,12 @@ export const Address = () => {
     postalCode: "",
   });
 
-  const [addAddress, { isLoading, isSuccess }] = useAddAddressMutation();
+  const [addAddress, { isLoading }] = useAddAddressMutation();
+  const {
+    data: addresses,
+    isLoading: addressLoading,
+    refetch,
+  } = useGetAddressesQuery(undefined);
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement> | string,
@@ -49,90 +58,101 @@ export const Address = () => {
         country: "",
         postalCode: "",
       });
-      isSuccess && successMessage("Address added successfully");
+      successMessage("Address added successfully");
+      refetch();
     } catch (error) {
       errorView("Error adding address");
     }
   };
 
-  if (isLoading) {
+  if (isLoading || addressLoading) {
     return <Loader />;
   }
 
   return (
-    <div className="border-2 border-gray-400 rounded-md p-4">
-      <p className="font-medium text-center text-lg mb-5">Add a new Address</p>
-      <form onSubmit={handleSubmit} className="flex flex-col mt-4">
-        <ProfileField
-          name="label"
-          label="Address Label"
-          value={formData.label}
-          onChange={handleChange}
-          required={true}
-        />
-        <div className="grid grid-cols-2 gap-2">
+    <>
+      <div className="grid xs:grid-cols-1 md:grid-cols-2 gap-5 mb-3">
+        {addresses.map((address: any) => (
+          <AddressBox key={address._id} address={address} />
+        ))}
+      </div>
+
+      <div className="border-2 border-gray-400 rounded-md p-4">
+        <p className="font-medium text-center text-lg mb-5">
+          Add a new Address
+        </p>
+        <form onSubmit={handleSubmit} className="flex flex-col mt-4">
           <ProfileField
-            name="firstName"
-            label="First Name"
-            value={formData.firstName}
+            name="label"
+            label="Address Label"
+            value={formData.label}
+            onChange={handleChange}
+            required={true}
+          />
+          <div className="grid grid-cols-2 gap-2">
+            <ProfileField
+              name="firstName"
+              label="First Name"
+              value={formData.firstName}
+              onChange={handleChange}
+              required={true}
+            />
+            <ProfileField
+              name="lastName"
+              label="Last Name"
+              value={formData.lastName}
+              onChange={handleChange}
+              required={true}
+            />
+          </div>
+          <ProfileField
+            name="phone"
+            label="Phone"
+            type="tel"
+            value={formData.phone}
             onChange={handleChange}
             required={true}
           />
           <ProfileField
-            name="lastName"
-            label="Last Name"
-            value={formData.lastName}
+            name="streetAddress"
+            label="Street Address"
+            value={formData.streetAddress}
             onChange={handleChange}
             required={true}
           />
-        </div>
-        <ProfileField
-          name="phone"
-          label="Phone"
-          type="tel"
-          value={formData.phone}
-          onChange={handleChange}
-          required={true}
-        />
-        <ProfileField
-          name="streetAddress"
-          label="Street Address"
-          value={formData.streetAddress}
-          onChange={handleChange}
-          required={true}
-        />
-        <div className="grid grid-cols-2 gap-2 mb-2">
-          <ProfileField
-            name="city"
-            label="Town/City"
-            value={formData.city}
-            onChange={handleChange}
-            required={true}
-          />
-          <ProfileField
-            name="province"
-            label="Province"
-            value={formData.province}
-            onChange={handleChange}
-            required={true}
-          />
-          <ProfileField
-            name="country"
-            label="Country"
-            value={formData.country}
-            onChange={handleChange}
-            required={true}
-          />
-          <ProfileField
-            name="postalCode"
-            label="Postal Code"
-            value={formData.postalCode}
-            onChange={handleChange}
-            required={true}
-          />
-        </div>
-        <Button type="submit" label="Save Address"></Button>
-      </form>
-    </div>
+          <div className="grid grid-cols-2 gap-2 mb-2">
+            <ProfileField
+              name="city"
+              label="Town/City"
+              value={formData.city}
+              onChange={handleChange}
+              required={true}
+            />
+            <ProfileField
+              name="province"
+              label="Province"
+              value={formData.province}
+              onChange={handleChange}
+              required={true}
+            />
+            <ProfileField
+              name="country"
+              label="Country"
+              value={formData.country}
+              onChange={handleChange}
+              required={true}
+            />
+            <ProfileField
+              name="postalCode"
+              label="Postal Code"
+              value={formData.postalCode}
+              onChange={handleChange}
+              required={true}
+            />
+          </div>
+          <Button type="submit" label="Save Address"></Button>
+        </form>
+      </div>
+    </>
   );
 };
