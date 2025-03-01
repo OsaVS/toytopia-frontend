@@ -154,6 +154,8 @@ const ProfilePage: React.FC = () => {
           <ProfileSidebar
             onChangeSection={handleSectionChange}
             userName={profileName}
+            userImage={user?.profilePicture}
+            refetchUser={refetch}
           />
         </div>
 

@@ -1,22 +1,34 @@
-import React, { useState } from "react";
+import React from "react";
 import { Avatar, IconButton } from "@mui/material";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import { useUpdateProfilePictureMutation } from "../features/user/userApi";
+import { TP_BASE } from "../constants";
+import { errorView, successMessage } from "../helpers/ToastHelper";
 
 const ProfileSidebar: React.FC<{
   onChangeSection: (section: string) => void;
-  userName: string; // Add userName prop
-}> = ({ onChangeSection, userName }) => {
-  // Destructure userName
-  const [profilePicture, setProfilePicture] = useState<string | null>(null);
+  userName: string;
+  userImage: string;
+  refetchUser: () => void;
+}> = ({ onChangeSection, userName, userImage, refetchUser }) => {
+  const selectedImage = userImage || null;
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfilePicture(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+  const [updateProfilePicture] = useUpdateProfilePictureMutation();
+
+  const handleImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (event.target.files && event.target.files[0]) {
+      const formData = new FormData();
+      formData.append("profilePicture", event.target.files[0]);
+
+      try {
+        await updateProfilePicture(formData).unwrap();
+        successMessage("Profile picture updated successfully");
+        refetchUser();
+      } catch (error) {
+        errorView("Error uploading profile picture");
+      }
     }
   };
 
@@ -28,7 +40,11 @@ const ProfileSidebar: React.FC<{
       <div className="flex flex-col items-center mb-4">
         <div className="relative mb-2">
           <Avatar
-            src={profilePicture || "https://via.placeholder.com/150"}
+            src={
+              selectedImage
+                ? `${TP_BASE}${selectedImage}`
+                : "https://via.placeholder.com/150"
+            }
             alt="Profile"
             sx={{ width: 96, height: 96 }}
           />

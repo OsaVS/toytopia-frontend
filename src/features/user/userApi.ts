@@ -27,6 +27,13 @@ export const userApi = createApi({
         body: userData,
       }),
     }),
+    updateProfilePicture: builder.mutation({
+      query: (formData) => ({
+        url: "user/upload",
+        method: "PUT",
+        body: formData,
+      }),
+    }),
     changePassword: builder.mutation({
       query: (passwordData) => ({
         url: "user/change-password",
@@ -41,5 +48,6 @@ export const {
   useFetchUserByIdQuery,
   useFetchUserQuery,
   useUpdateUserMutation,
+  useUpdateProfilePictureMutation,
   useChangePasswordMutation,
 } = userApi;
