@@ -12,22 +12,29 @@ import {
 } from "../features/user/userApi";
 import Loader from "../components/Loader";
 import { errorView, successMessage } from "../helpers/ToastHelper";
+import WishList from "../components/WishList";
+import { useDispatch } from "react-redux";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { logOut } from "../features/auth/authSlice";
 
 const ProfilePage: React.FC = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [userFormData, setUserFormData] = useState({
     firstName: "",
     lastName: "",
     username: "",
     email: "",
   });
-
   const [passwordFormData, setPasswordFormData] = useState({
     oldPassword: "",
     newPassword: "",
     repeatPassword: "",
   });
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeSection = searchParams.get("section") || "Account";
 
-  const [activeSection, setActiveSection] = useState("Account");
   const { data: user, isLoading, refetch } = useFetchUserQuery(undefined);
   const [updateUser, { isLoading: updateLoading }] = useUpdateUserMutation();
   const [changePassword, { isLoading: passwordLoading }] =
@@ -74,9 +81,10 @@ const ProfilePage: React.FC = () => {
 
   const handleSectionChange = (section: string) => {
     if (section === "LogOut") {
-      alert("Logged out successfully!");
+      dispatch(logOut());
+      navigate("/");
     } else {
-      setActiveSection(section);
+      setSearchParams({ section });
     }
   };
 
@@ -231,7 +239,7 @@ const ProfilePage: React.FC = () => {
                 <AccountTable></AccountTable>
               </div>
             )}
-            {activeSection === "Wishlist" && <div>Wishlist Items</div>}
+            {activeSection === "Wishlist" && <WishList></WishList>}
           </div>
         </div>
       </div>
