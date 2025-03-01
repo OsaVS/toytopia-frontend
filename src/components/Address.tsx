@@ -72,7 +72,7 @@ export const Address = () => {
   return (
     <>
       <div className="grid xs:grid-cols-1 md:grid-cols-2 gap-5 mb-3">
-        {addresses.map((address: any) => (
+        {addresses?.map((address: any) => (
           <AddressBox key={address._id} address={address} />
         ))}
       </div>

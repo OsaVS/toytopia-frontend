@@ -60,7 +60,7 @@ const ProfileField: React.FC<ProfileFieldProps> = ({
           }}
           inputProps={{
             "aria-label": label,
-            style: { color: "#6C7275" },
+            style: { color: "#000000" },
           }}
           sx={{
             "& .MuiOutlinedInput-root": {

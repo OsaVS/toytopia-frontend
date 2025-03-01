@@ -20,7 +20,26 @@ export const userApi = createApi({
     fetchUser: builder.query({
       query: () => `user/profile`,
     }),
+    updateUser: builder.mutation({
+      query: (userData) => ({
+        url: "user/update",
+        method: "PUT",
+        body: userData,
+      }),
+    }),
+    changePassword: builder.mutation({
+      query: (passwordData) => ({
+        url: "user/change-password",
+        method: "PUT",
+        body: passwordData,
+      }),
+    }),
   }),
 });
 
-export const { useFetchUserByIdQuery, useFetchUserQuery } = userApi;
+export const {
+  useFetchUserByIdQuery,
+  useFetchUserQuery,
+  useUpdateUserMutation,
+  useChangePasswordMutation,
+} = userApi;
