@@ -1,23 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Rating from "@mui/material/Rating";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import {
-  Accordion,
   AccordionSummary,
   AccordionDetails,
   Typography,
   TextField,
   InputAdornment,
   IconButton,
+  Avatar,
 } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   useAddToWishlistMutation,
   useGetWishlistQuery,
   useRemoveFromWishlistMutation,
 } from "../features/wishList/wishlistApi";
 import { useAddReviewMutation } from "../features/review/reviewApi";
+import { errorView, successMessage } from "../helpers/ToastHelper";
+import { TP_BASE } from "../constants";
 
 interface ProductCardProps {
   title: string;
@@ -39,6 +40,8 @@ interface ProductCardProps {
   quantity: number;
   onIncrementQuantity: () => void;
   onDecrementQuantity: () => void;
+  reviewRefetch: () => void;
+  productRefetch: () => void;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -59,11 +62,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
   onIncrementQuantity,
   onDecrementQuantity,
   productReviews,
+  reviewRefetch,
+  productRefetch,
 }) => {
-  const [selectedImage, setSelectedImage] = useState(imagesGeneral[0]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const selectedImage = imagesGeneral[selectedImageIndex];
   const [ratingValue, setRatingValue] = useState<number | null>(0);
-  const [reviewValue, setReviewValue] = useState<string>("")
+  const [reviewValue, setReviewValue] = useState<string | null>("");
 
   const { data: wishlist, refetch } = useGetWishlistQuery(undefined);
   const [addToWishlist] = useAddToWishlistMutation();
@@ -84,24 +89,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
     }
   };
 
+  useEffect(() => {
+    setSelectedImageIndex(0);
+  }, [productId]);
+
   const prevImage = () => {
-    setSelectedImageIndex((prevIndex) => {
-      const newIndex = prevIndex === 0 ? prevIndex : prevIndex - 1;
-      setSelectedImage(imagesGeneral[newIndex]);
-      return newIndex;
-    });
-  };
-  const nextImage = () => {
-    setSelectedImageIndex((prevIndex) => {
-      const newIndex =
-        prevIndex === imagesGeneral.length - 1 ? prevIndex : prevIndex + 1;
-      setSelectedImage(imagesGeneral[newIndex]);
-      return newIndex;
-    });
+    setSelectedImageIndex((prevIndex) => Math.max(prevIndex - 1, 0));
   };
 
-  const changeImage = (index: number, image: string) => {
-    setSelectedImage(image);
+  const nextImage = () => {
+    setSelectedImageIndex((prevIndex) =>
+      Math.min(prevIndex + 1, imagesGeneral.length - 1)
+    );
+  };
+
+  const changeImage = (index: number) => {
     setSelectedImageIndex(index);
   };
 
@@ -109,17 +111,42 @@ const ProductCard: React.FC<ProductCardProps> = ({
     event: React.ChangeEvent<{}>,
     newValue: number | null
   ) => {
+    event.preventDefault();
     setRatingValue(newValue);
   };
 
   const handleReviewChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setReviewValue(event.target.value);
-  }
+  };
 
-  const handleSubmitReview = (event: React.FormEvent) => {
+  const handleSubmitReview = async (event: React.FormEvent) => {
     event.preventDefault();
-    addReview({ rating: ratingValue, review: reviewValue, productId: productId});
-  }
+
+    if (!ratingValue || ratingValue < 1 || ratingValue > 5) {
+      errorView("Please provide a rating.");
+      return;
+    }
+    if (!reviewValue) {
+      errorView("Please add a review message.");
+      return;
+    }
+
+    try {
+      await addReview({
+        rating: ratingValue,
+        review: reviewValue,
+        productId: productId,
+      });
+      successMessage("Review added successfully");
+      reviewRefetch();
+      productRefetch();
+
+      setRatingValue(null);
+      setReviewValue("");
+    } catch (error) {
+      errorView("Error adding review");
+    }
+  };
 
   return (
     <div className="ml-8 mr-8 md:ml-20 md:mr-20">
@@ -176,7 +203,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {imagesGeneral.map((image, index) => (
               <button
                 key={index}
-                onClick={() => changeImage(index, image)}
+                onClick={() => changeImage(index)}
                 className={`rounded-lg overflow-hidden border-2 ${
                   selectedImage === image
                     ? "border-blue-500"
@@ -282,81 +309,123 @@ const ProductCard: React.FC<ProductCardProps> = ({
       </div>
 
       <div className="col-span-2 mt-10 mb-10 h-full">
-        <Accordion
-          sx={{
-            borderTop: "none",
-            borderLeft: "none",
-            borderRight: "none",
-            borderBottom: "1px solid black",
-            borderRadius: "0rem",
-            boxShadow: "none",
-          }}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
-          >
-            <Typography sx={{ fontWeight: "bold" }}>
-              Reviews ({noOfReviews})
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography sx={{ fontWeight: "normal" }}>
-              <form onSubmit={handleSubmitReview}>
-                <div className="mb-6">
-                  <Rating
-                    name="your-rating"
-                    sx={{ "& .MuiRating-iconFilled": { color: "#343839" } }}
-                    size="small"
-                    value={ratingValue}
-                    onChange={handleRatingChange}
+        <AccordionSummary aria-controls="panel2a-content" id="panel2a-header">
+          <Typography sx={{ fontWeight: "bold" }}>
+            Reviews ({noOfReviews})
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography sx={{ fontWeight: "normal" }}>
+            <form>
+              <div className="mb-6">
+                <Rating
+                  name="your-rating"
+                  sx={{ "& .MuiRating-iconFilled": { color: "#343839" } }}
+                  size="small"
+                  value={ratingValue}
+                  onChange={handleRatingChange}
+                />
+                <div className="mt-6">
+                  <TextField
+                    fullWidth
+                    variant="outlined"
+                    value={reviewValue}
+                    onChange={handleReviewChange}
+                    multiline
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <button
+                            className="text-white bg-black px-4 py-2 rounded-lg"
+                            onClick={handleSubmitReview}
+                          >
+                            Write Review
+                          </button>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
-                  <div className="mt-6">
-                    <TextField
-                      fullWidth
-                      variant="outlined"
-                      onChange={handleReviewChange}
-                      multiline
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <button className="text-white bg-black px-4 py-2 rounded-lg" type="submit">
-                              Write Review
-                            </button>
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  </div>
                 </div>
-              </form>
-              <div>
-                {productReviews &&
-                  productReviews.map((review, index) => (
+              </div>
+            </form>
+            <div>
+              {productReviews &&
+                productReviews.map((review: any, index) => (
+                  <>
                     <div
                       key={index}
-                      className="mb-4 border-b border-black pb-4 text-sm"
+                      className="mb-4 border-b border-black pb-4 text-sm xs:hidden md:flex items-center gap-5"
                     >
-                      <p className="text-gray-900 mt-2 text-semibold">
-                        {review.name}
-                      </p>
-                      <Rating
-                        name="read-only"
-                        sx={{ "& .MuiRating-iconFilled": { color: "#343839" } }}
-                        size="small"
-                        value={review.rating}
-                        readOnly
-                      />
-                      <p className="text-gray-600 mt-2 text-light text-xs">
-                        {review.review}
-                      </p>
+                      <div>
+                        <Avatar
+                          src={
+                            selectedImage
+                              ? `${TP_BASE}${review.userId.profilePicture}`
+                              : "https://via.placeholder.com/150"
+                          }
+                          alt="Profile"
+                          sx={{ width: 60, height: 60 }}
+                        />
+                      </div>
+                      <div>
+                        <p className="text-gray-900 mt-2 text-base font-semibold">
+                          {review.userId.firstName} {review.userId.lastName}
+                        </p>
+                        <Rating
+                          name="read-only"
+                          sx={{
+                            "& .MuiRating-iconFilled": { color: "#343839" },
+                          }}
+                          size="small"
+                          value={review.rating}
+                          readOnly
+                        />
+                        <p className="text-gray-600 mt-2 text-light text-xs">
+                          {review.review}
+                        </p>
+                      </div>
                     </div>
-                  ))}
-              </div>
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
+                    <div
+                      key={index}
+                      className="mb-4 border-b border-black pb-4 text-sm xs:grid md:hidden items-center gap-5"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Avatar
+                          src={
+                            selectedImage
+                              ? `${TP_BASE}${review.userId.profilePicture}`
+                              : "https://via.placeholder.com/150"
+                          }
+                          alt="Profile"
+                          sx={{ width: 50, height: 50 }}
+                        />
+                        <div>
+                          <p className="text-gray-900 mt-2 text-base font-semibold">
+                            {review.userId.firstName} {review.userId.lastName}
+                          </p>
+                          <Rating
+                            name="read-only"
+                            sx={{
+                              "& .MuiRating-iconFilled": { color: "#343839" },
+                            }}
+                            size="small"
+                            value={review.rating}
+                            readOnly
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-gray-600 mt-2 text-light text-xs">
+                          {review.review}
+                        </p>
+                      </div>
+                    </div>
+                  </>
+                ))}
+            </div>
+          </Typography>
+        </AccordionDetails>
+        {/* </Accordion> */}
       </div>
     </div>
   );
