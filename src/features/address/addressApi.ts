@@ -24,6 +24,13 @@ export const addressApi = createApi({
     getAddresses: builder.query({
       query: () => "addresses",
     }),
+    updateAddress: builder.mutation({
+      query: ({ id, formData }) => ({
+        url: `addresses/${id}`,
+        method: "PUT",
+        body: formData,
+      }),
+    }),
     deleteAddress: builder.mutation({
       query: (id) => ({
         url: `addresses/${id}`,
@@ -36,5 +43,6 @@ export const addressApi = createApi({
 export const {
   useAddAddressMutation,
   useGetAddressesQuery,
+  useUpdateAddressMutation,
   useDeleteAddressMutation,
 } = addressApi;

@@ -1,71 +1,48 @@
 import { useState } from "react";
-import ProfileField from "./ProfileField";
+import AddressBox from "./AddressBox";
+import Loader from "./Loader";
+import Button from "./Button";
+import AddressModal from "./AddressModal";
 import {
   useAddAddressMutation,
   useGetAddressesQuery,
+  useUpdateAddressMutation,
 } from "../features/address/addressApi";
-import Loader from "./Loader";
-import Button from "./Button";
-import { errorView, successMessage } from "../helpers/ToastHelper";
-import AddressBox from "./AddressBox";
 
 export const Address = () => {
-  const [formData, setFormData] = useState({
-    label: "",
-    firstName: "",
-    lastName: "",
-    phone: "",
-    streetAddress: "",
-    city: "",
-    province: "",
-    country: "",
-    postalCode: "",
-  });
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [selectedAddress, setSelectedAddress] = useState<any>(null);
 
-  const [addAddress, { isLoading }] = useAddAddressMutation();
+  const [addAddress, { isLoading: adding }] = useAddAddressMutation();
+  const [updateAddress, { isLoading: updating }] = useUpdateAddressMutation();
   const {
     data: addresses,
     isLoading: addressLoading,
     refetch,
   } = useGetAddressesQuery(undefined);
 
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement> | string,
-    name?: string
-  ) => {
-    if (typeof event === "string" && name) {
-      setFormData((prev) => ({ ...prev, [name]: event }));
-    } else if (typeof event !== "string") {
-      setFormData((prev) => ({
-        ...prev,
-        [event.target.name]: event.target.value,
-      }));
-    }
+  const handleAdd = async (formData: any) => {
+    await addAddress(formData).unwrap();
+    refetch();
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    try {
-      await addAddress(formData).unwrap();
-      setFormData({
-        label: "",
-        firstName: "",
-        lastName: "",
-        phone: "",
-        streetAddress: "",
-        city: "",
-        province: "",
-        country: "",
-        postalCode: "",
-      });
-      successMessage("Address added successfully");
-      refetch();
-    } catch (error) {
-      errorView("Error adding address");
-    }
+  const handleUpdate = async (formData: any) => {
+    if (!selectedAddress) return;
+    await updateAddress({ id: selectedAddress._id, formData }).unwrap();
+    refetch();
   };
 
-  if (isLoading || addressLoading) {
+  const openAddModal = () => {
+    setSelectedAddress(null);
+    setShowModal(true);
+  };
+
+  const openEditModal = (address: any) => {
+    setSelectedAddress(address);
+    setShowModal(true);
+  };
+
+  if (adding || updating || addressLoading) {
     return <Loader />;
   }
 
@@ -73,86 +50,25 @@ export const Address = () => {
     <>
       <div className="grid xs:grid-cols-1 md:grid-cols-2 gap-5 mb-3">
         {addresses?.map((address: any) => (
-          <AddressBox key={address._id} address={address} />
+          <AddressBox
+            key={address._id}
+            address={address}
+            onEdit={() => openEditModal(address)}
+            refetch={refetch}
+          />
         ))}
       </div>
+      <Button type="button" label="Add New +" onClick={openAddModal} />
 
-      <div className="border-2 border-gray-400 rounded-md p-4">
-        <p className="font-medium text-center text-lg mb-5">
-          Add a new Address
-        </p>
-        <form onSubmit={handleSubmit} className="flex flex-col mt-4">
-          <ProfileField
-            name="label"
-            label="Address Label"
-            value={formData.label}
-            onChange={handleChange}
-            required={true}
-          />
-          <div className="grid grid-cols-2 gap-2">
-            <ProfileField
-              name="firstName"
-              label="First Name"
-              value={formData.firstName}
-              onChange={handleChange}
-              required={true}
-            />
-            <ProfileField
-              name="lastName"
-              label="Last Name"
-              value={formData.lastName}
-              onChange={handleChange}
-              required={true}
-            />
-          </div>
-          <ProfileField
-            name="phone"
-            label="Phone"
-            type="tel"
-            value={formData.phone}
-            onChange={handleChange}
-            required={true}
-          />
-          <ProfileField
-            name="streetAddress"
-            label="Street Address"
-            value={formData.streetAddress}
-            onChange={handleChange}
-            required={true}
-          />
-          <div className="grid grid-cols-2 gap-2 mb-2">
-            <ProfileField
-              name="city"
-              label="Town/City"
-              value={formData.city}
-              onChange={handleChange}
-              required={true}
-            />
-            <ProfileField
-              name="province"
-              label="Province"
-              value={formData.province}
-              onChange={handleChange}
-              required={true}
-            />
-            <ProfileField
-              name="country"
-              label="Country"
-              value={formData.country}
-              onChange={handleChange}
-              required={true}
-            />
-            <ProfileField
-              name="postalCode"
-              label="Postal Code"
-              value={formData.postalCode}
-              onChange={handleChange}
-              required={true}
-            />
-          </div>
-          <Button type="submit" label="Save Address"></Button>
-        </form>
-      </div>
+      <AddressModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onSubmit={selectedAddress ? handleUpdate : handleAdd}
+        title={selectedAddress ? "Edit Address" : "Add a New Address"}
+        initialData={selectedAddress}
+        type={selectedAddress ? "update" : "add"}
+        buttonLabel={selectedAddress ? "Update Address" : "Save Address"}
+      />
     </>
   );
 };
