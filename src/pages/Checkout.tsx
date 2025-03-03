@@ -5,9 +5,19 @@ import DoneIcon from "@mui/icons-material/Done";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import ProfileField from "../components/ProfileField";
 import { Radio, FormControlLabel, RadioGroup } from "@mui/material";
+import { useGetAddressesQuery } from "../features/address/addressApi";
+import SelectAddressBox from "../components/SelectAddressBox";
+import Loader from "../components/Loader";
+import Button from "../components/Button";
 
 const Cart = () => {
   const [paymentMethod, setPaymentMethod] = useState("creditcard");
+  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(
+    null
+  );
+
+  const { data: addresses, isLoading: addressLoading } =
+    useGetAddressesQuery(undefined);
 
   const handlePayementMethodChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -15,6 +25,8 @@ const Cart = () => {
     setPaymentMethod(event.target.value);
     sessionStorage.setItem("paymentMethod", event.target.value);
   };
+
+  if (addressLoading) return <Loader />;
 
   return (
     <div className="px-10 sd:px-16 md:px-20">
@@ -47,76 +59,45 @@ const Cart = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 pb-8 sd:grid-cols-2 ">
         <div className="flex flex-col space-y-3 sd:mr-3 lg:mr-4">
           <div className="border-2 border-gray-400 rounded-md p-4">
-            <span>Contact Information</span>
-
-            <div className="flex flex-col mt-4">
-              <div className="grid grid-cols-2 gap-2">
-                <ProfileField
-                  name="firstname"
-                  label="First Name"
-                  value=""
-                  onChange={() => {}}
-                />
-                <ProfileField
-                  name="lastname"
-                  label="Last Name"
-                  value=""
-                  onChange={() => {}}
-                />
+            <span>Select an Address</span>
+            <RadioGroup
+              value={selectedAddressId}
+              onChange={(e) => setSelectedAddressId(e.target.value)}
+            >
+              <div className="grid grid-cols-1 gap-3 mt-4">
+                {addresses?.map((address: any) => (
+                  <div
+                    key={address._id}
+                    className="flex items-center gap-2 p-2 border rounded-md"
+                  >
+                    <div className="flex w-full border-2 border-gray-400 focus-within:border-black focus-within:bg-gray-50 p-2 rounded-lg items-center">
+                      <FormControlLabel
+                        value={address._id}
+                        control={
+                          <Radio
+                            sx={{
+                              color: "black",
+                              "&.Mui-checked": {
+                                color: "black",
+                              },
+                            }}
+                          />
+                        }
+                        label={<SelectAddressBox address={address} />}
+                        sx={{
+                          width: "100%",
+                          border: "none",
+                          "& .MuiFormControlLabel-label": {
+                            width: "100%",
+                          },
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
+                <Button type="button" label="Add New Address" />
               </div>
-
-              <ProfileField
-                name="phone"
-                label="Phone"
-                value=""
-                onChange={() => {}}
-              />
-              <ProfileField
-                name="email"
-                label="Email"
-                value=""
-                onChange={() => {}}
-              />
-            </div>
-          </div>
-
-          <div className="border-2 border-gray-400 rounded-md p-4">
-            <span>Shipping Address</span>
-            <div className="flex flex-col mt-4">
-              <ProfileField
-                name="streetaddress"
-                label="Street Address"
-                value=""
-                onChange={() => {}}
-              />
-              <ProfileField
-                name="country"
-                label="Country"
-                value=""
-                onChange={() => {}}
-              />
-              <ProfileField
-                name="city"
-                label="Town/City"
-                value=""
-                onChange={() => {}}
-              />
-
-              <div className="grid grid-cols-2 gap-2">
-                <ProfileField
-                  name="state"
-                  label="State"
-                  value=""
-                  onChange={() => {}}
-                />
-                <ProfileField
-                  name="zip"
-                  label="Zip"
-                  value=""
-                  onChange={() => {}}
-                />
-              </div>
-            </div>
+            </RadioGroup>
           </div>
 
           <div className="border-2 border-gray-400 rounded-md p-4">
@@ -159,7 +140,7 @@ const Cart = () => {
 
                 <div className="flex justify-between w-full border-2 border-gray-400 focus-within:border-black focus-within:bg-gray-50 p-2 rounded-lg items-center">
                   <FormControlLabel
-                    value="Paypal"
+                    value="cashOnDelivery"
                     control={
                       <Radio
                         sx={{
@@ -172,7 +153,7 @@ const Cart = () => {
                     }
                     label={
                       <div className="flex w-full">
-                        <span>PayPal</span>
+                        <span>Cash on Delivery</span>
                       </div>
                     }
                     sx={{
@@ -186,31 +167,32 @@ const Cart = () => {
               </RadioGroup>
             </div>
 
-            <div>
+            {paymentMethod === "creditcard" ? (
               <div>
-                <ProfileField
-                  name="cardnumber"
-                  label="Card Number"
-                  value=""
-                  onChange={() => {}}
-                />
+                <div>
+                  <ProfileField
+                    name="cardnumber"
+                    label="Card Number"
+                    value=""
+                    onChange={() => {}}
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <ProfileField
+                    name="expirydate"
+                    label="Expiry Date"
+                    value=""
+                    onChange={() => {}}
+                  />
+                  <ProfileField
+                    name="cvv"
+                    label="CVV"
+                    value=""
+                    onChange={() => {}}
+                  />
+                </div>
               </div>
-
-              <div className="grid grid-cols-2 gap-2">
-                <ProfileField
-                  name="expirydate"
-                  label="Expiry Date"
-                  value=""
-                  onChange={() => {}}
-                />
-                <ProfileField
-                  name="cvv"
-                  label="CVV"
-                  value=""
-                  onChange={() => {}}
-                />
-              </div>
-            </div>
+            ) : null}
           </div>
 
           <Link to="/cart/ordercomplete">

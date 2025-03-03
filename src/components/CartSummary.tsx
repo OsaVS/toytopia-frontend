@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Radio, FormControlLabel, RadioGroup } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { shippingMethod } from "../types/shippingMethod";
 
 interface CartSummaryProps {
   subTotal: number;
@@ -22,19 +23,21 @@ const theme = createTheme({
 const CartSummary: React.FC<CartSummaryProps> = ({ subTotal }) => {
   const [shippingCost, setShippingCost] = useState(0);
   const [pickupDecrease, setPickupDecrease] = useState(0);
-  const [selectedOption, setSelectedOption] = useState("free");
+  const [selectedOption, setSelectedOption] = useState<shippingMethod | null>(
+    shippingMethod.Normal
+  );
 
   const costShipping = 550;
   const pickupPercentage = 5;
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
+    const value = event.target.value as unknown as shippingMethod;
     setSelectedOption(value);
 
-    if (value === "shipping") {
+    if (value === shippingMethod.Express) {
       setShippingCost(costShipping);
       setPickupDecrease(0);
-    } else if (value === "pickup") {
+    } else if (value === shippingMethod.PickUp) {
       setPickupDecrease(-1 * subTotal * (pickupPercentage / 100));
       setShippingCost(0);
     } else {
@@ -44,7 +47,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({ subTotal }) => {
   };
 
   useEffect(() => {
-    if (selectedOption === "pickup") {
+    if (selectedOption === shippingMethod.PickUp) {
       sessionStorage.setItem("shippingCost", pickupDecrease.toString());
     } else {
       sessionStorage.setItem("shippingCost", shippingCost.toString());
@@ -53,7 +56,8 @@ const CartSummary: React.FC<CartSummaryProps> = ({ subTotal }) => {
     const total = subTotal + shippingCost + pickupDecrease;
     sessionStorage.setItem("subTotal", subTotal.toString());
     sessionStorage.setItem("total", total.toString());
-  }, [shippingCost, pickupDecrease, subTotal]);
+    sessionStorage.setItem("shippingMethod", selectedOption?.toString() || "");
+  }, [shippingCost, pickupDecrease, subTotal, selectedOption]);
 
   const total = subTotal + shippingCost + pickupDecrease;
 
@@ -80,7 +84,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({ subTotal }) => {
           >
             <div className="flex justify-between w-full border-2 border-gray-400 focus-within:border-black p-2 rounded-lg items-center">
               <FormControlLabel
-                value="free"
+                value={shippingMethod.Normal}
                 control={
                   <Radio
                     sx={{
@@ -108,7 +112,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({ subTotal }) => {
 
             <div className="flex justify-between w-full border-2 border-gray-400 focus-within:border-black p-2 rounded-lg items-center">
               <FormControlLabel
-                value="shipping"
+                value={shippingMethod.Express}
                 control={
                   <Radio
                     sx={{
@@ -135,7 +139,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({ subTotal }) => {
             </div>
             <div className="flex justify-between w-full border-2 border-gray-400 focus-within:border-black p-2 rounded-lg items-center">
               <FormControlLabel
-                value="pickup"
+                value={shippingMethod.PickUp}
                 control={
                   <Radio
                     sx={{
