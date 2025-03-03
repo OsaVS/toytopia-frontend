@@ -8,6 +8,7 @@ import cartReducer from "../features/cart/cartSlice";
 import { wishlistApi } from "../features/wishList/wishlistApi";
 import { reviewApi } from "../features/review/reviewApi";
 import { addressApi } from "../features/address/addressApi";
+import { orderApi } from "../features/order/orderApi";
 
 const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
     [wishlistApi.reducerPath]: wishlistApi.reducer,
     [reviewApi.reducerPath]: reviewApi.reducer,
     [addressApi.reducerPath]: addressApi.reducer,
+    [orderApi.reducerPath]: orderApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -29,7 +31,8 @@ const store = configureStore({
       cartApi.middleware,
       wishlistApi.middleware,
       reviewApi.middleware,
-      addressApi.middleware
+      addressApi.middleware,
+      orderApi.middleware
     ),
 });
 

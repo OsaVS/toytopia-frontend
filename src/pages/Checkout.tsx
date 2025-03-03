@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import OrderSummary from "../components/OrderSummary";
 import DoneIcon from "@mui/icons-material/Done";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
@@ -9,8 +9,12 @@ import { useGetAddressesQuery } from "../features/address/addressApi";
 import SelectAddressBox from "../components/SelectAddressBox";
 import Loader from "../components/Loader";
 import Button from "../components/Button";
+import { errorView, successMessage } from "../helpers/ToastHelper";
+import { useAddOrderMutation } from "../features/order/orderApi";
 
 const Cart = () => {
+  const navigate = useNavigate();
+
   const [paymentMethod, setPaymentMethod] = useState("creditcard");
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(
     null
@@ -18,6 +22,7 @@ const Cart = () => {
 
   const { data: addresses, isLoading: addressLoading } =
     useGetAddressesQuery(undefined);
+  const [addOrder, { isLoading }] = useAddOrderMutation();
 
   const handlePayementMethodChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -26,7 +31,38 @@ const Cart = () => {
     sessionStorage.setItem("paymentMethod", event.target.value);
   };
 
-  if (addressLoading) return <Loader />;
+  const handlePlaceOrder = async () => {
+    if (!selectedAddressId) {
+      errorView("Please select an address");
+      return;
+    }
+
+    if (!paymentMethod) {
+      errorView("Please select a payment method");
+      return;
+    }
+    const cartTotal = sessionStorage.getItem("total");
+    const shippingCost = sessionStorage.getItem("shippingCost");
+    const subTotal = sessionStorage.getItem("subTotal");
+    const shippingMethod = sessionStorage.getItem("shippingMethod");
+
+    try {
+      await addOrder({
+        addressId: selectedAddressId,
+        paymentMethod,
+        cartTotal: cartTotal,
+        shippingMethod,
+        shippingCost: shippingCost,
+        subTotal: subTotal,
+      }).unwrap();
+      successMessage("Order placed successfully!");
+      navigate("/cart/ordercomplete");
+    } catch (error) {
+      errorView("Failed to place order. Please try again.");
+    }
+  };
+
+  if (isLoading || addressLoading) return <Loader />;
 
   return (
     <div className="px-10 sd:px-16 md:px-20">
@@ -95,7 +131,11 @@ const Cart = () => {
                     </div>
                   </div>
                 ))}
-                <Button type="button" label="Add New Address" />
+                <Button
+                  type="button"
+                  label="Add New Address"
+                  onClick={() => navigate("/profile?section=Address")}
+                />
               </div>
             </RadioGroup>
           </div>
@@ -195,11 +235,12 @@ const Cart = () => {
             ) : null}
           </div>
 
-          <Link to="/cart/ordercomplete">
-            <button className="hidden sd:block mt-4 bg-black text-white lg:text-lg rounded-lg p-4 w-full">
-              Place Order
-            </button>
-          </Link>
+          <button
+            className="hidden sd:block mt-4 bg-black text-white lg:text-lg rounded-lg p-4 w-full"
+            onClick={handlePlaceOrder}
+          >
+            Place Order
+          </button>
         </div>
 
         <div className="flex flex-col sd:ml-3 lg:ml-4">

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Radio, FormControlLabel, RadioGroup } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { shippingMethod } from "../types/shippingMethod";
+import { useCart } from "../context/CartContext";
+import { errorView } from "../helpers/ToastHelper";
 
 interface CartSummaryProps {
   subTotal: number;
@@ -21,6 +23,9 @@ const theme = createTheme({
 });
 
 const CartSummary: React.FC<CartSummaryProps> = ({ subTotal }) => {
+  const navigate = useNavigate();
+  const { cart } = useCart();
+  
   const [shippingCost, setShippingCost] = useState(0);
   const [pickupDecrease, setPickupDecrease] = useState(0);
   const [selectedOption, setSelectedOption] = useState<shippingMethod | null>(
@@ -34,10 +39,10 @@ const CartSummary: React.FC<CartSummaryProps> = ({ subTotal }) => {
     const value = event.target.value as unknown as shippingMethod;
     setSelectedOption(value);
 
-    if (value === shippingMethod.Express) {
+    if (value == shippingMethod.Express) {
       setShippingCost(costShipping);
       setPickupDecrease(0);
-    } else if (value === shippingMethod.PickUp) {
+    } else if (value == shippingMethod.PickUp) {
       setPickupDecrease(-1 * subTotal * (pickupPercentage / 100));
       setShippingCost(0);
     } else {
@@ -45,6 +50,14 @@ const CartSummary: React.FC<CartSummaryProps> = ({ subTotal }) => {
       setPickupDecrease(0);
     }
   };
+
+  const handleCheckout = () => {
+    if (cart.length === 0) {
+      errorView("Your Cart is empty");
+    } else{
+      navigate("/cart/checkout");
+    }
+  }
 
   useEffect(() => {
     if (selectedOption === shippingMethod.PickUp) {
@@ -179,11 +192,9 @@ const CartSummary: React.FC<CartSummaryProps> = ({ subTotal }) => {
       </div>
 
       <div className="p-4 xl:px-8 xl:pb-8">
-        <Link to="/cart/checkout">
-          <button className="bg-black text-white sd:text-xl p-4 rounded-lg w-full">
+          <button className="bg-black text-white sd:text-xl p-4 rounded-lg w-full" onClick={handleCheckout}>
             Checkout
           </button>
-        </Link>
       </div>
     </div>
   );

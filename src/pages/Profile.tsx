@@ -3,7 +3,7 @@ import ProfileField from "../components/ProfileField";
 import Button from "../components/Button";
 import ProfileSidebar from "../components/ProfileSideBar";
 import MobileProfileMenu from "../components/MobileProfileMenu";
-import AccountTable from "../components/AccountTable";
+import OrderTable from "../components/OrderTable";
 import { Address } from "../components/Address";
 import {
   useChangePasswordMutation,
@@ -238,7 +238,7 @@ const ProfilePage: React.FC = () => {
             )}
             {activeSection === "Orders" && (
               <div>
-                <AccountTable></AccountTable>
+                <OrderTable></OrderTable>
               </div>
             )}
             {activeSection === "Wishlist" && <WishList></WishList>}

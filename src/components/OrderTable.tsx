@@ -1,4 +1,3 @@
-import * as React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -6,37 +5,27 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { useGetOrdersQuery } from "../features/order/orderApi";
+import Loader from "./Loader";
 
-function createData(
-  numberId: string,
-  date: string,
-  status: string,
-  price: string
-) {
-  return { numberId, date, status, price };
-}
+const OrderTable = () => {
+  const { data, isLoading } = useGetOrdersQuery(undefined);
 
-const rows = [
-  createData("#3456_768", "October 17, 2023", "Delivered", "$1234.00"),
-  createData("#3456_980", "October 11, 2023", "Delivered", "$345.00"),
-  createData("#3456_120", "August 24, 2023", "Delivered", "$2345.00"),
-  createData("#3456_030", "August 12, 2023", "Delivered", "$845.00"),
-];
+  if (isLoading) return <Loader />;
 
-export default function BasicTable() {
   return (
     <TableContainer component={Paper} elevation={0}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell sx={{ color: "#6C7275", fontWeight: "bold" }}>
-              Number ID
+              Order ID
             </TableCell>
             <TableCell
               align="center"
               sx={{ color: "#6C7275", fontWeight: "bold" }}
             >
-              Dates
+              Order Date
             </TableCell>
             <TableCell
               align="center"
@@ -48,30 +37,30 @@ export default function BasicTable() {
               align="center"
               sx={{ color: "#6C7275", fontWeight: "bold" }}
             >
-              Price
+              Total
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {data?.map((order: any) => (
             <TableRow
-              key={row.numberId}
+              key={order._id}
               sx={{
                 "&:last-child td, &:last-child th": { border: 0 },
                 height: 60,
               }}
             >
               <TableCell component="th" scope="row" sx={{ color: "#141718" }}>
-                {row.numberId}
+                {order.orderNumber}
               </TableCell>
               <TableCell align="center" sx={{ color: "#141718" }}>
-                {row.date}
+                {new Date(order.createdAt).toLocaleDateString()}
               </TableCell>
               <TableCell align="center" sx={{ color: "#141718" }}>
-                {row.status}
+                {order.orderStatus}
               </TableCell>
-              <TableCell align="right" sx={{ color: "#141718" }}>
-                {row.price}
+              <TableCell align="center" sx={{ color: "#141718" }}>
+                Rs. {order.subTotal}.00
               </TableCell>
             </TableRow>
           ))}
@@ -79,4 +68,6 @@ export default function BasicTable() {
       </Table>
     </TableContainer>
   );
-}
+};
+
+export default OrderTable;
