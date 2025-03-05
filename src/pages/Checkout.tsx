@@ -47,7 +47,7 @@ const Cart = () => {
     const shippingMethod = sessionStorage.getItem("shippingMethod");
 
     try {
-      await addOrder({
+      const newOrder = await addOrder({
         addressId: selectedAddressId,
         paymentMethod,
         cartTotal: cartTotal,
@@ -56,7 +56,7 @@ const Cart = () => {
         subTotal: subTotal,
       }).unwrap();
       successMessage("Order placed successfully!");
-      navigate("/cart/ordercomplete");
+      navigate(`/cart/ordercomplete/${newOrder._id}`);
     } catch (error) {
       errorView("Failed to place order. Please try again.");
     }

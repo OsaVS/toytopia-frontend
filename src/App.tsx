@@ -28,10 +28,9 @@ function App() {
               <Route path="shop" element={<Shop />} />
               <Route path="product" element={<ProductPage />} />
               <Route path="cart/*" element={<Cart />}>
-                <Route index element={<ShoppingCart />} /> {/* Default */}
+                <Route index element={<ShoppingCart />} />
                 <Route path="checkout" element={<Checkout />} />
-                <Route path="ordercomplete" element={<OrderComplete />} />
-                {/* <Route path="confirmation" element={<Confirmation />} /> */}
+                <Route path="ordercomplete/:orderId" element={<OrderComplete />} />
               </Route>
               <Route path="product/:productCode" element={<ProductPage />} />
               <Route path="addproduct" element={<ProductUpload />} />

@@ -1,11 +1,12 @@
 import DoneIcon from "@mui/icons-material/Done";
-import { useGetLatestOrderQuery } from "../features/order/orderApi";
 import Loader from "../components/Loader";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useGetOrderByIdQuery } from "../features/order/orderApi";
 
 const OrderComplete = () => {
   const navigate = useNavigate();
-  const { data, isLoading } = useGetLatestOrderQuery(undefined);
+  const { orderId } = useParams();
+  const { data, isLoading } = useGetOrderByIdQuery(orderId);
 
   if (isLoading) return <Loader />;
 
