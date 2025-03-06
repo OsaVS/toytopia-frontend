@@ -1,5 +1,5 @@
 import { useState } from "react";
-import image from "../../assets/image.png";
+import image from "../../assets/register.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignupMutation } from "../../features/auth/authApi";
 import InputField from "../../components/InputField";
@@ -145,7 +145,7 @@ const SignUp = () => {
         <img
           src={image}
           alt="Decorative chair"
-          className="object-contain w-full h-full max-h-screen max-w-full"
+          className="object-cover w-full h-full max-h-screen max-w-full"
         />
       </div>
 

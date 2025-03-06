@@ -13,7 +13,6 @@ import ShoppingCart from "./pages/ShoppingCart";
 import Checkout from "./pages/Checkout";
 import OrderComplete from "./pages/OrderComplete";
 import Profile from "./pages/Profile";
-import CartExample from "./pages/CartExample";
 
 function App() {
   return (
@@ -26,16 +25,17 @@ function App() {
             <Route element={<Layout />}>
               <Route path="home" element={<Home />} />
               <Route path="shop" element={<Shop />} />
-              <Route path="product" element={<ProductPage />} />
               <Route path="cart/*" element={<Cart />}>
                 <Route index element={<ShoppingCart />} />
                 <Route path="checkout" element={<Checkout />} />
-                <Route path="ordercomplete/:orderId" element={<OrderComplete />} />
+                <Route
+                  path="ordercomplete/:orderId"
+                  element={<OrderComplete />}
+                />
               </Route>
               <Route path="product/:productCode" element={<ProductPage />} />
               <Route path="addproduct" element={<ProductUpload />} />
               <Route path="profile" element={<Profile />} />
-              <Route path="examplecart" element={<CartExample/>} />
             </Route>
           </Route>
         </Routes>

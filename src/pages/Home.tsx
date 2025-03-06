@@ -10,6 +10,10 @@ import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined
 import PriceChangeOutlinedIcon from "@mui/icons-material/PriceChangeOutlined";
 import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
+import img1 from "../assets/img1.jpg";
+import img2 from "../assets/img2.jpg";
+import img3 from "../assets/img3.jpg";
+import img4 from "../assets/img4.jpg";
 
 const Home = () => {
   const [fetchRandomProducts, { data, isLoading }] =
@@ -72,7 +76,7 @@ const Home = () => {
         </div>
       </div>
 
-      <PromotionBanner date={"2025-02-29T23:59:59"} image={hero} />
+      <PromotionBanner date={"2025-03-10T23:59:59"} image={hero} />
 
       <div className="grid grid-cols-1 sd:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 items-center justify-center xs:gap-5 md:gap-10 xs:px-5 sm:px-10 sd:px-16 xl:px-24 my-20">
         <div className="bg-[#F3F5F7] w-full h-auto grid items-start py-8 pl-6 pr-8">
@@ -117,10 +121,21 @@ const Home = () => {
           <p className="text-gray-500 font-medium">@toytopia_official</p>
         </div>
         <div className="grid grid-cols-1 sd:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 items-center justify-center xs:gap-5 md:gap-10 my-8 mx-auto">
-          <div className="w-60 h-60 bg-gray-500"></div>
-          <div className="w-60 h-60 bg-gray-500"></div>
-          <div className="w-60 h-60 bg-gray-500"></div>
-          <div className="w-60 h-60 bg-gray-500"></div>
+          <div className="w-60 h-60 bg-gray-500">
+            <img src={img1} alt="" className="w-full h-full object-cover" />
+          </div>
+          <div className="w-60 h-60 bg-gray-500">
+            {" "}
+            <img src={img2} alt="" className="w-full h-full object-cover" />
+          </div>
+          <div className="w-60 h-60 bg-gray-500">
+            {" "}
+            <img src={img3} alt="" className="w-full h-full object-cover" />
+          </div>
+          <div className="w-60 h-60 bg-gray-500">
+            {" "}
+            <img src={img4} alt="" className="w-full h-full object-cover" />
+          </div>
         </div>
       </div>
     </>
