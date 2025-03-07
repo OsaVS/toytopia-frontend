@@ -13,6 +13,10 @@ import ShoppingCart from "./pages/ShoppingCart";
 import Checkout from "./pages/Checkout";
 import OrderComplete from "./pages/OrderComplete";
 import Profile from "./pages/Profile";
+import AdminSignIn from "./pages/auth/AdminSignIn";
+import AdminPrivateRoute from "./helpers/AdminPrivateRoute";
+import Dashboard from "./pages/admin/Dashboard";
+import AdminLayout from "./adminComponents/Layout";
 
 function App() {
   return (
@@ -36,6 +40,12 @@ function App() {
               <Route path="product/:productCode" element={<ProductPage />} />
               <Route path="addproduct" element={<ProductUpload />} />
               <Route path="profile" element={<Profile />} />
+            </Route>
+          </Route>
+          <Route path="/admin/signin" element={<AdminSignIn />} />
+          <Route element={<AdminPrivateRoute />}>
+            <Route element={<AdminLayout />}>
+              <Route path="/admin/dashboard" element={<Dashboard />} />
             </Route>
           </Route>
         </Routes>

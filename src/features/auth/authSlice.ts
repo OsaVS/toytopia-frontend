@@ -20,13 +20,25 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       localStorage.setItem("token", token);
     },
+    setAdminCredentials: (state, action) => {
+      const { token } = action.payload;
+      state.token = token;
+      state.isAuthenticated = true;
+      localStorage.setItem("adminToken", token);
+    },
     logOut: (state) => {
       state.token = null;
       state.isAuthenticated = false;
       localStorage.removeItem("token");
     },
+    adminLogOut: (state) => {
+      state.token = null;
+      state.isAuthenticated = false;
+      localStorage.removeItem("adminToken");
+    },
   },
 });
 
-export const { setCredentials, logOut } = authSlice.actions;
+export const { setCredentials, setAdminCredentials, logOut, adminLogOut } =
+  authSlice.actions;
 export default authSlice.reducer;
