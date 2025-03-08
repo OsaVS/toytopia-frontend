@@ -14,7 +14,7 @@ const Layout = () => {
         toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
       />
       <div className="flex flex-col flex-1">
-        <Header toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
+        <Header />
         <main className="flex-1 p-4">
           <Outlet />
         </main>

@@ -17,6 +17,13 @@ import AdminSignIn from "./pages/auth/AdminSignIn";
 import AdminPrivateRoute from "./helpers/AdminPrivateRoute";
 import Dashboard from "./pages/admin/Dashboard";
 import AdminLayout from "./adminComponents/Layout";
+import ProductList from "./pages/admin/ProductList";
+import NewProduct from "./pages/admin/NewProduct";
+import UpdateProduct from "./pages/admin/UpdateProduct";
+import OrderList from "./pages/admin/OrderList";
+import UpdateOrder from "./pages/admin/UpdateOrder";
+import UserList from "./pages/admin/UserList";
+import RestrictUser from "./pages/admin/RestrictUser";
 
 function App() {
   return (
@@ -46,6 +53,13 @@ function App() {
           <Route element={<AdminPrivateRoute />}>
             <Route element={<AdminLayout />}>
               <Route path="/admin/dashboard" element={<Dashboard />} />
+              <Route path="/admin/product/list" element={<ProductList />} />
+              <Route path="/admin/product/add" element={<NewProduct />} />
+              <Route path="/admin/product/update" element={<UpdateProduct />} />
+              <Route path="/admin/order/list" element={<OrderList />} />
+              <Route path="/admin/order/update" element={<UpdateOrder />} />
+              <Route path="/admin/user/list" element={<UserList />} />
+              <Route path="/admin/user/restrict" element={<RestrictUser />} />
             </Route>
           </Route>
         </Routes>
