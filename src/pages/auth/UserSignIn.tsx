@@ -45,8 +45,8 @@ const SignIn = () => {
           className="object-cover w-full h-full max-h-screen max-w-full"
         />
       </div>
-      <div className="flex items-center justify-center h-full bg-white">
-        <div className="w-full max-w-md p-8 shadow-lg rounded">
+      <div className="flex items-center justify-center h-full bg-[#f1f1f1]">
+        <div className="w-full max-w-md p-8 shadow-lg rounded bg-white">
           <h1 className="text-3xl font-bold mb-4">Sign In</h1>
           <p className="mb-1">
             Don’t have an account yet?{" "}

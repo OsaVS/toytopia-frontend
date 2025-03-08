@@ -1,9 +1,11 @@
-import React from 'react'
-
 const Footer = () => {
   return (
-    <div>Footer</div>
-  )
-}
+    <>
+      <div className="bg-white text-center p-2 border-t-2">
+        <p>© 2025 ToyTopia - All rights reserved.</p>
+      </div>
+    </>
+  );
+};
 
-export default Footer
+export default Footer;

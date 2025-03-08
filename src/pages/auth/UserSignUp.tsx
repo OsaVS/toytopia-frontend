@@ -150,8 +150,8 @@ const SignUp = () => {
       </div>
 
       {/* Right Section */}
-      <div className="flex items-center justify-center h-full bg-white">
-        <div className="w-full max-w-md p-8 shadow-lg rounded">
+      <div className="flex items-center justify-center h-full bg-[#f1f1f1]">
+        <div className="w-full max-w-md p-8 shadow-lg rounded bg-white">
           <h1 className="text-3xl font-bold mb-4">Sign Up</h1>
           <p className="mb-6">
             Already have an account yet?{" "}
