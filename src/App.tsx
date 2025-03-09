@@ -24,6 +24,7 @@ import OrderList from "./pages/admin/OrderList";
 import UpdateOrder from "./pages/admin/UpdateOrder";
 import UserList from "./pages/admin/UserList";
 import RestrictUser from "./pages/admin/RestrictUser";
+import { CartProvider } from "./context/CartContext";
 
 function App() {
   return (
@@ -33,7 +34,13 @@ function App() {
           <Route path="/" element={<SignIn />} />
           <Route path="signup" element={<SignUp />} />
           <Route element={<PrivateRoute />}>
-            <Route element={<Layout />}>
+            <Route
+              element={
+                <CartProvider>
+                  <Layout />
+                </CartProvider>
+              }
+            >
               <Route path="home" element={<Home />} />
               <Route path="shop" element={<Shop />} />
               <Route path="cart/*" element={<Cart />}>
