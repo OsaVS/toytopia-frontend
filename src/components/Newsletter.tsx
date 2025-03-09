@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Typography, Box, TextField } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
-import newsletter from "../assets/shopItems/images/newsletter.png";
+import newsletter from "../assets/newsletter.jpg";
 
 const Newsletter: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -37,8 +37,7 @@ const Newsletter: React.FC = () => {
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         width: "100%",
-        minHeight: "25vh",
-        maxHeight: "360px",
+        height: "350px",
         padding: { xs: 2, md: 4 },
       }}
     >
@@ -48,7 +47,8 @@ const Newsletter: React.FC = () => {
         gutterBottom
         sx={{
           fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2rem" },
-          fontWeight: "bold",
+          fontWeight: "semibold",
+          color: "white",
         }}
       >
         Join Our Newsletter
@@ -56,7 +56,10 @@ const Newsletter: React.FC = () => {
       <Typography
         variant="body1"
         gutterBottom
-        sx={{ fontSize: { xs: "0.9rem", sm: "1rem", md: "1.2rem" }, mb: 2 }}
+        sx={{
+          fontSize: { xs: "0.9rem", sm: "1rem", md: "1.2rem", color: "white" },
+          mb: 2,
+        }}
       >
         Sign up for deals, new products, and promotions
       </Typography>
@@ -69,7 +72,7 @@ const Newsletter: React.FC = () => {
           paddingBottom: "8px",
         }}
       >
-        <EmailIcon sx={{ color: "#6C7275", mr: 1 }} />
+        <EmailIcon sx={{ color: "white", mr: 1 }} />
         <TextField
           type="email"
           name="email"
@@ -82,12 +85,21 @@ const Newsletter: React.FC = () => {
             disableUnderline: true,
             sx: {
               fontSize: "1rem",
+              color: "white",
+              "&::placeholder": {
+                color: "white",
+              },
             },
           }}
           fullWidth
           sx={{
             "& input": {
               padding: "6px 0",
+              color: "white",
+            },
+            "& input::placeholder": {
+              color: "white",
+              opacity: 1,
             },
           }}
         />
@@ -97,7 +109,7 @@ const Newsletter: React.FC = () => {
           sx={{
             fontSize: "1rem",
             textTransform: "none",
-            color: "#6C7275",
+            color: "white",
             fontWeight: "semibold",
             ml: 2,
           }}
