@@ -23,6 +23,7 @@ export interface ProductData {
   isNewProduct: boolean;
   discount: number;
   stock: number;
+  averageRating: number;
   createdAt: string;
   updatedAt: string;
 }

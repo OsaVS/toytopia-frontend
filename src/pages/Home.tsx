@@ -70,7 +70,7 @@ const Home = () => {
               title={product.name}
               originalPrice={product.price}
               isNew={product.isNewProduct}
-              rating={5}
+              rating={product.averageRating}
               discountPercentage={product.discount}
             />
           ))}
