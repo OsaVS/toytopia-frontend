@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import DashboardIcon from "../assets/CommonIcons/DashboardIcon";
 import ProductIcon from "../assets/CommonIcons/ProductIcon";
 import OrderIcon from "../assets/CommonIcons/OrderIcon";
@@ -19,12 +20,15 @@ const SideBar = ({ isOpen, toggleSidebar }: any) => {
         className="absolute h-10 w-10 top-4 -right-5 bg-grn drop-shadow-lg p-2 rounded-full md:hidden"
         onClick={toggleSidebar}
       >
-        <ArrowBackIosIcon
-          className={`transform transition-transform duration-300 ${
-            isOpen ? "rotate-0" : "rotate-180"
-          }`}
-          sx={{ paddingBottom: "2px", paddingLeft: "6px", color: "#ffffff" }}
-        />
+        {!isOpen ? (
+          <ArrowForwardIosIcon
+            sx={{ paddingBottom: "4px", paddingLeft: "6px", color: "#ffffff" }}
+          />
+        ) : (
+          <ArrowBackIosIcon
+            sx={{ paddingBottom: "4px", paddingLeft: "6px", color: "#ffffff" }}
+          />
+        )}
       </div>
       <div className="flex items-center justify-start gap-2 border-b-2 h-[70px] pl-3">
         <img src={logo} alt="logo" className="w-20 h-12" />

@@ -1,11 +1,16 @@
-import { Outlet } from "react-router-dom";
-import { useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import SideBar from "./SideBar";
 // import Footer from "./Footer";
 import Header from "./Header";
 
 const Layout = () => {
+  const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    setIsSidebarOpen(false);
+  }, [location]);
 
   return (
     <div className="flex min-h-screen">
