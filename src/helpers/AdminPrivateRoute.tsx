@@ -1,10 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom";
 
 const AdminPrivateRoute = () => {
-  const token = localStorage.getItem("adminToken");
+  const token = localStorage.getItem("token");
 
   if (!token) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/admin/signin" replace />;
   }
 
   return <Outlet />;

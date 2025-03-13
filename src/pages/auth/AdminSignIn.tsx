@@ -1,6 +1,6 @@
 import { useState } from "react";
 import image from "../../assets/login.jpg";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../features/auth/authApi";
 import InputField from "../../components/InputField";
 import PasswordField from "../../components/PasswordField";
@@ -49,13 +49,7 @@ const AdminSignIn = () => {
       </div>
       <div className="flex items-center justify-center h-full bg-[#f1f1f1]">
         <div className="w-full max-w-md p-8 shadow-lg rounded bg-white">
-          <h1 className="text-3xl font-bold mb-4">Sign In</h1>
-          <p className="mb-1">
-            Don’t have an account yet?{" "}
-            <Link to="/signup" className="text-grn hover:underline">
-              Sign Up
-            </Link>
-          </p>
+          <h1 className="text-3xl font-bold mb-4">Admin Sign In</h1>
           {error ? (
             <div className="flex items-center justify-center p-3 rounded-md">
               <p className="text-sm text-[#990000]">{error}</p>
