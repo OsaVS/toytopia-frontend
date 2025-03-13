@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
+import { useGetAllProductsQuery } from "../../features/product/productApi";
+import Loader from "../../components/Loader";
 
 const ProductList = () => {
-  return (
-    <div>ProductList</div>
-  )
-}
+  const { data, isLoading, refetch } = useGetAllProductsQuery(undefined);
 
-export default ProductList
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  return <div>ProductList</div>;
+};
+
+export default ProductList;

@@ -28,6 +28,9 @@ export const productApi = createApi({
         body: formData,
       }),
     }),
+    getAllProducts: builder.query({
+      query: () => `products`,
+    }),
     getProductById: builder.query({
       query: (id) => `products/${id}`,
     }),
@@ -54,6 +57,7 @@ export const productApi = createApi({
 export const {
   useAddProductMutation,
   useUpdateProductImagesMutation,
+  useGetAllProductsQuery,
   useGetProductByIdQuery,
   useGetProductByCodeQuery,
   useGetRandomProductsMutation,
