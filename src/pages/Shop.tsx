@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import FilterComponent from "../components/Filter";
 import { useGetProductsByCategoryAndPriceMutation } from "../features/product/productApi";
-import Loader from "../components/Loader";
 import ProductItem from "../components/ProductItem";
 import { ProductData } from "../types/product";
 
@@ -9,16 +8,12 @@ const Shop = () => {
   const [category, setCategory] = useState<string>("All");
   const [selectedPrice, setSelectedPrice] = useState<string>("All");
 
-  const [fetchProducts, { data, isLoading }] =
+  const [fetchProducts, { data }] =
     useGetProductsByCategoryAndPriceMutation();
 
   useEffect(() => {
     fetchProducts({ category, priceRange: selectedPrice });
   }, [category, selectedPrice]);
-
-  if (isLoading) {
-    return <Loader />;
-  }
 
   return (
     <>
