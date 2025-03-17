@@ -13,14 +13,14 @@ const Layout = () => {
   }, [location]);
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen relative">
       <SideBar
         isOpen={isSidebarOpen}
         toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
       />
       <div className="flex flex-col flex-1">
         <Header />
-        <main className="flex-1 p-4">
+        <main className="flex-1 p-4 xs:h-screen xl:max-h-[calc(100vh-70px)] overflow-y-auto">
           <Outlet />
         </main>
         {/* <Footer /> */}
