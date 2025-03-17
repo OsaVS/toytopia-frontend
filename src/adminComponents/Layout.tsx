@@ -20,7 +20,7 @@ const Layout = () => {
       />
       <div className="flex flex-col flex-1">
         <Header />
-        <main className="flex-1 p-4 xs:h-screen xl:max-h-[calc(100vh-70px)] overflow-y-auto">
+        <main className="flex-1 p-4 xs:h-screen xl:max-h-[calc(100vh-70px)] overflow-y-auto bg-[#FAFBFA]">
           <Outlet />
         </main>
         {/* <Footer /> */}
